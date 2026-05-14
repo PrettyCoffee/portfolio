@@ -1,0 +1,89 @@
+import { theme } from "utils/theme"
+import "../styles.css"
+
+// enables IDE css syntax highlighting
+const css = (strings: TemplateStringsArray, ...values: (string | number)[]) =>
+  strings.map((string, index) => string + (values[index] || "")).join("")
+
+const varsToString = (vars: Record<string, string>) =>
+  Object.entries(vars)
+    .map(([key, value]) => `${key}: ${value};`)
+    .join("\n")
+
+const themeVars = css`
+  :root,
+  .dark {
+    ${varsToString(theme.getCssVars("dark"))}
+  }
+  .light {
+    ${varsToString(theme.getCssVars("light"))}
+  }
+`
+
+const globalStyles = css`
+  @layer base {
+    :root {
+      background: ${theme.read("background")};
+      color: ${theme.read("text")};
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html,
+    body,
+    #root {
+      min-height: 100%;
+    }
+  }
+`
+
+const cssReset = css`
+  @layer base {
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border: 0 solid;
+    }
+
+    ul,
+    ol {
+      list-style: none;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      &::visited {
+        color: inherit;
+      }
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+      font-feature-settings: inherit;
+      font-variation-settings: inherit;
+      letter-spacing: inherit;
+      color: inherit;
+      border-radius: 0;
+      background-color: transparent;
+    }
+
+    button:not([disabled]) {
+      cursor: pointer;
+    }
+  }
+`
+
+export const GlobalStyles = () => (
+  <>
+    <style>{cssReset}</style>
+    <style>{globalStyles}</style>
+    <style>{themeVars}</style>
+  </>
+)

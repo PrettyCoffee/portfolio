@@ -1,5 +1,8 @@
 import { PropsWithChildren } from "react"
-import "../styles.css"
+
+import { theme } from "utils/theme"
+
+import { GlobalStyles } from "./global-styles"
 
 const title = "PrettyCoffee"
 const subtitle = "Portfolio"
@@ -11,7 +14,7 @@ export const Root = ({ children }: PropsWithChildren) => (
       <meta charSet="utf-8" />
       <link rel="icon" href="/favicon.ico" type="image/png" sizes="48x48" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <meta name="theme-color" content="#000000" />
+      <meta name="theme-color" content={theme.tokens.dark.background} />
 
       <title>{title}</title>
       <meta name="description" content={description} />
@@ -38,8 +41,12 @@ export const Root = ({ children }: PropsWithChildren) => (
         name="twitter:image"
         content="https://prettycoffee.dev/preview-og.png"
       />
+
+      <GlobalStyles />
     </head>
 
-    <body>{children}</body>
+    <body>
+      <div id="root">{children}</div>
+    </body>
   </html>
 )
