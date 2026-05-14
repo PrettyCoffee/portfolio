@@ -1,5 +1,6 @@
+import { extractCss } from "goober"
+
 import { theme } from "utils/theme"
-import "../styles.css"
 
 // enables IDE css syntax highlighting
 const css = (strings: TemplateStringsArray, ...values: (string | number)[]) =>
@@ -80,10 +81,19 @@ const cssReset = css`
   }
 `
 
+// extractCss always empties the cache when the server reloads
+// storing it in an environment variable helps to persist the styles across reloads
+const getGooberStyles = () => {
+  process.env["goober"] ??= ""
+  process.env["goober"] += `\n${extractCss()}`
+  return process.env["goober"]
+}
+
 export const GlobalStyles = () => (
   <>
     <style>{cssReset}</style>
     <style>{globalStyles}</style>
     <style>{themeVars}</style>
+    <style id="_goober">{getGooberStyles()}</style>
   </>
 )

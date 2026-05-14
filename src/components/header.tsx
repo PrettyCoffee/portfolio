@@ -1,9 +1,28 @@
 import { Link } from "waku"
 
+import { styled } from "utils/styled"
+import { theme } from "utils/theme"
+
+const HeaderLayout = styled("header")`
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: ${theme("space.4")};
+  padding: ${theme("space.6")};
+`
+
+const H2 = styled("h2")`
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -${theme("space.px")};
+`
+
 export const Header = () => (
-  <header className="flex items-center gap-4 p-6 lg:fixed lg:left-0 lg:top-0">
-    <h2 className="text-lg font-bold tracking-tight">
+  <HeaderLayout>
+    <H2>
       <Link to="/">Waku starter</Link>
-    </h2>
-  </header>
+    </H2>
+  </HeaderLayout>
 )

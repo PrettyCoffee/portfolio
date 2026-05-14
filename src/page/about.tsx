@@ -1,11 +1,24 @@
 import { Link } from "waku"
 
+import { styled } from "utils/styled"
+import { theme } from "utils/theme"
+
+const H1 = styled("h1")`
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -${theme("space.px")};
+`
+
+const StyledLink = styled(Link)`
+  margin-top: ${theme("space.4")};
+  display: inline-block;
+  text-decoration: underline;
+`
+
 export const AboutPage = () => (
   <div>
-    <h1 className="text-4xl font-bold tracking-tight">About Waku</h1>
+    <H1>About Waku</H1>
     <p>The minimal React framework</p>
-    <Link to="/" className="mt-4 inline-block underline">
-      Return home
-    </Link>
+    <StyledLink to="/">Return home</StyledLink>
   </div>
 )

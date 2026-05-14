@@ -1,16 +1,27 @@
+import { styled } from "utils/styled"
+import { theme } from "utils/theme"
+
+const FooterLayout = styled("footer")`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: ${theme("space.6")};
+`
+
+const Link = styled("a")`
+  text-decoration: underline;
+  margin-top: ${theme("space.4")};
+  display: inline-block;
+`
+
 export const Footer = () => (
-  <footer className="p-6 lg:fixed lg:bottom-0 lg:left-0">
+  <FooterLayout>
     <div>
       visit{" "}
-      <a
-        href="https://waku.gg/"
-        target="_blank"
-        rel="noreferrer"
-        className="mt-4 inline-block underline"
-      >
+      <Link href="https://waku.gg/" target="_blank" rel="noreferrer">
         waku.gg
-      </a>{" "}
+      </Link>{" "}
       to learn more
     </div>
-  </footer>
+  </FooterLayout>
 )

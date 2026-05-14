@@ -157,4 +157,4 @@ const getCssVars = (variant: TokenVariant) => {
   )
 }
 
-export const theme = { read, getCssVars, tokens }
+export const theme = Object.assign(read, { read, getCssVars, tokens })
