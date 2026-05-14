@@ -1,7 +1,6 @@
 import type { PropsWithChildren } from 'react';
 import { Footer } from 'components/footer';
 import { Header } from 'components/header';
-import '../styles.css';
 
 export default async function RootLayout({ children }: PropsWithChildren) {
   return (
