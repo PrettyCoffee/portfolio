@@ -2,6 +2,7 @@ import { Link } from "waku"
 
 import { Counter } from "components/counter"
 import { Section } from "components/section"
+import { Typer } from "components/typer"
 import { styled } from "utils/styled"
 import { theme } from "utils/theme"
 
@@ -20,13 +21,17 @@ const StyledLink = styled(Link)`
 export const Page = () => (
   <div>
     <Section title="Waku" variant="dark">
-      <H1>Waku</H1>
+      <H1>
+        <Typer prepend="Waku is" values={["awesome", "great", "fun"]} />
+      </H1>
       <p>Hello world!</p>
       <Counter />
       <StyledLink to="/about">About page</StyledLink>
     </Section>
     <Section title="Waku" variant="light">
-      <H1>Waku</H1>
+      <H1>
+        <Typer prepend="Waku is" values={["awesome", "great", "fun"]} />
+      </H1>
       <p>Hello world!</p>
       <Counter />
       <StyledLink to="/about">About page</StyledLink>
