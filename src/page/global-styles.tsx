@@ -4,7 +4,10 @@ import { theme } from "utils/theme"
 
 // enables IDE css syntax highlighting
 const css = (strings: TemplateStringsArray, ...values: (string | number)[]) =>
-  strings.flatMap((string, index) => [string, values[index] || ""]).join("")
+  strings
+    .flatMap((string, index) => [string, values[index] || ""])
+    .join("")
+    .replaceAll(/\s+/g, " ")
 
 const varsToString = (vars: Record<string, string>) =>
   Object.entries(vars)
@@ -34,6 +37,11 @@ const globalStyles = css`
     body,
     #root {
       min-height: 100%;
+    }
+
+    ::selection {
+      background: ${theme.read("text")};
+      color: ${theme.read("background")};
     }
   }
 `
