@@ -1,21 +1,14 @@
-import { Link } from "waku"
-
 import { Counter } from "components/counter"
+import { HashLink } from "components/hash-link"
 import { Section } from "components/section"
 import { Typer } from "components/typer"
 import { styled } from "utils/styled"
 import { theme } from "utils/theme"
 
 const Title = styled("span")`
-  font-size: 2.25rem;
+  font-size: ${theme("space.10")};
   font-weight: 800;
   letter-spacing: -${theme("space.px")};
-`
-
-const StyledLink = styled(Link)`
-  margin-top: ${theme("space.4")};
-  display: inline-block;
-  text-decoration: underline;
 `
 
 export const Page = () => (
@@ -27,17 +20,13 @@ export const Page = () => (
       </Title>
       <p>Hello world!</p>
       <Counter />
-      <StyledLink to="/about">About page</StyledLink>
+      <HashLink hash="about">About page</HashLink>
     </Section>
 
-    <Section title="Waku" variant="dark">
-      <Title>
-        {"Waku is "}
-        <Typer values={["awesome", "great", "fun"]} />
-      </Title>
-      <p>Hello world!</p>
-      <Counter />
-      <StyledLink to="/about">About page</StyledLink>
+    <Section title="About" variant="dark">
+      <Title>About Waku</Title>
+      <p>The minimal React framework</p>
+      <HashLink hash="waku">Return home</HashLink>
     </Section>
   </div>
 )

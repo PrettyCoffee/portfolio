@@ -1,7 +1,6 @@
 import { createPages } from "waku"
 import adapter from "waku/adapters/default"
 
-import { AboutPage } from "./page/about"
 import { Layout } from "./page/layout"
 import { Page } from "./page/page"
 import { Root } from "./page/root"
@@ -23,13 +22,6 @@ const pages = createPages(async ({ createRoot, createLayout, createPage }) => [
     render: "static",
     path: "/",
     component: Page,
-    unstable_disableSSR: true,
-  }),
-
-  createPage({
-    render: "static",
-    path: "/about",
-    component: AboutPage,
     unstable_disableSSR: true,
   }),
 ])

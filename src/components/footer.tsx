@@ -3,6 +3,7 @@ import { theme } from "utils/theme"
 
 const FooterLayout = styled("footer")`
   position: fixed;
+  z-index: 100;
   bottom: 0;
   left: 0;
   padding: ${theme("space.6")};
