@@ -6,6 +6,8 @@ const FooterLayout = styled("footer")`
   bottom: 0;
   left: 0;
   padding: ${theme("space.6")};
+  mix-blend-mode: difference;
+  color: white;
 `
 
 const Link = styled("a")`

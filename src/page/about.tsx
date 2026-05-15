@@ -1,5 +1,6 @@
 import { Link } from "waku"
 
+import { Section } from "components/section"
 import { styled } from "utils/styled"
 import { theme } from "utils/theme"
 
@@ -16,9 +17,9 @@ const StyledLink = styled(Link)`
 `
 
 export const AboutPage = () => (
-  <div>
+  <Section title="About Waku" variant="dark">
     <H1>About Waku</H1>
     <p>The minimal React framework</p>
     <StyledLink to="/">Return home</StyledLink>
-  </div>
+  </Section>
 )

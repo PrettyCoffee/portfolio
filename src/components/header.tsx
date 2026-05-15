@@ -11,6 +11,8 @@ const HeaderLayout = styled("header")`
   align-items: center;
   gap: ${theme("space.4")};
   padding: ${theme("space.6")};
+  mix-blend-mode: difference;
+  color: white;
 `
 
 const H2 = styled("h2")`
