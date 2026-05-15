@@ -26,15 +26,15 @@ const blink = keyframes`
 `
 
 const Carret = styled("span")`
-  width: 1ch;
-  height: 0.0625em;
-  margin-left: 0.125em;
   display: inline-block;
-  background-color: ${theme("text")};
+  width: 1ch;
+  height: 1.125em;
+  border-bottom: 0.0625em solid ${theme("text")};
+  margin-left: 0.125em;
   animation: ${blink} 0.7s infinite;
 `
 
-const Layout = styled("div")`
+const Layout = styled("span")`
   position: relative;
 `
 
@@ -46,7 +46,7 @@ const SpaceBlocker = styled("span")`
 
 const VisibleText = styled("span")`
   position: absolute;
-  inset: 0;
+  left: 0;
 `
 
 interface IntervalProps {
@@ -101,11 +101,10 @@ const TIMING = {
 }
 
 interface TyperProps {
-  prepend: string
   values: string[]
 }
 
-export const Typer = ({ prepend, values }: TyperProps) => {
+export const Typer = ({ values }: TyperProps) => {
   const [text, setText] = useState("")
   const [index, setIndex] = useState(0)
   const word = values[index] ?? ""
@@ -168,13 +167,10 @@ export const Typer = ({ prepend, values }: TyperProps) => {
     }
   }, [index, values.length, word])
 
-  const maxText = [
-    prepend,
-    values.reduce(
-      (max, current) => (current.length > max.length ? current : max),
-      ""
-    ),
-  ].join(" ")
+  const maxText = values.reduce(
+    (max, current) => (current.length > max.length ? current : max),
+    ""
+  )
 
   return (
     <Layout>
@@ -183,7 +179,7 @@ export const Typer = ({ prepend, values }: TyperProps) => {
         <Carret />
       </SpaceBlocker>
       <VisibleText>
-        {[prepend, text].join(" ")}
+        {text}
         <Carret />
       </VisibleText>
     </Layout>
