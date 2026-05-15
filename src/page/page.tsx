@@ -5,6 +5,14 @@ import { Typer } from "components/typer"
 import { styled } from "utils/styled"
 import { theme } from "utils/theme"
 
+const H1 = styled("h1")`
+  font-size: ${theme("space.20")};
+  font-weight: 800;
+  letter-spacing: -${theme("space.px")};
+  line-height: 1;
+  white-space: nowrap;
+`
+
 const Title = styled("span")`
   font-size: ${theme("space.10")};
   font-weight: 800;
@@ -13,6 +21,16 @@ const Title = styled("span")`
 
 export const Page = () => (
   <div>
+    <Section title="Intro" variant="dark">
+      <H1>
+        Welcome to my
+        <br />
+        <Typer
+          values={["portfolio", "passion", "hobby", "project", "playground"]}
+        />
+      </H1>
+    </Section>
+
     <Section title="Waku" variant="light">
       <Title>
         {"Waku is "}
