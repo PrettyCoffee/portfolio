@@ -4,7 +4,7 @@ import { theme } from "utils/theme"
 
 // enables IDE css syntax highlighting
 const css = (strings: TemplateStringsArray, ...values: (string | number)[]) =>
-  strings.map((string, index) => string + (values[index] || "")).join("")
+  strings.flatMap((string, index) => [string, values[index] || ""]).join("")
 
 const varsToString = (vars: Record<string, string>) =>
   Object.entries(vars)

@@ -15,29 +15,43 @@ import { Slot } from "components/slot"
 type Conditional<T> = T | false | null | undefined
 const truthy = <T>(values: Conditional<T>[]) => values.filter(Boolean) as T[]
 const clsx = (...classes: Conditional<string>[]) => truthy(classes).join(" ")
+const plainCss = (
+  strings: TemplateStringsArray,
+  ...values: (string | number)[]
+) => strings.flatMap((string, index) => [string, values[index] || ""]).join("")
 
-type GetClientCss<TProps> = (
-  props: TProps
+type GetDynamicStyles<TProps> = (
+  props: TProps & { css: typeof plainCss }
 ) => Conditional<string>[] | Conditional<string>
 
 interface ClassNameProp {
   className?: string
 }
 
+const getClass = (styles: Conditional<string>[] | Conditional<string>) => {
+  const joined = truthy([styles].flat())
+    .map(style => style.trim())
+    .filter(Boolean)
+    .join("\n")
+  return !joined ? undefined : css(joined)
+}
+
 const createComponent = <TProps extends ClassNameProp>(
   element: keyof JSX.IntrinsicElements | ComponentType<TProps>,
-  ssrClasses: string,
-  clientClasses: GetClientCss<TProps>[]
+  className: ((props: TProps) => string | undefined) | string | undefined
 ) => {
-  const getClientCss = (props: TProps) =>
-    truthy(clientClasses.flatMap(get => get(props))).join(" ")
+  const getClassName = (props: TProps) => {
+    if (!className) return undefined
+    if (typeof className === "string") return className
+    return className(props)
+  }
 
   const Component = (props: TProps) =>
     createElement(
       element,
       {
         ...props,
-        className: clsx(ssrClasses, getClientCss(props), props.className),
+        className: clsx(getClassName(props), props.className),
       },
       ...Children.toArray((props as PropsWithChildren).children)
     )
@@ -57,33 +71,24 @@ export const styled = <
   element: TElement = Slot as TElement
 ) => {
   type TProps = ComponentProps<TElement>
-  type HybridArgs = Conditional<GetClientCss<TProps> | string>[]
-  type TagTemplateArgs = [
+  type DynamicArgs = [GetDynamicStyles<TProps>]
+  type StaticArgs = [
     strings: TemplateStringsArray,
     ...values: (string | number)[],
   ]
 
-  return (...args: TagTemplateArgs | HybridArgs) => {
+  return (...args: StaticArgs | DynamicArgs) => {
     if (Array.isArray(args[0])) {
-      const ssrClasses = css(...(args as TagTemplateArgs))
-      return createComponent(element, ssrClasses, [])
+      const staticStyles = plainCss(...(args as StaticArgs))
+      return createComponent(element, getClass(staticStyles))
     }
 
-    const { ssrClasses, clientClasses } = truthy(args as HybridArgs).reduce(
-      (result, arg) => {
-        if (typeof arg === "string") {
-          result.ssrClasses = clsx(result.ssrClasses, arg)
-        } else {
-          result.clientClasses.push(arg)
-        }
-        return result
-      },
-      {
-        ssrClasses: "",
-        clientClasses: [] as GetClientCss<TProps>[],
-      }
-    )
+    const getDynamicClass = (props: TProps) => {
+      const [get] = args as DynamicArgs
+      const styles = get({ css: plainCss, ...props })
+      return getClass(styles)
+    }
 
-    return createComponent(element, ssrClasses, clientClasses)
+    return createComponent(element, getDynamicClass)
   }
 }
