@@ -51,6 +51,12 @@ const globalStyles = css`
       background: ${theme("text.base")};
       color: ${theme("background.base")};
     }
+
+    a:focus-visible {
+      outline: ${theme("space.2px")} solid ${theme("text.base")};
+      outline-offset: ${theme("space.2px")};
+      border-radius: ${theme("space.px")};
+    }
   }
 `
 
