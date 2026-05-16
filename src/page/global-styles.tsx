@@ -27,13 +27,18 @@ const themeVars = css`
 const globalStyles = css`
   @layer base {
     :root {
-      scroll-behavior: smooth;
       background: ${theme("background.base")};
       color: ${theme("text.base")};
 
       font-family: "Noto Serif", serif;
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      :root {
+        scroll-behavior: smooth;
+      }
     }
 
     html,

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 
 import { keyframes } from "goober"
 
+import { prefersReducedMotion } from "utils/preferes-reduced-motion"
 import { styled } from "utils/styled"
 import { theme } from "utils/theme"
 
@@ -31,7 +32,9 @@ const Carret = styled("span")`
   height: 1.125em;
   border-bottom: 0.0625em solid ${theme("text.base")};
   margin-left: 0.125em;
-  animation: ${blink} 0.7s infinite;
+  @media (prefers-reduced-motion: no-preference) {
+    animation: ${blink} 0.7s infinite;
+  }
 `
 
 const Layout = styled("span")`
@@ -94,11 +97,17 @@ const timeout = ({ ms, tick }: TimeoutProps) => {
   return Object.assign(promise, { clear: stop })
 }
 
-const TIMING = {
-  type: 100,
-  delete: 50,
-  wait: 2000,
-}
+const TIMING = prefersReducedMotion()
+  ? {
+      type: 500,
+      delete: 1,
+      wait: 4000,
+    }
+  : {
+      type: 100,
+      delete: 50,
+      wait: 2000,
+    }
 
 interface TyperProps {
   values: string[]
