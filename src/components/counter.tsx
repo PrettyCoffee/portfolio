@@ -16,12 +16,12 @@ const Layout = styled("div")`
 `
 
 const Button = styled("button")`
-  background: ${theme("text")};
-  color: ${theme("background")};
+  background: ${theme("text.base")};
+  color: ${theme("background.base")};
   border-radius: ${theme("space.1")};
   padding: 0 ${theme("space.1")};
   &:hover:not(&:active) {
-    background: color-mix(in srgb, ${theme("text")} 80%, transparent);
+    background: color-mix(in srgb, ${theme("text.base")} 80%, transparent);
   }
 `
 

@@ -73,9 +73,15 @@ const dropShadow = (hsl: string) => ({
 const tokens = {
   dark: {
     space,
-    text: color.light.base,
-    background: color.dark.base,
     accent: color.accent,
+    text: {
+      base: color.light.base,
+      invert: color.dark.base,
+    },
+    background: {
+      base: color.dark.base,
+      invert: color.light.base,
+    },
     stroke: {
       base: color.light.base,
       gentle: color.light.gentle,
@@ -87,9 +93,15 @@ const tokens = {
   },
   light: {
     space,
-    text: color.dark.base,
-    background: color.light.base,
     accent: color.accent,
+    text: {
+      base: color.dark.base,
+      invert: color.light.base,
+    },
+    background: {
+      base: color.light.base,
+      invert: color.dark.base,
+    },
     stroke: {
       base: color.dark.base,
       gentle: color.dark.gentle,
@@ -157,4 +169,4 @@ const getCssVars = (variant: TokenVariant) => {
   )
 }
 
-export const theme = Object.assign(read, { read, getCssVars, tokens })
+export const theme = Object.assign(read, { getCssVars, tokens })

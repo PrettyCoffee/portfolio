@@ -14,7 +14,7 @@ export const Root = ({ children }: PropsWithChildren) => (
       <meta charSet="utf-8" />
       <link rel="icon" href="/favicon.ico" type="image/png" sizes="48x48" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <meta name="theme-color" content={theme.tokens.dark.background} />
+      <meta name="theme-color" content={theme.tokens.dark.background.base} />
       <link rel="stylesheet" href="/fonts/fonts.css" />
 
       <title>{title}</title>

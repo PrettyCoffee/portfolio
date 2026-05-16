@@ -9,8 +9,8 @@ const Layout = styled("section")`
   display: grid;
   place-content: center;
 
-  background: ${theme("background")};
-  color: ${theme("text")};
+  background: ${theme("background.base")};
+  color: ${theme("text.base")};
 `
 
 interface SectionProps {

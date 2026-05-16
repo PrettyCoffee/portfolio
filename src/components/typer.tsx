@@ -29,7 +29,7 @@ const Carret = styled("span")`
   display: inline-block;
   width: 1ch;
   height: 1.125em;
-  border-bottom: 0.0625em solid ${theme("text")};
+  border-bottom: 0.0625em solid ${theme("text.base")};
   margin-left: 0.125em;
   animation: ${blink} 0.7s infinite;
 `

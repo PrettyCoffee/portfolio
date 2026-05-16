@@ -28,8 +28,8 @@ const globalStyles = css`
   @layer base {
     :root {
       scroll-behavior: smooth;
-      background: ${theme.read("background")};
-      color: ${theme.read("text")};
+      background: ${theme("background.base")};
+      color: ${theme("text.base")};
 
       font-family: "Noto Serif", serif;
       line-height: 1.5;
@@ -43,8 +43,8 @@ const globalStyles = css`
     }
 
     ::selection {
-      background: ${theme.read("text")};
-      color: ${theme.read("background")};
+      background: ${theme("text.base")};
+      color: ${theme("background.base")};
     }
   }
 `
