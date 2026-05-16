@@ -5,7 +5,7 @@ const Card = styled("div")`
   display: flex;
   gap: ${theme("space.10")};
   padding: ${theme("space.10")};
-  max-width: ${theme("space.220")};
+  max-width: ${theme("space.x11")};
 
   background-color: ${theme("background.invert")};
   color: ${theme("text.invert")};
@@ -19,8 +19,8 @@ const Card = styled("div")`
 `
 
 const Image = styled("img")`
-  height: ${theme("space.60")};
-  width: ${theme("space.60")};
+  height: ${theme("space.x3")};
+  width: ${theme("space.x3")};
   padding: ${theme("space.4")};
   border: ${theme("space.1")} solid ${theme("stroke.invert")};
   box-shadow: ${theme("shadow.box.high")};

@@ -6,7 +6,7 @@ import { theme } from "utils/theme"
 const Layout = styled("section")`
   position: relative;
   min-height: 100vh;
-  padding: ${theme("space.20")};
+  padding: ${theme("space.x1")};
   display: grid;
   place-content: center;
 

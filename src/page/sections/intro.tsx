@@ -3,7 +3,7 @@ import { styled } from "utils/styled"
 import { theme } from "utils/theme"
 
 const H1 = styled("h1")`
-  font-size: ${theme("space.20")};
+  font-size: ${theme("space.x1")};
   font-weight: 700;
   letter-spacing: -${theme("space.px")};
   line-height: 1;

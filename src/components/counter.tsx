@@ -8,7 +8,7 @@ import { theme } from "utils/theme"
 const Layout = styled("div")`
   border: ${theme("space.2px")} dashed ${theme("stroke.base")};
   border-radius: ${theme("space.2")};
-  min-width: ${theme("space.60")};
+  min-width: ${theme("space.x3")};
   padding: ${theme("space.4")};
   margin-top: ${theme("space.4")};
   margin-left: -${theme("space.4")};
