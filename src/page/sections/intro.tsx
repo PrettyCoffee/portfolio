@@ -1,4 +1,4 @@
-import { Typer } from "components/typer"
+import { TextCarousel } from "components/text-carousel"
 import { styled } from "utils/styled"
 import { theme } from "utils/theme"
 
@@ -14,7 +14,7 @@ export const Intro = () => (
   <H1>
     Welcome to my
     <br />
-    <Typer
+    <TextCarousel
       values={["portfolio", "passion", "hobby", "project", "playground"]}
     />
   </H1>

@@ -1,7 +1,7 @@
 import { Counter } from "components/counter"
 import { HashLink } from "components/hash-link"
 import { Section } from "components/section"
-import { Typer } from "components/typer"
+import { TextCarousel } from "components/text-carousel"
 import { styled } from "utils/styled"
 import { theme } from "utils/theme"
 
@@ -18,7 +18,7 @@ const Waku = () => (
   <>
     <Title>
       {"Waku is "}
-      <Typer values={["awesome", "great", "fun"]} />
+      <TextCarousel values={["awesome", "great", "fun"]} />
     </Title>
     <p>Hello world!</p>
     <Counter />
