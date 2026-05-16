@@ -33,6 +33,12 @@ const space = {
   60: "15rem",
   80: "20rem",
   100: "25rem",
+  120: "30rem",
+  140: "35rem",
+  160: "40rem",
+  180: "45rem",
+  200: "50rem",
+  220: "55rem",
 }
 
 const boxShadow = (hsl: string) => ({
@@ -84,6 +90,7 @@ const tokens = {
     },
     stroke: {
       base: color.light.base,
+      invert: color.dark.base,
       gentle: color.light.gentle,
     },
     shadow: {
@@ -104,11 +111,12 @@ const tokens = {
     },
     stroke: {
       base: color.dark.base,
+      invert: color.light.base,
       gentle: color.dark.gentle,
     },
     shadow: {
-      box: boxShadow("40deg 7% 43%"),
-      drop: dropShadow("40deg 7% 43%"),
+      box: boxShadow("220deg 21% 6%"),
+      drop: dropShadow("220deg 21% 6%"),
     },
   },
 }

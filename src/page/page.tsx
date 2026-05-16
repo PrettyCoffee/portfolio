@@ -5,13 +5,8 @@ import { Typer } from "components/typer"
 import { styled } from "utils/styled"
 import { theme } from "utils/theme"
 
-const H1 = styled("h1")`
-  font-size: ${theme("space.20")};
-  font-weight: 700;
-  letter-spacing: -${theme("space.px")};
-  line-height: 1;
-  white-space: nowrap;
-`
+import { AboutMe } from "./sections/about-me"
+import { Intro } from "./sections/intro"
 
 const Title = styled("span")`
   font-size: ${theme("space.10")};
@@ -19,32 +14,39 @@ const Title = styled("span")`
   letter-spacing: -${theme("space.px")};
 `
 
+const Waku = () => (
+  <>
+    <Title>
+      {"Waku is "}
+      <Typer values={["awesome", "great", "fun"]} />
+    </Title>
+    <p>Hello world!</p>
+    <Counter />
+    <HashLink hash="about-waku">About page</HashLink>
+  </>
+)
+
+const About = () => (
+  <>
+    <Title>About Waku</Title>
+    <p>The minimal React framework</p>
+    <HashLink hash="waku">Return home</HashLink>
+  </>
+)
+
+const sections = [
+  { id: "intro", content: <Intro /> },
+  { id: "about-me", content: <AboutMe /> },
+  { id: "waku", content: <Waku /> },
+  { id: "about-waku", content: <About /> },
+]
+
 export const Page = () => (
   <div>
-    <Section id="intro" variant="dark">
-      <H1>
-        Welcome to my
-        <br />
-        <Typer
-          values={["portfolio", "passion", "hobby", "project", "playground"]}
-        />
-      </H1>
-    </Section>
-
-    <Section id="waku" variant="light">
-      <Title>
-        {"Waku is "}
-        <Typer values={["awesome", "great", "fun"]} />
-      </Title>
-      <p>Hello world!</p>
-      <Counter />
-      <HashLink hash="about">About page</HashLink>
-    </Section>
-
-    <Section id="about" variant="dark">
-      <Title>About Waku</Title>
-      <p>The minimal React framework</p>
-      <HashLink hash="waku">Return home</HashLink>
-    </Section>
+    {sections.map(({ id, content }, index) => (
+      <Section key={id} id={id} variant={index % 2 === 1 ? "light" : "dark"}>
+        {content}
+      </Section>
+    ))}
   </div>
 )
