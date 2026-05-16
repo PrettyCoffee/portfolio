@@ -49,13 +49,14 @@ const boxShadow = (hsl: string) => ({
     0px 13px 12px -5px hsl(${hsl} / 0.23)
   `,
   high: `
-    0px 0.3px 0.3px hsl(${hsl} / 0.96),
-    0px 0.5px 0.5px -0.5px hsl(${hsl} / 0.83),
+    0px 0.3px 0.3px -0.2px hsl(${hsl} / 0.96),
+    0px 0.5px 0.5px -0.5px hsl(${hsl} / 0.85),
     0px 1.5px 1.5px -1.5px hsl(${hsl} / 0.69),
-    0px 4px 4px -2.5px hsl(${hsl} / 0.55),
-    0px 10px 9px -3px hsl(${hsl} / 0.41),
-    0px 20px 15px -4px hsl(${hsl} / 0.28),
-    0px 40px 30px -5px hsl(${hsl} / 0.14)
+    0px 4px 4px -2.5px hsl(${hsl} / 0.60),
+    0px 10px 9px -3px hsl(${hsl} / 0.50),
+    0px 20px 15px -4px hsl(${hsl} / 0.30),
+    0px 40px 30px -5px hsl(${hsl} / 0.20),
+    0px 50px 40px -6px hsl(${hsl} / 0.15)
   `,
 })
 
