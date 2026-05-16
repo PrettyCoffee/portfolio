@@ -43,14 +43,21 @@ const TIMING = prefersReducedMotion()
 
 interface TypewriterProps {
   text: string
+  initial?: string
   onTransitionEnd?: () => void
 }
 
-export const Typewriter = ({ text, onTransitionEnd }: TypewriterProps) => {
-  const [visible, setVisible] = useState("")
+export const Typewriter = ({
+  text,
+  initial = text,
+  onTransitionEnd,
+}: TypewriterProps) => {
+  const [visible, setVisible] = useState(initial)
   const last = useRef(visible)
 
   useEffect(() => {
+    if (text === last.current) return
+
     let canceled = false
     let cancel: undefined | (() => void)
 

@@ -78,6 +78,7 @@ export const TextCarousel = ({ values }: TextCarouselProps) => {
 
       <VisibleText>
         <Typewriter
+          initial=""
           text={word}
           onTransitionEnd={() => {
             timeout.current = window.setTimeout(
