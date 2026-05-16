@@ -1,7 +1,7 @@
 import { createPages } from "waku"
 import adapter from "waku/adapters/default"
 
-import { Layout } from "./page/layout"
+import { Layout } from "./page/layout/layout"
 import { Page } from "./page/page"
 import { Root } from "./page/root"
 

@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from "react"
 
-import { Footer } from "components/footer"
-import { Header } from "components/header"
+import { Footer } from "./footer"
+import { Header } from "./header"
 
 export const Layout = ({ children }: PropsWithChildren) => (
   <>

@@ -1,7 +1,7 @@
-import { Link } from "waku"
-
 import { styled } from "utils/styled"
 import { theme } from "utils/theme"
+
+import { CurrentSection } from "./current-section"
 
 const HeaderLayout = styled("header")`
   position: fixed;
@@ -25,7 +25,9 @@ const H2 = styled("h2")`
 export const Header = () => (
   <HeaderLayout>
     <H2>
-      <Link to="/">Waku starter</Link>
+      <a href="/">PrettyCoffee</a>
+      {" / "}
+      <CurrentSection />
     </H2>
   </HeaderLayout>
 )

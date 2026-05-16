@@ -16,14 +16,16 @@ const Layout = styled("section")`
 
 interface SectionProps {
   id: string
+  name: string
   variant: "dark" | "light"
 }
 export const Section = ({
   id,
+  name,
   variant,
   children,
 }: PropsWithChildren<SectionProps>) => (
-  <Layout className={variant} id={id}>
+  <Layout id={id} data-name={name} className={variant}>
     {children}
   </Layout>
 )
