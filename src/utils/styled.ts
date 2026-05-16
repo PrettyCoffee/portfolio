@@ -71,20 +71,22 @@ export const styled = <
   element: TElement = Slot as TElement
 ) => {
   type TProps = ComponentProps<TElement>
-  type DynamicArgs = [GetDynamicStyles<TProps>]
+  type DynamicArgs<TProps> = [GetDynamicStyles<TProps>]
   type StaticArgs = [
     strings: TemplateStringsArray,
     ...values: (string | number)[],
   ]
 
-  return (...args: StaticArgs | DynamicArgs) => {
+  return <TAdditionalProps extends object = {}>(
+    ...args: StaticArgs | DynamicArgs<TProps & TAdditionalProps>
+  ) => {
     if (Array.isArray(args[0])) {
       const staticStyles = plainCss(...(args as StaticArgs))
       return createComponent(element, getClass(staticStyles))
     }
 
-    const getDynamicClass = (props: TProps) => {
-      const [get] = args as DynamicArgs
+    const getDynamicClass = (props: TProps & TAdditionalProps) => {
+      const [get] = args as DynamicArgs<TProps & TAdditionalProps>
       const styles = get({ css: plainCss, ...props })
       return getClass(styles)
     }
