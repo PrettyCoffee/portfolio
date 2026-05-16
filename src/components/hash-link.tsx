@@ -15,15 +15,5 @@ export const HashLink = ({
   hash,
   children,
 }: PropsWithChildren<{ hash: string }>) => (
-  <StyledLink
-    href={`#${hash}`}
-    onClick={event => {
-      const heading = document.getElementById(hash)
-      heading?.scrollIntoView({ behavior: "smooth" })
-      window.history.pushState(null, "", `#${hash}`)
-      event.preventDefault()
-    }}
-  >
-    {children}
-  </StyledLink>
+  <StyledLink href={`#${hash}`}>{children}</StyledLink>
 )

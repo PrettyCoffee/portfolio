@@ -21,7 +21,7 @@ const Title = styled("span")`
 
 export const Page = () => (
   <div>
-    <Section title="Intro" variant="dark">
+    <Section id="intro" variant="dark">
       <H1>
         Welcome to my
         <br />
@@ -31,7 +31,7 @@ export const Page = () => (
       </H1>
     </Section>
 
-    <Section title="Waku" variant="light">
+    <Section id="waku" variant="light">
       <Title>
         {"Waku is "}
         <Typer values={["awesome", "great", "fun"]} />
@@ -41,7 +41,7 @@ export const Page = () => (
       <HashLink hash="about">About page</HashLink>
     </Section>
 
-    <Section title="About" variant="dark">
+    <Section id="about" variant="dark">
       <Title>About Waku</Title>
       <p>The minimal React framework</p>
       <HashLink hash="waku">Return home</HashLink>

@@ -1,10 +1,7 @@
 import { PropsWithChildren } from "react"
 
-import { slug } from "utils/slug"
 import { styled } from "utils/styled"
 import { theme } from "utils/theme"
-
-import { Hidden } from "./hidden"
 
 const Layout = styled("section")`
   position: relative;
@@ -17,20 +14,15 @@ const Layout = styled("section")`
 `
 
 interface SectionProps {
-  title: string
+  id: string
   variant: "dark" | "light"
 }
 export const Section = ({
-  title,
+  id,
   variant,
   children,
 }: PropsWithChildren<SectionProps>) => (
-  <Layout className={variant}>
-    <Hidden>
-      <h2 style={{ top: 1 }} id={slug(title)}>
-        {title}
-      </h2>
-    </Hidden>
+  <Layout className={variant} id={id}>
     {children}
   </Layout>
 )

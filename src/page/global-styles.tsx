@@ -27,9 +27,11 @@ const themeVars = css`
 const globalStyles = css`
   @layer base {
     :root {
-      font-family: "Noto Serif", serif;
+      scroll-behavior: smooth;
       background: ${theme.read("background")};
       color: ${theme.read("text")};
+
+      font-family: "Noto Serif", serif;
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
     }
