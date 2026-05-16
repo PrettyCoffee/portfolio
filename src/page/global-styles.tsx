@@ -27,6 +27,7 @@ const themeVars = css`
 const globalStyles = css`
   @layer base {
     :root {
+      font-family: "Noto Serif", serif;
       background: ${theme.read("background")};
       color: ${theme.read("text")};
       line-height: 1.5;

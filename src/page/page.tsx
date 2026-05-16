@@ -7,7 +7,7 @@ import { theme } from "utils/theme"
 
 const H1 = styled("h1")`
   font-size: ${theme("space.20")};
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: -${theme("space.px")};
   line-height: 1;
   white-space: nowrap;

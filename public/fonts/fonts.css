@@ -1,0 +1,14 @@
+@font-face {
+  font-family: "Noto Serif";
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 100%;
+  src: url(/fonts/NotoSerif.ttf) format("truetype-variations");
+}
+@font-face {
+  font-family: "Noto Serif";
+  font-style: italic;
+  font-weight: 100 900;
+  font-stretch: 100%;
+  src: url(/fonts/NotoSerif-Italic.ttf) format("truetype-variations");
+}
