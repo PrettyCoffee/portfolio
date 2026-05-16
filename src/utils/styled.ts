@@ -28,6 +28,8 @@ interface ClassNameProp {
   className?: string
 }
 
+type ElementType = keyof JSX.IntrinsicElements | ComponentType<any>
+
 const getClass = (styles: Conditional<string>[] | Conditional<string>) => {
   const joined = truthy([styles].flat())
     .map(style => style.trim())
@@ -37,7 +39,7 @@ const getClass = (styles: Conditional<string>[] | Conditional<string>) => {
 }
 
 const createComponent = <TProps extends ClassNameProp>(
-  element: keyof JSX.IntrinsicElements | ComponentType<TProps>,
+  element: ElementType,
   className: ((props: TProps) => string | undefined) | string | undefined
 ) => {
   const getClassName = (props: TProps) => {
@@ -64,33 +66,67 @@ const createComponent = <TProps extends ClassNameProp>(
   return Object.assign(Component, { displayName: `styled.${name}` })
 }
 
+const createStaticFn = <TElement extends ElementType>(element: TElement) => {
+  type TProps = ComponentProps<TElement>
+
+  return (strings: TemplateStringsArray, ...values: (string | number)[]) => {
+    const styles = plainCss(strings, ...values)
+    const className = getClass(styles)
+    const component = createComponent<TProps>(element, className)
+    return Object.assign(component, { styles })
+  }
+}
+
+const createDynamicFn = <TElement extends ElementType>(element: TElement) => {
+  type TProps = ComponentProps<TElement>
+
+  return <TAdditionalProps extends object>(
+    getStyles: GetDynamicStyles<TProps & TAdditionalProps>
+  ) => {
+    const styles = (props: TProps & TAdditionalProps) =>
+      getStyles({ css: plainCss, ...props })
+
+    const className = (props: TProps & TAdditionalProps) =>
+      getClass(styles(props))
+
+    const component = createComponent<TProps & TAdditionalProps>(
+      element,
+      className
+    )
+    return Object.assign(component, { styles })
+  }
+}
+
 export const styled = <
   TElement extends keyof JSX.IntrinsicElements | ComponentType<any> =
     ComponentType<PropsWithChildren>,
 >(
   element: TElement = Slot as TElement
 ) => {
-  type TProps = ComponentProps<TElement>
-  type DynamicArgs<TProps> = [GetDynamicStyles<TProps>]
-  type StaticArgs = [
-    strings: TemplateStringsArray,
-    ...values: (string | number)[],
-  ]
+  const staticFn = createStaticFn<TElement>(element)
+  type StaticArgs = Parameters<typeof staticFn>
+  type StaticResult = ReturnType<typeof staticFn>
 
-  return <TAdditionalProps extends object = {}>(
-    ...args: StaticArgs | DynamicArgs<TProps & TAdditionalProps>
-  ) => {
+  const dynamicFn = createDynamicFn<TElement>(element)
+  type DynamicArgs<TAdditionalProps extends object> = Parameters<
+    typeof dynamicFn<TAdditionalProps>
+  >
+  type DynamicResult<TAdditionalProps extends object> = ReturnType<
+    typeof dynamicFn<TAdditionalProps>
+  >
+
+  function hybrid(...args: StaticArgs): StaticResult
+  function hybrid<TAdditionalProps extends object = {}>(
+    ...args: DynamicArgs<TAdditionalProps>
+  ): DynamicResult<TAdditionalProps>
+  function hybrid<TAdditionalProps extends object>(
+    ...args: StaticArgs | DynamicArgs<TAdditionalProps>
+  ) {
     if (Array.isArray(args[0])) {
-      const staticStyles = plainCss(...(args as StaticArgs))
-      return createComponent(element, getClass(staticStyles))
+      return staticFn(...(args as StaticArgs))
     }
-
-    const getDynamicClass = (props: TProps & TAdditionalProps) => {
-      const [get] = args as DynamicArgs<TProps & TAdditionalProps>
-      const styles = get({ css: plainCss, ...props })
-      return getClass(styles)
-    }
-
-    return createComponent(element, getDynamicClass)
+    return dynamicFn(...(args as DynamicArgs<object>))
   }
+
+  return hybrid
 }
