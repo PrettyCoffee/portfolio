@@ -24,6 +24,7 @@ const Image = styled("img")`
   padding: ${theme("space.4")};
   border: ${theme("space.1")} solid ${theme("stroke.invert")};
   box-shadow: ${theme("shadow.box.high")};
+  object-fit: contain;
 `
 
 const Column = styled("div")`
@@ -54,7 +55,7 @@ const Em = styled("em")`
 export const AboutMe = () => (
   <Card>
     <Column>
-      <Image src="/images/profile.png" alt="profile avatar" />
+      <Image src="/images/avatar.webp" alt="profile avatar" />
       <div>
         B Sc Informatics
         <br />
