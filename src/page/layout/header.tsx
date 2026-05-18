@@ -5,11 +5,25 @@ import { theme } from "utils/theme"
 import { CurrentSection } from "./current-section"
 import { Icon, IconProps } from "../../components/icon"
 
+const Title = styled("div")`
+  font-size: ${theme("font.lg")};
+  font-weight: ${theme("font.bold")};
+  letter-spacing: -${theme("space.px")};
+  margin-bottom: -${theme("space.1")};
+  margin-left: ${theme("space.5")};
+`
+
+const PageTitle = () => (
+  <Title>
+    <CurrentSection />
+  </Title>
+)
+
 const LinkList = styled("ul")`
   display: flex;
   flex-direction: column;
   border-radius: 50vh;
-  border: 1.5px solid white;
+  border: 1.5px solid currentColor;
   background: black;
 
   li {
@@ -26,7 +40,7 @@ const NavLink = styled("a")`
   border-radius: 50vh;
 
   &:focus-visible {
-    outline: 1.5px solid white;
+    outline: 1.5px solid currentColor;
     outline-offset: -${theme("space.1")};
   }
 
@@ -103,7 +117,6 @@ const HeaderLayout = styled("header")`
   z-index: 100;
   top: ${theme("space.4")};
   left: ${theme("space.4")};
-  bottom: ${theme("space.16")};
 
   display: flex;
   flex-direction: column;
@@ -113,25 +126,18 @@ const HeaderLayout = styled("header")`
   color: white;
 `
 
-const PageTitle = styled("div")`
-  font-size: ${theme("font.lg")};
-  font-weight: ${theme("font.bold")};
-  letter-spacing: -${theme("space.px")};
-  margin-bottom: -${theme("space.1")};
-  margin-left: calc(${theme("space.10")} / 2);
-`
-
-const VDivider = styled("div")`
-  border-right: 1.5px solid white;
-  flex: 1;
-  margin-left: calc(${theme("space.10")} / 2);
-  max-height: ${theme("space.6")};
-`
-
-const HDivider = styled("div")`
-  border-top: 1.5px solid white;
-  margin-left: calc(${theme("space.10")} / 2);
+const Divider1 = styled("div")`
+  border-top: 1.5px solid currentColor;
+  border-left: 1.5px solid currentColor;
+  margin-left: ${theme("space.5")};
+  height: ${theme("space.6")};
   width: ${theme("space.10")};
+`
+
+const Divider2 = styled("div")`
+  border-left: 1.5px solid currentColor;
+  margin-left: ${theme("space.5")};
+  height: ${theme("space.6")};
 `
 
 const Squares = styled("div")`
@@ -145,11 +151,11 @@ const Square = styled("div")<{ invert?: boolean }>(({ css, invert }) => [
   css`
     height: ${theme("space.6")};
     width: ${theme("space.6")};
-    border: ${theme("space.2px")} solid white;
+    border: ${theme("space.2px")} solid currentColor;
     margin-bottom: -${theme("space.2")};
     rotate: 45deg;
     transform-origin: center;
-    background: white;
+    background: currentColor;
   `,
   invert &&
     css`
@@ -160,15 +166,12 @@ const Square = styled("div")<{ invert?: boolean }>(({ css, invert }) => [
 
 export const Header = () => (
   <HeaderLayout>
-    <PageTitle>
-      <CurrentSection />
-    </PageTitle>
-    <HDivider />
-    <VDivider />
+    <PageTitle />
+    <Divider1 />
 
     <Links />
 
-    <VDivider />
+    <Divider2 />
     <Squares>
       <Square />
       <Square invert />
