@@ -10,8 +10,8 @@ import { Intro } from "./sections/intro"
 import { Projects } from "./sections/projects"
 
 const Title = styled("span")`
-  font-size: ${theme("space.10")};
-  font-weight: 800;
+  font-size: ${theme("font.3xl")};
+  font-weight: ${theme("font.bolder")};
   letter-spacing: -${theme("space.px")};
 `
 

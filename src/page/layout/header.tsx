@@ -53,7 +53,7 @@ const LinkLabel = styled("span")`
   left: calc(100% + ${theme("space.2")});
   top: 50%;
   translate: 0 -50%;
-  font-size: ${theme("space.4")};
+  font-size: ${theme("font.md")};
   white-space: nowrap;
 `
 
@@ -114,8 +114,8 @@ const HeaderLayout = styled("header")`
 `
 
 const PageTitle = styled("div")`
-  font-size: 1.125rem;
-  font-weight: 700;
+  font-size: ${theme("font.lg")};
+  font-weight: ${theme("font.bold")};
   letter-spacing: -${theme("space.px")};
   margin-bottom: -${theme("space.1")};
   margin-left: calc(${theme("space.10")} / 2);

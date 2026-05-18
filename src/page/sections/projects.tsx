@@ -152,12 +152,12 @@ const Name = styled("h3")`
   line-height: 1;
   margin-bottom: ${theme("space.4")};
   align-self: end;
-  font-size: 1.125rem;
-  margin-bottom: -1.125rem;
+  font-size: ${theme("font.lg")};
+  margin-bottom: -${theme("font.lg")};
 
   @media ${theme("breakpoint.560")} {
     align-self: center;
-    font-size: 1.25rem;
+    font-size: ${theme("font.xl")};
     margin-bottom: 0;
   }
 `
@@ -197,7 +197,7 @@ const Link = styled("a")`
   height: ${theme("space.10")};
   padding: 0 ${theme("space.3")};
   border: ${theme("space.2px")} solid ${theme("stroke.base")};
-  font-weight: 800;
+  font-weight: ${theme("font.bold")};
 
   &:hover,
   &:focus-visible {

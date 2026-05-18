@@ -48,14 +48,14 @@ const Image = styled("img")`
 
 const Title = styled("h2")`
   grid-area: title;
-  font-size: ${theme("space.8")};
+  font-size: ${theme("font.3xl")};
   margin: 0;
   line-height: 1;
 `
 const Text = styled("div")`
   grid-area: text;
   p {
-    font-size: ${theme("space.6")};
+    font-size: ${theme("font.xl")};
     text-align: justify;
     &:not(:first-of-type) {
       margin-top: ${theme("space.6")};
@@ -66,9 +66,11 @@ const Text = styled("div")`
 const Facts = styled("div")`
   grid-area: facts;
   align-self: end;
+  font-size: ${theme("font.md")};
 
   @media ${theme("breakpoint.1040")} {
-    font-size: ${theme("space.5")};
+    align-self: center;
+    font-size: ${theme("font.lg")};
   }
 `
 
