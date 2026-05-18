@@ -1,21 +1,11 @@
+import { Card } from "components/card"
 import { styled } from "utils/styled"
 import { theme } from "utils/theme"
 
-const Card = styled("div")`
+const AboutCard = styled(Card)`
   display: flex;
   gap: ${theme("space.10")};
   padding: ${theme("space.10")};
-  max-width: ${theme("space.x11")};
-
-  background-color: ${theme("background.invert")};
-  color: ${theme("text.invert")};
-  box-shadow: ${theme("shadow.box.high")};
-
-  &::selection,
-  *::selection {
-    background-color: ${theme("background.base")};
-    color: ${theme("text.base")};
-  }
 `
 
 const Image = styled("img")`
@@ -53,7 +43,7 @@ const Em = styled("em")`
 `
 
 export const AboutMe = () => (
-  <Card>
+  <AboutCard inverted>
     <Column>
       <Image src="/images/avatar.webp" alt="profile avatar" />
       <div>
@@ -81,5 +71,5 @@ export const AboutMe = () => (
         projects out of joy and to learn new things.
       </p>
     </ProfileText>
-  </Card>
+  </AboutCard>
 )
