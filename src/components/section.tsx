@@ -9,7 +9,6 @@ const Layout = styled("section")`
   padding: ${theme("space.x2")} ${theme("space.x1")};
   display: grid;
   place-content: center;
-  overflow: hidden;
 
   background: ${theme("background.base")};
   color: ${theme("text.base")};
@@ -19,7 +18,7 @@ const Layout = styled("section")`
   }
 
   @media ${theme("breakpoint.720")} {
-    padding: ${theme("space.x1")} ${theme("space.6")};
+    padding: ${theme("space.x2")} ${theme("space.6")};
   }
 `
 
@@ -27,14 +26,16 @@ const Title = styled("h2")`
   position: absolute;
   z-index: 0;
   top: 0;
-  left: 50%;
-  translate: -50%;
+  left: 0;
+  right: 0;
+  text-align: center;
   line-height: 0.76;
   font-size: min(20vw, ${theme("space.x3")});
   letter-spacing: -${theme("space.1")};
   white-space: nowrap;
   height: max-content;
   opacity: 0.1;
+  overflow: hidden;
 `
 
 interface SectionProps {

@@ -8,7 +8,7 @@ interface Project {
   description: string
   imgSrc: string
   imgSize: string
-  year: number | "wip"
+  year: number
   repoUrl: string
   projectUrl?: string
   docsUrl?: string
@@ -89,12 +89,33 @@ const projectList: Project[] = [
   },
 ]
 
+const projectsByYear = projectList.reduce<Record<number, Project[]>>(
+  (byYear, project) => {
+    const { year } = project
+    byYear[year] ??= []
+    byYear[year].push(project)
+    return byYear
+  },
+  {}
+)
+
 const ProjectList = styled("ul")`
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: ${theme("space.10")};
   width: 100%;
   max-width: ${theme("space.x11")};
+
+  &:not(:first-of-type) {
+    margin-top: ${theme("space.16")};
+  }
+
+  @media ${theme("breakpoint.720")} {
+    &:not(:first-of-type) {
+      margin-top: ${theme("space.x2")};
+    }
+  }
 `
 
 const ProjectGrid = styled("li")`
@@ -232,15 +253,69 @@ const Project = (project: Project) => (
   </ProjectGrid>
 )
 
+const Timeline = styled("div")`
+  position: absolute;
+  --overflow-top: ${theme("space.4")};
+  top: calc(-1 * var(--overflow-top));
+  bottom: 0;
+  left: calc(100% + ${theme("space.3")});
+  height: calc(100% + var(--overflow-top));
+  width: ${theme("space.16")};
+
+  &::before {
+    content: attr(data-year);
+    display: block;
+    width: ${theme("space.16")};
+    padding: ${theme("space.1")} 0;
+    text-align: center;
+
+    position: sticky;
+    z-index: 1;
+    top: ${theme("space.2")};
+
+    color: ${theme("text.gentle")};
+    background: ${theme("background.base")};
+    border: ${theme("space.2px")} solid ${theme("stroke.gentle")};
+    border-radius: ${theme("space.2")};
+  }
+
+  &::after {
+    content: "";
+    display: block;
+    border-right: ${theme("space.2px")} solid ${theme("stroke.gentle")};
+    border-radius: ${theme("space.2px")};
+
+    position: absolute;
+    top: ${theme("space.8")};
+    bottom: 0;
+    left: 50%;
+    translate: -50%;
+  }
+
+  @media ${theme("breakpoint.720")} {
+    right: 0;
+    left: unset;
+    z-index: -1;
+    --overflow-top: ${theme("space.16")};
+  }
+`
+
 export const Projects = () => (
-  <ProjectList>
-    {projectList.map(project => (
-      <ProjectGrid key={project.name}>
-        <ProjectImage {...project} />
-        <ProjectDetails {...project} />
-        <Stack {...project} />
-        <LinkList {...project} />
-      </ProjectGrid>
-    ))}
-  </ProjectList>
+  <div>
+    {Object.entries(projectsByYear)
+      .sort(([a], [b]) => Number(b) - Number(a))
+      .map(([year, projects]) => (
+        <ProjectList key={year}>
+          <Timeline data-year={year} />
+          {projects.map(project => (
+            <ProjectGrid key={project.name}>
+              <ProjectImage {...project} />
+              <ProjectDetails {...project} />
+              <Stack {...project} />
+              <LinkList {...project} />
+            </ProjectGrid>
+          ))}
+        </ProjectList>
+      ))}
+  </div>
 )
