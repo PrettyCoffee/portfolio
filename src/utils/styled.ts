@@ -17,7 +17,7 @@ const truthy = <T>(values: Conditional<T>[]) => values.filter(Boolean) as T[]
 const clsx = (...classes: Conditional<string>[]) => truthy(classes).join(" ")
 const plainCss = (
   strings: TemplateStringsArray,
-  ...values: (string | number)[]
+  ...values: Conditional<string | number>[]
 ) => strings.flatMap((string, index) => [string, values[index] || ""]).join("")
 
 type GetDynamicStyles<TProps> = (
@@ -33,19 +33,14 @@ type ElementType = keyof JSX.IntrinsicElements | ComponentType<any>
 const isStyledComponent = (element: ElementType) =>
   typeof element === "object" && "styles" in element
 
-const getClass = (
-  element: ElementType,
-  styles: Conditional<string>[] | Conditional<string>
-) => {
-  const joined = truthy([styles].flat())
+const joinStyles = (styles: Conditional<string>[] | Conditional<string>) =>
+  truthy([styles].flat())
     .map(style => style.trim())
     .filter(Boolean)
     .join("\n")
 
-  return !joined
-    ? undefined
-    : css.apply({ o: !isStyledComponent(element) }, [joined])
-}
+const getClass = (element: ElementType, styles: string) =>
+  !styles ? undefined : css.apply({ o: !isStyledComponent(element) }, [styles])
 
 const createComponent = <TProps extends ClassNameProp>(
   element: ElementType,
@@ -93,7 +88,7 @@ const createDynamicFn = <TElement extends ElementType>(element: TElement) => {
     getStyles: GetDynamicStyles<TProps & TAdditionalProps>
   ) => {
     const styles = (props: TProps & TAdditionalProps) =>
-      getStyles({ css: plainCss, ...props })
+      joinStyles(getStyles({ css: plainCss, ...props }))
 
     const className = (props: TProps & TAdditionalProps) =>
       getClass(element, styles(props))
