@@ -6,7 +6,7 @@ import { theme } from "utils/theme"
 const Layout = styled("section")`
   position: relative;
   min-height: 100vh;
-  padding: ${theme("space.x2")};
+  padding: ${theme("space.x2")} ${theme("space.x1")};
   display: grid;
   place-content: center;
   overflow: hidden;
@@ -16,6 +16,10 @@ const Layout = styled("section")`
 
   & > :not(h2) {
     z-index: 1;
+  }
+
+  @media ${theme("breakpoint.720")} {
+    padding: ${theme("space.x1")} ${theme("space.6")};
   }
 `
 
