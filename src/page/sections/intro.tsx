@@ -3,7 +3,7 @@ import { styled } from "utils/styled"
 import { theme } from "utils/theme"
 
 const H1 = styled("h1")`
-  font-size: ${theme("space.x1")};
+  font-size: min(10vw, ${theme("space.x1")});
   font-weight: 700;
   letter-spacing: -${theme("space.px")};
   line-height: 1;
@@ -15,7 +15,14 @@ export const Intro = () => (
     Welcome to my
     <br />
     <TextCarousel
-      values={["portfolio", "passion", "hobby", "project", "playground"]}
+      values={[
+        "portfolio",
+        "passion",
+        "hobby",
+        "project",
+        "playground",
+        "obsession",
+      ]}
     />
   </H1>
 )
