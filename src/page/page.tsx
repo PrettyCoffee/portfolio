@@ -7,6 +7,7 @@ import { theme } from "utils/theme"
 
 import { AboutMe } from "./sections/about-me"
 import { Intro } from "./sections/intro"
+import { Projects } from "./sections/projects"
 
 const Title = styled("span")`
   font-size: ${theme("space.10")};
@@ -37,6 +38,7 @@ const About = () => (
 const sections = [
   { id: "", name: "Portfolio", hideName: true, content: <Intro /> },
   { id: "about-me", name: "About Me", hideName: true, content: <AboutMe /> },
+  { id: "projects", name: "Projects", content: <Projects /> },
   { id: "waku", name: "Waku", content: <Waku /> },
   { id: "about-waku", name: "About Waku", content: <About /> },
 ]

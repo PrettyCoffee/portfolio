@@ -1,4 +1,5 @@
 import { Card } from "components/card"
+import { Em } from "components/em"
 import { styled } from "utils/styled"
 import { theme } from "utils/theme"
 
@@ -36,10 +37,6 @@ const ProfileText = styled("div")`
     margin-top: ${theme("space.6")};
     text-align: justify;
   }
-`
-
-const Em = styled("em")`
-  color: ${theme("accent.yellow")};
 `
 
 export const AboutMe = () => (

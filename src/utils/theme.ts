@@ -22,6 +22,7 @@ const space = {
   "2px": "0.125rem",
   1: "0.25rem",
   2: "0.5rem",
+  3: "0.75rem",
   4: "1rem",
   6: "1.5rem",
   8: "2rem",
@@ -83,6 +84,7 @@ const tokens = {
     accent: color.accent,
     text: {
       base: color.light.base,
+      gentle: color.light.gentle,
       invert: color.dark.base,
     },
     background: {
@@ -104,6 +106,7 @@ const tokens = {
     accent: color.accent,
     text: {
       base: color.dark.base,
+      gentle: color.dark.gentle,
       invert: color.light.base,
     },
     background: {
