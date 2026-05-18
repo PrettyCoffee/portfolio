@@ -2,7 +2,10 @@
 
 import { useEffect, useState } from "react"
 
+import { Icon } from "components/icon"
 import { Typewriter } from "components/typewriter"
+import { styled } from "utils/styled"
+import { theme } from "utils/theme"
 import { useDebounce } from "utils/use-debounce"
 
 const getName = (target: Element | null | undefined) => {
@@ -18,12 +21,23 @@ const getCurrentSection = () => {
   const index = sections.findLastIndex(
     section => section.getBoundingClientRect().top < getScreenHeight() / 4
   )
-  return getName(sections[index] ?? sections[0])
+  return sections[index] ?? sections[0]
 }
+
+const Link = styled("a")`
+  display: flex;
+  align-items: center;
+  gap: ${theme("space.1")};
+
+  &:not(:hover, :focus-visible) > :last-child {
+    display: none;
+  }
+`
 
 export const CurrentSection = () => {
   const debounce = useDebounce(75)
   const [name, setName] = useState<string>()
+  const [hash, setHash] = useState<string>()
 
   useEffect(() => {
     const hash = window.location.hash.replace("#", "")
@@ -33,7 +47,12 @@ export const CurrentSection = () => {
   }, [])
 
   useEffect(() => {
-    const update = () => debounce(() => setName(getCurrentSection()))
+    const update = () =>
+      debounce(() => {
+        const section = getCurrentSection()
+        setName(getName(section))
+        setHash(section?.id)
+      })
 
     window.addEventListener("scroll", update)
     return () => {
@@ -41,5 +60,15 @@ export const CurrentSection = () => {
     }
   }, [debounce])
 
-  return !name ? null : <Typewriter text={name} />
+  if (!name) return null
+
+  const href = `/#${hash || ""}`
+  return (
+    <Link href={href} onClick={() => history.replaceState(null, "", href)}>
+      <span>PrettyCoffee</span>
+      <span>/</span>
+      <Typewriter text={name} />
+      <Icon icon="hash" size={14} />
+    </Link>
+  )
 }

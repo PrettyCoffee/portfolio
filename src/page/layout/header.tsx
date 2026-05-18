@@ -161,8 +161,6 @@ const Square = styled("div")<{ invert?: boolean }>(({ css, invert }) => [
 export const Header = () => (
   <HeaderLayout>
     <H2>
-      <a href="/#">PrettyCoffee</a>
-      {" / "}
       <CurrentSection />
     </H2>
     <HDivider />
