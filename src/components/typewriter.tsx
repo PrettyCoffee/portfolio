@@ -68,9 +68,8 @@ export const Typewriter = ({
       const typing = interval({
         ms: TIMING.type,
         tick: ({ stop }) => {
-          const newVisible = text.slice(0, ++cursor)
-          setVisible(newVisible)
-          last.current = newVisible
+          last.current = text.slice(0, ++cursor)
+          setVisible(last.current)
           if (cursor === text.length) stop()
         },
       })
@@ -86,7 +85,8 @@ export const Typewriter = ({
       const deleting = interval({
         ms: TIMING.delete,
         tick: ({ stop }) => {
-          setVisible(last.current.slice(0, --cursor))
+          last.current = last.current.slice(0, --cursor)
+          setVisible(last.current)
           if (cursor === 0) stop()
         },
       })
