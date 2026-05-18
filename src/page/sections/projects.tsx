@@ -37,7 +37,7 @@ const projectList: Project[] = [
     year: 2026,
     name: "Portfolio v4",
     description:
-      "The latest version of my portfolio. You are currently looking at it.",
+      "The latest version of my portfolio, created to show off my fun projects. You are currently looking at it.",
     imgSrc: "/images/avatar.webp",
     imgSize: "8rem",
     repoUrl: "https://github.com/PrettyCoffee/portfolio",
@@ -101,9 +101,25 @@ const ProjectGrid = styled("li")`
   ${Card.styles({})}
   display: grid;
   grid-template:
-    "img details details" auto
+    "img name name" min-content
+    "img description description" auto
     "img stack links" auto / auto 1fr auto;
   gap: ${theme("space.6")};
+
+  @media ${theme("breakpoint.880")} {
+    grid-template:
+      "img name name" min-content
+      "img description description" auto
+      "stack stack links" auto / min-content 1fr auto;
+  }
+
+  @media ${theme("breakpoint.560")} {
+    grid-template:
+      "img name" min-content
+      "description description" auto
+      "stack stack" auto
+      "links links" auto / min-content 1fr;
+  }
 `
 
 const ImageLayout = styled("div")`
@@ -114,28 +130,47 @@ const ImageLayout = styled("div")`
   display: grid;
   place-content: center;
   flex-shrink: 0;
+
+  @media ${theme("breakpoint.720")} {
+    height: ${theme("space.x1")};
+    width: ${theme("space.x1")};
+  }
 `
 const Image = styled("img")`
   object-fit: contain;
+  height: inherit;
+  width: inherit;
 `
 const ProjectImage = ({ imgSrc, imgSize }: Project) => (
   <ImageLayout>
-    <Image src={imgSrc} style={{ height: imgSize, width: imgSize }} />
+    <Image src={imgSrc} style={{ maxHeight: imgSize, maxWidth: imgSize }} />
   </ImageLayout>
 )
 
-const Details = styled("div")`
-  grid-area: details;
-  h3 {
-    line-height: 1;
-    margin-bottom: 1rem;
+const Name = styled("h3")`
+  grid-area: name;
+  line-height: 1;
+  margin-bottom: ${theme("space.4")};
+  align-self: end;
+  font-size: 1.125rem;
+  margin-bottom: -1.125rem;
+
+  @media ${theme("breakpoint.560")} {
+    align-self: center;
+    font-size: 1.25rem;
+    margin-bottom: 0;
   }
 `
+const Description = styled("p")`
+  grid-area: description;
+  align-self: start;
+`
+
 const ProjectDetails = ({ name, description }: Project) => (
-  <Details>
-    <h3>{name}</h3>
-    <p>{description}</p>
-  </Details>
+  <>
+    <Name>{name}</Name>
+    <Description>{description}</Description>
+  </>
 )
 
 const StackLayout = styled("div")`
@@ -152,7 +187,7 @@ const Links = styled("div")`
   grid-area: links;
   place-self: end;
   & > *:not(:first-of-type) {
-    margin-left: 1rem;
+    margin-left: ${theme("space.4")};
   }
 `
 const Link = styled("a")`
