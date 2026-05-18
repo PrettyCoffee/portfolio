@@ -113,7 +113,7 @@ const HeaderLayout = styled("header")`
   color: white;
 `
 
-const H2 = styled("h2")`
+const PageTitle = styled("div")`
   font-size: 1.125rem;
   font-weight: 700;
   letter-spacing: -${theme("space.px")};
@@ -160,9 +160,9 @@ const Square = styled("div")<{ invert?: boolean }>(({ css, invert }) => [
 
 export const Header = () => (
   <HeaderLayout>
-    <H2>
+    <PageTitle>
       <CurrentSection />
-    </H2>
+    </PageTitle>
     <HDivider />
     <VDivider />
 

@@ -35,20 +35,19 @@ const About = () => (
 )
 
 const sections = [
-  { id: "", name: "Portfolio", content: <Intro /> },
-  { id: "about-me", name: "About Me", content: <AboutMe /> },
+  { id: "", name: "Portfolio", hideName: true, content: <Intro /> },
+  { id: "about-me", name: "About Me", hideName: true, content: <AboutMe /> },
   { id: "waku", name: "Waku", content: <Waku /> },
   { id: "about-waku", name: "About Waku", content: <About /> },
 ]
 
 export const Page = () => (
   <div>
-    {sections.map(({ id, name, content }, index) => (
+    {sections.map(({ content, ...props }, index) => (
       <Section
-        key={id}
-        id={id}
-        name={name}
+        key={props.id}
         variant={index % 2 === 1 ? "light" : "dark"}
+        {...props}
       >
         {content}
       </Section>
