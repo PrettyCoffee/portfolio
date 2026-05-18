@@ -111,11 +111,19 @@ const getGooberStyles = () => {
   return process.env["goober"]
 }
 
-export const GlobalStyles = () => (
+// run goober css extraction at the end of ssg execution
+const deferredExtraction = () =>
+  new Promise<string>(resolve => {
+    setTimeout(() => {
+      resolve(getGooberStyles())
+    }, 1000)
+  })
+
+export const GlobalStyles = async () => (
   <>
     <style>{cssReset}</style>
     <style>{globalStyles}</style>
     <style>{themeVars}</style>
-    <style id="_goober">{getGooberStyles()}</style>
+    <style id="_goober">{await deferredExtraction()}</style>
   </>
 )

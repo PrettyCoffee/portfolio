@@ -11,10 +11,6 @@ const description = "Portfolio of PrettyCoffee."
 // eslint-disable-next-line @typescript-eslint/require-await -- must be async to run extractCss in GlobalStyles at the end of ssg execution
 export const Root = async ({ children }: PropsWithChildren) => (
   <html lang="en">
-    <body>
-      <div id="root">{children}</div>
-    </body>
-
     <head>
       <meta charSet="utf-8" />
       <link rel="icon" href="/favicon.ico" type="image/png" sizes="48x48" />
@@ -50,5 +46,9 @@ export const Root = async ({ children }: PropsWithChildren) => (
 
       <GlobalStyles />
     </head>
+
+    <body>
+      <div id="root">{children}</div>
+    </body>
   </html>
 )
