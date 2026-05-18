@@ -24,6 +24,7 @@ const space = {
   2: "0.5rem",
   3: "0.75rem",
   4: "1rem",
+  5: "1.25rem",
   6: "1.5rem",
   8: "2rem",
   10: "2.5rem",
@@ -40,6 +41,12 @@ const space = {
   x9: "45rem",
   x10: "50rem",
   x11: "55rem",
+}
+const breakpoint = {
+  1040: "screen and (max-width: 65rem)",
+  880: "screen and (max-width: 55rem)",
+  720: "screen and (max-width: 45rem)",
+  560: "screen and (max-width: 35rem)",
 }
 
 const boxShadow = (hsl: string) => ({
@@ -81,6 +88,7 @@ const dropShadow = (hsl: string) => ({
 const tokens = {
   dark: {
     space,
+    breakpoint,
     accent: color.accent,
     text: {
       base: color.light.base,
@@ -103,6 +111,7 @@ const tokens = {
   },
   light: {
     space,
+    breakpoint,
     accent: color.accent,
     text: {
       base: color.dark.base,
@@ -153,7 +162,7 @@ const getValue = (key: ObjDeepPath<Tokens>, variant: TokenVariant) => {
 
 const read = (key: ObjDeepPath<Tokens>) => {
   const value = getValue(key, "dark")
-  if (key.startsWith("space.")) return value
+  if (/^(space|breakpoint)\./.test(key)) return value
   const cssVar = getCssVar(key)
   return `var(${cssVar}, ${value})`
 }
