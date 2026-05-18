@@ -30,12 +30,21 @@ interface ClassNameProp {
 
 type ElementType = keyof JSX.IntrinsicElements | ComponentType<any>
 
-const getClass = (styles: Conditional<string>[] | Conditional<string>) => {
+const isStyledComponent = (element: ElementType) =>
+  typeof element === "object" && "styles" in element
+
+const getClass = (
+  element: ElementType,
+  styles: Conditional<string>[] | Conditional<string>
+) => {
   const joined = truthy([styles].flat())
     .map(style => style.trim())
     .filter(Boolean)
     .join("\n")
-  return !joined ? undefined : css(joined)
+
+  return !joined
+    ? undefined
+    : css.apply({ o: !isStyledComponent(element) }, [joined])
 }
 
 const createComponent = <TProps extends ClassNameProp>(
@@ -71,7 +80,7 @@ const createStaticFn = <TElement extends ElementType>(element: TElement) => {
 
   return (strings: TemplateStringsArray, ...values: (string | number)[]) => {
     const styles = plainCss(strings, ...values)
-    const className = getClass(styles)
+    const className = getClass(element, styles)
     const component = createComponent<TProps>(element, className)
     return Object.assign(component, { styles })
   }
@@ -87,7 +96,7 @@ const createDynamicFn = <TElement extends ElementType>(element: TElement) => {
       getStyles({ css: plainCss, ...props })
 
     const className = (props: TProps & TAdditionalProps) =>
-      getClass(styles(props))
+      getClass(element, styles(props))
 
     const component = createComponent<TProps & TAdditionalProps>(
       element,
