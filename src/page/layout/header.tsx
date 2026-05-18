@@ -25,9 +25,14 @@ const LinkList = styled("ul")`
   border-radius: 50vh;
   border: 1.5px solid currentColor;
   background: black;
+  width: max-content;
 
   li {
     line-height: 1;
+  }
+
+  @media ${theme("breakpoint.720")} {
+    display: none;
   }
 `
 
@@ -126,18 +131,46 @@ const HeaderLayout = styled("header")`
   color: white;
 `
 
+const InnerLayout = styled("div")`
+  display: flex;
+  flex-direction: column;
+  @media ${theme("breakpoint.720")} {
+    flex-direction: row;
+  }
+`
+
 const Divider1 = styled("div")`
   border-top: 1.5px solid currentColor;
   border-left: 1.5px solid currentColor;
   margin-left: ${theme("space.5")};
   height: ${theme("space.6")};
   width: ${theme("space.10")};
+  border-top-left-radius: ${theme("space.2")};
+
+  @media ${theme("breakpoint.720")} {
+    height: ${theme("space.4")};
+    border-bottom: 1.5px solid currentColor;
+    border-bottom-left-radius: ${theme("space.2")};
+  }
 `
 
 const Divider2 = styled("div")`
   border-left: 1.5px solid currentColor;
   margin-left: ${theme("space.5")};
   height: ${theme("space.6")};
+
+  @media ${theme("breakpoint.720")} {
+    border-left: none;
+    /* left + margin-left + width Divider1 */
+    --left-offset: calc(
+      ${theme("space.10")} + ${theme("space.4")} + ${theme("space.5")}
+    );
+    --right-offset: calc(${theme("space.14")} + ${theme("space.10")});
+    width: calc(100vw - var(--left-offset) - var(--right-offset));
+    height: ${theme("space.4")};
+    border-bottom: 1.5px solid currentColor;
+    margin-left: 0;
+  }
 `
 
 const Squares = styled("div")`
@@ -145,6 +178,20 @@ const Squares = styled("div")`
   flex-direction: column;
   align-items: center;
   width: calc(${theme("space.10")} + 1.5px);
+
+  & > * {
+    margin-bottom: -${theme("space.2")};
+  }
+
+  @media ${theme("breakpoint.720")} {
+    flex-direction: row;
+    width: unset;
+    margin-top: 0.225rem;
+    & > * {
+      margin-right: -${theme("space.2")};
+      margin-bottom: 0;
+    }
+  }
 `
 
 const Square = styled("div")<{ invert?: boolean }>(({ css, invert }) => [
@@ -152,7 +199,6 @@ const Square = styled("div")<{ invert?: boolean }>(({ css, invert }) => [
     height: ${theme("space.6")};
     width: ${theme("space.6")};
     border: ${theme("space.2px")} solid currentColor;
-    margin-bottom: -${theme("space.2")};
     rotate: 45deg;
     transform-origin: center;
     background: currentColor;
@@ -167,15 +213,16 @@ const Square = styled("div")<{ invert?: boolean }>(({ css, invert }) => [
 export const Header = () => (
   <HeaderLayout>
     <PageTitle />
-    <Divider1 />
 
-    <Links />
-
-    <Divider2 />
-    <Squares>
-      <Square />
-      <Square invert />
-      <Square />
-    </Squares>
+    <InnerLayout>
+      <Divider1 />
+      <Links />
+      <Divider2 />
+      <Squares>
+        <Square />
+        <Square invert />
+        <Square />
+      </Squares>
+    </InnerLayout>
   </HeaderLayout>
 )
