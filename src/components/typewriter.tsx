@@ -1,33 +1,9 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { RefObject, useEffect, useRef } from "react"
 
+import { createInterval } from "utils/create-interval"
 import { prefersReducedMotion } from "utils/preferes-reduced-motion"
-
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-const noop = () => {}
-
-interface IntervalProps {
-  tick: (props: { stop: () => void }) => void
-  ms: number
-}
-const interval = ({ ms, tick }: IntervalProps) => {
-  let resolveFn = noop
-  let id = 0
-  const stop = () => {
-    window.clearInterval(id)
-    resolveFn()
-  }
-
-  const promise = new Promise<void>(resolve => {
-    resolveFn = resolve
-    id = window.setInterval(() => {
-      tick({ stop })
-    }, ms)
-  })
-
-  return Object.assign(promise, { clear: stop })
-}
 
 const TIMING = prefersReducedMotion()
   ? {
@@ -41,19 +17,11 @@ const TIMING = prefersReducedMotion()
       wait: 2000,
     }
 
-interface TypewriterProps {
-  text: string
-  initial?: string
-  onTransitionEnd?: () => void
-}
-
-export const Typewriter = ({
-  text,
-  initial = text,
-  onTransitionEnd,
-}: TypewriterProps) => {
-  const [visible, setVisible] = useState(initial)
-  const last = useRef(visible)
+const useTypewriter = (
+  ref: RefObject<HTMLSpanElement | null>,
+  { text, initial = text, onTransitionEnd }: TypewriterProps
+) => {
+  const last = useRef(initial)
 
   useEffect(() => {
     if (text === last.current) return
@@ -61,15 +29,20 @@ export const Typewriter = ({
     let canceled = false
     let cancel: undefined | (() => void)
 
+    const update = (text = last.current) => {
+      last.current = text
+      if (!ref.current) return
+      ref.current.innerHTML = last.current
+    }
+
     const writeNext = async () => {
       if (canceled) return
 
       let cursor = 0
-      const typing = interval({
+      const typing = createInterval({
         ms: TIMING.type,
         tick: ({ stop }) => {
-          last.current = text.slice(0, ++cursor)
-          setVisible(last.current)
+          update(text.slice(0, ++cursor))
           if (cursor === text.length) stop()
         },
       })
@@ -82,11 +55,10 @@ export const Typewriter = ({
       if (canceled || !last.current) return
 
       let cursor = last.current.length
-      const deleting = interval({
+      const deleting = createInterval({
         ms: TIMING.delete,
         tick: ({ stop }) => {
-          last.current = last.current.slice(0, --cursor)
-          setVisible(last.current)
+          update(last.current.slice(0, --cursor))
           if (cursor === 0) stop()
         },
       })
@@ -102,7 +74,20 @@ export const Typewriter = ({
       canceled = true
       cancel?.()
     }
-  }, [onTransitionEnd, text])
+  }, [onTransitionEnd, ref, text])
 
-  return visible
+  // eslint-disable-next-line react-hooks/refs -- hook takes care of updating, this is just to display an initial value
+  return last.current
+}
+
+interface TypewriterProps {
+  text: string
+  initial?: string
+  onTransitionEnd?: () => void
+}
+
+export const Typewriter = (props: TypewriterProps) => {
+  const ref = useRef<HTMLSpanElement>(null)
+  const current = useTypewriter(ref, props)
+  return <span ref={ref}>{current}</span>
 }
