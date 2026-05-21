@@ -10,3 +10,6 @@ trustPolicyExclude:
 
 minimumReleaseAgeExclude:
   - "waku@1.0.0-beta.0"
+
+packages:
+  - "packages/*"

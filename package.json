@@ -10,7 +10,7 @@
     "lint:fix": "pnpm run lint --fix"
   },
   "dependencies": {
-    "goober": "2.1.18",
+    "goober": "workspace:*",
     "react": "19.2.6",
     "react-dom": "19.2.6"
   },

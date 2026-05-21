@@ -40,7 +40,11 @@ const joinStyles = (styles: Conditional<string>[] | Conditional<string>) =>
     .join("\n")
 
 const getClass = (element: ElementType, styles: string) =>
-  !styles ? undefined : css.apply({ o: !isStyledComponent(element) }, [styles])
+  !styles
+    ? undefined
+    : css.apply({ append: !isStyledComponent(element) }, [
+        Object.assign([styles], { raw: [styles] }),
+      ])
 
 const createComponent = <TProps extends ClassNameProp>(
   element: ElementType,

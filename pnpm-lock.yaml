@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       goober:
-        specifier: 2.1.18
-        version: 2.1.18(csstype@3.2.3)
+        specifier: workspace:*
+        version: link:packages/goober
       react:
         specifier: 19.2.6
         version: 19.2.6
@@ -48,6 +48,8 @@ importers:
       waku:
         specifier: 1.0.0-beta.0
         version: 1.0.0-beta.0(@rolldown/plugin-babel@0.2.3(@babel/core@7.29.0)(rolldown@1.0.0)(vite@8.0.12(@types/node@25.6.2)(jiti@2.7.0)(terser@5.47.1)))(@types/node@25.6.2)(babel-plugin-react-compiler@1.0.0)(jiti@2.7.0)(react-dom@19.2.6(react@19.2.6))(react-server-dom-webpack@19.2.6(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(webpack@5.106.2))(react@19.2.6)(terser@5.47.1)
+
+  packages/goober: {}
 
 packages:
 
@@ -1256,11 +1258,6 @@ packages:
   globalthis@1.0.4:
     resolution: {integrity: sha512-DpLKbNU4WylpxJykQujfCcwYWiV/Jhm50Goo0wrVILAv5jOr9d+H+UR3PhSCD2rCCEIg0uc+G+muBTwD54JhDQ==}
     engines: {node: '>= 0.4'}
-
-  goober@2.1.18:
-    resolution: {integrity: sha512-2vFqsaDVIT9Gz7N6kAL++pLpp41l3PfDuusHcjnGLfR6+huZkl6ziX+zgVC3ZxpqWhzH6pyDdGrCeDhMIvwaxw==}
-    peerDependencies:
-      csstype: ^3.0.10
 
   gopd@1.2.0:
     resolution: {integrity: sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==}
@@ -3635,10 +3632,6 @@ snapshots:
     dependencies:
       define-properties: 1.2.1
       gopd: 1.2.0
-
-  goober@2.1.18(csstype@3.2.3):
-    dependencies:
-      csstype: 3.2.3
 
   gopd@1.2.0: {}
 

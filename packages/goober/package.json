@@ -1,0 +1,28 @@
+{
+  "name": "goober",
+  "version": "2.1.18",
+  "description": "A less than 1KB css-in-js solution",
+  "license": "MIT",
+  "author": "Cristian <botecristian@yahoo.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cristianbote/goober"
+  },
+  "keywords": [
+    "css-in-js",
+    "goober",
+    "styled",
+    "javascript",
+    "react",
+    "preact"
+  ],
+  "sideEffects": false,
+  "type": "module",
+  "types": "./src/index.ts",
+  "module": "./src/index.ts",
+  "scripts": {
+    "build": "npm run build:core && npm run build:prefixer && npm run build:global && npm run build:should-forward-prop",
+    "lint": "cd ../../ && pnpm run lint",
+    "lint:fix": "cd ../../ && pnpm run lint:fix"
+  }
+}
