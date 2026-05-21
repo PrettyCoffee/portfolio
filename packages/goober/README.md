@@ -34,11 +34,9 @@ const Text = () => <span className={red}>Some Text</span>
 
 ### css
 
-Parse styles, inject them into the DOM, and generate a css class.
+Create static styles, inject them into the DOM, and generate a css class.
 
 **Usage:**
-
-Static styles as string template:
 
 ```tsx
 const boldFont = css`
@@ -91,6 +89,26 @@ const rotate = keyframes`
 const className = css`
   animation: ${rotate} 1s ease-in-out;
 `
+```
+
+### recipe
+
+Create dynamic style recipes that can be adjusted via props.
+
+**Usage:**
+
+```ts
+const text = recipe<{ bold: boolean }>(({ bold }) => [
+  css`
+    font-size: 1rem;
+    font-weight: 400;
+  `,
+  bold &&
+    css`
+      font-weight: 700;
+    `,
+])
+const boldText = text({ bold: true })
 ```
 
 ### setup
