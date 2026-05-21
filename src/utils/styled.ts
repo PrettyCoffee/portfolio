@@ -8,9 +8,8 @@ import {
   Children,
 } from "react"
 
-import { css } from "goober"
-
 import { Slot } from "components/slot"
+import { css } from "goober"
 
 type Conditional<T> = T | false | null | undefined
 const truthy = <T>(values: Conditional<T>[]) => values.filter(Boolean) as T[]

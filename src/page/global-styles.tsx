@@ -1,5 +1,4 @@
 import { extractCss } from "goober"
-
 import { theme } from "utils/theme"
 
 // enables IDE css syntax highlighting

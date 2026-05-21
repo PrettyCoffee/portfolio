@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react"
 
 import { keyframes } from "goober"
-
 import { prefersReducedMotion } from "utils/preferes-reduced-motion"
 import { styled } from "utils/styled"
 import { theme } from "utils/theme"
