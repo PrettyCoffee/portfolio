@@ -33,7 +33,7 @@ const createStyles = (
   const ast = typeof compiled === "string" ? parser.parse(compiled) : compiled
   return parser.stringify(
     type === "keyframes" ? { [`@keyframes ${className}`]: ast } : ast,
-    type === "global" ? "" : `.${className}`
+    type === "global" ? null : `.${className}`
   )
 }
 

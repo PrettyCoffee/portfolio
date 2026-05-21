@@ -8,16 +8,16 @@ const isAst = (value: AstNode | string | undefined): value is AstNode =>
 const isString = (value: AstNode | string | undefined): value is string =>
   typeof value === "string"
 
-interface Result {
+interface Insert {
   prepend: (string: string) => void
-  addLine: (string: string) => void
-  addBlock: (string: string) => void
+  line: (string: string) => void
+  block: (string: string) => void
 }
 type Parser<TValue> = (props: {
+  insert: Insert
   key: string
   value: TValue
-  selector: string
-  result: Result
+  selector?: string | null
 }) => void
 
 type Matcher = { matcher: RegExp } & (
@@ -29,32 +29,33 @@ const matchers: Matcher[] = [
   {
     matcher: /^@import/,
     type: "string",
-    handler({ key, value, result }) {
-      result.prepend(`${key} ${value};`)
+    handler({ key, value, insert }) {
+      insert.prepend(`${key} ${value};`)
     },
   },
   {
     matcher: /^@font-face/,
     type: "ast",
-    handler({ key, value, result }) {
+    handler({ key, value, insert }) {
       // Handling the `@font-face` where the block doesn't need the brackets wrapped
-      result.addBlock(stringify(value, key))
+      insert.block(stringify(value, key))
     },
   },
   {
     matcher: /^@[^if]/,
     type: "ast",
-    handler({ key, value, selector, result }) {
+    handler({ key, value, selector, insert }) {
       const rules = stringify(value, key[1] == "k" ? "" : selector)
-      result.addBlock(`${key}{${rules}}`)
+      insert.block(`${key}{${rules}}`)
     },
   },
   {
     matcher: /^[^@]/,
     type: "ast",
-    handler({ key, value, selector, result }) {
+    handler({ key, value, selector, insert }) {
       if (!selector) {
-        result.addBlock(stringify(value, key))
+        insert.block(stringify(value, key))
+        return
       }
 
       // Go over the selector and replace the matching multiple selectors if any
@@ -68,34 +69,34 @@ const matchers: Matcher[] = [
           return sel ? `${sel} ${k}` : k
         })
       )
-      result.addBlock(stringify(value, newSelector))
+      insert.block(stringify(value, newSelector))
     },
   },
   {
     matcher: /^[^@]/,
     type: "string",
-    handler({ key, value, result }) {
+    handler({ key, value, insert }) {
       // Preserve CSS variable names
       const cssKey = key.startsWith("--")
         ? key
         : key.replaceAll(/[A-Z]/g, "-$&").toLowerCase()
 
       const prefixer = getSetup().prefixer ?? (() => `${cssKey}:${value};`)
-      result.addLine(prefixer(cssKey, value))
+      insert.line(prefixer(cssKey, value))
     },
   },
 ]
 
 /** Stringify a style object into a scoped css string */
-export const stringify = (obj: AstNode, selector: string) => {
+export const stringify = (obj: AstNode, selector?: string | null) => {
   let outer = ""
   let blocks = ""
   let current = ""
 
-  const result = {
+  const insert = {
     prepend: (value: string) => (outer = value),
-    addBlock: (block: string) => (blocks += block),
-    addLine: (line: string) => (current += line),
+    block: (block: string) => (blocks += block),
+    line: (line: string) => (current += line),
   }
 
   Object.entries(obj).forEach(([key, value]) => {
@@ -112,10 +113,10 @@ export const stringify = (obj: AstNode, selector: string) => {
     }
 
     rule.handler({
+      insert,
       key,
       value: value as string & AstNode, // type validation is handled above
       selector,
-      result,
     })
   })
 
