@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
+
+import { type AstNode } from "./types"
 import { getSetup } from "../setup"
-import { AstNode } from "./astish"
 
 const isAst = (value: AstNode | string | undefined): value is AstNode =>
   !!value && typeof value === "object"
@@ -37,14 +38,14 @@ const matchers: Matcher[] = [
     type: "ast",
     handler({ key, value, result }) {
       // Handling the `@font-face` where the block doesn't need the brackets wrapped
-      result.addBlock(parse(value, key))
+      result.addBlock(stringify(value, key))
     },
   },
   {
     matcher: /^@[^if]/,
     type: "ast",
     handler({ key, value, selector, result }) {
-      const rules = parse(value, key[1] == "k" ? "" : selector)
+      const rules = stringify(value, key[1] == "k" ? "" : selector)
       result.addBlock(`${key}{${rules}}`)
     },
   },
@@ -53,7 +54,7 @@ const matchers: Matcher[] = [
     type: "ast",
     handler({ key, value, selector, result }) {
       if (!selector) {
-        result.addBlock(parse(value, key))
+        result.addBlock(stringify(value, key))
       }
 
       // Go over the selector and replace the matching multiple selectors if any
@@ -67,7 +68,7 @@ const matchers: Matcher[] = [
           return sel ? `${sel} ${k}` : k
         })
       )
-      result.addBlock(parse(value, newSelector))
+      result.addBlock(stringify(value, newSelector))
     },
   },
   {
@@ -85,8 +86,8 @@ const matchers: Matcher[] = [
   },
 ]
 
-/** Parses an object into css, scoped, blocks */
-export const parse = (obj: AstNode, selector: string) => {
+/** Stringify a style object into a scoped css string */
+export const stringify = (obj: AstNode, selector: string) => {
   let outer = ""
   let blocks = ""
   let current = ""
@@ -118,5 +119,11 @@ export const parse = (obj: AstNode, selector: string) => {
     })
   })
 
-  return outer + (selector ? `${selector}{${current}}` : current) + blocks
+  const currentBlock = !current
+    ? ""
+    : !selector
+      ? current
+      : `${selector}{${current}}`
+
+  return outer + currentBlock + blocks
 }

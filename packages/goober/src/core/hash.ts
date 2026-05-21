@@ -1,17 +1,16 @@
-import { astish, AstNode } from "./astish"
-import { Sheet } from "./get-sheet"
-import { parse } from "./parse"
+import { type Sheet } from "./get-sheet"
 import { toHash } from "./to-hash"
 import { update } from "./update"
+import { parser, type AstNode } from "../parser"
 
 /** In-memory cache. */
 const cache: Record<string, string> = {}
 
 /** Stringifies an object structure */
-const stringify = (data: AstNode | string | undefined) => {
+const getIdentifier = (data: AstNode | string | undefined): string => {
   if (typeof data == "object") {
     let out = ""
-    for (const p in data) out += p + stringify(data[p])
+    for (const key in data) out += key + getIdentifier(data[key])
     return out
   } else {
     return data ?? ""
@@ -19,7 +18,7 @@ const stringify = (data: AstNode | string | undefined) => {
 }
 
 const createClassName = (compiled: AstNode | string) => {
-  const identifier = stringify(compiled)
+  const identifier = getIdentifier(compiled)
   return (cache[identifier] ??= toHash(identifier))
 }
 
@@ -31,8 +30,8 @@ const createStyles = (
   type: InjectionType
 ) => {
   if (cache[className]) return cache[className]
-  const ast = typeof compiled === "string" ? astish(compiled) : compiled
-  return parse(
+  const ast = typeof compiled === "string" ? parser.parse(compiled) : compiled
+  return parser.stringify(
     type === "keyframes" ? { [`@keyframes ${className}`]: ast } : ast,
     type === "global" ? "" : `.${className}`
   )

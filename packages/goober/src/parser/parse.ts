@@ -1,3 +1,5 @@
+import { type AstNode } from "./types"
+
 const newRule =
   /(?:([\u0080-\uFFFF\w-%@]+) *:? *([^{;]+?);|([^;}{]*?) *{)|(}\s*)/g
 const ruleClean = /\/\*[^]*?\*\/|  +/g
@@ -16,17 +18,14 @@ const parseBlock = (val: string) => {
   return null
 }
 
-export interface AstNode {
-  [key: string]: AstNode | string
-}
 type Tree = (AstNode | undefined)[]
 
 /** Convert a css style string into an object */
-export const astish = (val: string) => {
+export const parse = (styles: string) => {
   const tree: Tree = [{}]
 
   let block: ReturnType<typeof parseBlock>
-  while ((block = parseBlock(val))) {
+  while ((block = parseBlock(styles))) {
     tree[0] ??= {}
 
     if (block.close) {
