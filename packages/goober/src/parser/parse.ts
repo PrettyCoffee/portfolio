@@ -1,4 +1,4 @@
-import { type AstNode } from "./types"
+import { type StyleNode } from "./types"
 
 const newRule =
   /(?:([\u0080-\uFFFF\w-%@]+) *:? *([^{;]+?);|([^;}{]*?) *{)|(}\s*)/g
@@ -18,7 +18,7 @@ const parseBlock = (val: string) => {
   return null
 }
 
-type Tree = (AstNode | undefined)[]
+type Tree = (StyleNode | undefined)[]
 
 /** Convert a css style string into an object */
 export const parse = (styles: string) => {
@@ -32,7 +32,7 @@ export const parse = (styles: string) => {
       tree.shift() // Remove the current entry
     } else if (block.selector) {
       tree[0][block.selector] ??= {}
-      tree.unshift(tree[0][block.selector] as AstNode)
+      tree.unshift(tree[0][block.selector] as StyleNode)
     } else if (block.name) {
       tree[0][block.name] = clean(block.value)
     }

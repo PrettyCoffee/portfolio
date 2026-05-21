@@ -34,14 +34,25 @@ const Text = () => <span className={red}>Some Text</span>
 
 ### css
 
-Inject styles into the DOM and generate a css class.
+Parse styles, inject them into the DOM, and generate a css class.
 
 **Usage:**
 
-```ts
+Static styles as string template:
+
+```tsx
+const boldFont = css`
+  font-weight: 800;
+`
 const redText = css`
   color: red;
 `
+const important = css`
+  ${boldFont}
+  ${redText}
+`
+
+const Text = () => <span className={important.class}>Important Text!</span>
 ```
 
 ### glob

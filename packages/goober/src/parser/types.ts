@@ -1,3 +1,3 @@
-export interface AstNode {
-  [key: string]: AstNode | string
+export interface StyleNode {
+  [key: string]: StyleNode | string
 }

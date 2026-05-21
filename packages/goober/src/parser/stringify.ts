@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
-import { type AstNode } from "./types"
+import { type StyleNode } from "./types"
 import { getSetup } from "../setup"
 
-const isAst = (value: AstNode | string | undefined): value is AstNode =>
+const isAst = (value: StyleNode | string | undefined): value is StyleNode =>
   !!value && typeof value === "object"
-const isString = (value: AstNode | string | undefined): value is string =>
+const isString = (value: StyleNode | string | undefined): value is string =>
   typeof value === "string"
 
 interface Insert {
@@ -22,7 +22,7 @@ type Parser<TValue> = (props: {
 
 type Matcher = { matcher: RegExp } & (
   | { type: "string"; handler: Parser<string> }
-  | { type: "ast"; handler: Parser<AstNode> }
+  | { type: "ast"; handler: Parser<StyleNode> }
 )
 
 const matchers: Matcher[] = [
@@ -88,7 +88,7 @@ const matchers: Matcher[] = [
 ]
 
 /** Stringify a style object into a scoped css string */
-export const stringify = (obj: AstNode, selector?: string | null) => {
+export const stringify = (obj: StyleNode, selector?: string | null) => {
   let outer = ""
   let blocks = ""
   let current = ""
@@ -115,7 +115,7 @@ export const stringify = (obj: AstNode, selector?: string | null) => {
     rule.handler({
       insert,
       key,
-      value: value as string & AstNode, // type validation is handled above
+      value: value as string & StyleNode, // type validation is handled above
       selector,
     })
   })

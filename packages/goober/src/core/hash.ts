@@ -1,13 +1,13 @@
 import { type Sheet } from "./get-sheet"
 import { toHash } from "./to-hash"
 import { update } from "./update"
-import { parser, type AstNode } from "../parser"
+import { parser, type StyleNode } from "../parser"
 
 /** In-memory cache. */
 const cache: Record<string, string> = {}
 
 /** Stringifies an object structure */
-const getIdentifier = (data: AstNode | string | undefined): string => {
+const getIdentifier = (data: StyleNode | string | undefined): string => {
   if (typeof data == "object") {
     let out = ""
     for (const key in data) out += key + getIdentifier(data[key])
@@ -17,7 +17,7 @@ const getIdentifier = (data: AstNode | string | undefined): string => {
   }
 }
 
-const createClassName = (compiled: AstNode | string) => {
+const createClassName = (compiled: StyleNode | string) => {
   const identifier = getIdentifier(compiled)
   return (cache[identifier] ??= toHash(identifier))
 }
@@ -26,7 +26,7 @@ export type InjectionType = "class" | "global" | "keyframes"
 
 const createStyles = (
   className: string,
-  compiled: AstNode | string,
+  compiled: StyleNode | string,
   type: InjectionType
 ) => {
   if (cache[className]) return cache[className]
@@ -44,7 +44,7 @@ const createStyles = (
  *  @param type What kind of css needs to be injected
  */
 export const hash = (
-  compiled: AstNode | string,
+  compiled: StyleNode | string,
   sheet: Sheet,
   append?: boolean,
   type: InjectionType = "class"
