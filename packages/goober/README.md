@@ -124,28 +124,45 @@ Create React components that have styles attached to them.
 With static styles:
 
 ```tsx
-const Button = styled("button")`
+const Button = styled.button`
   background: white;
   &:hover {
     background: gray;
   }
 `
+```
 
-const btn = <Button>Button</Button>
+With function component:
+
+```tsx
+const Anchor = styled(Link)`
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+`
 ```
 
 Use the `as` prop to dynamically change the rendered element:
 
 ```tsx
-const Button = styled("button")`
+const Button = styled.button`
   background: white;
   &:hover {
     background: gray;
   }
 `
 
-const anchor = (
+// Convert to html anchor 
+const Anchor = (
   <Button as="a" href="https://goober.js.org">
+    Goober
+  </Button>
+)
+
+// OR convert to function component
+const Anchor = (
+  <Button as={Link} href="https://goober.js.org">
     Goober
   </Button>
 )
@@ -154,7 +171,7 @@ const anchor = (
 With dynamic styles (like recipe):
 
 ```tsx
-const Button = styled("button")<{ disabled: boolean }>(({ disabled }) => [
+const Button = styled.button<{ disabled: boolean }>(({ disabled }) => [
   css`
     background: white;
     &:hover {
@@ -174,7 +191,7 @@ const btn = <Button disabled>Disabled button</Button>
 Filter props that should not be forwarded to the dom element:
 
 ```tsx
-const Button = styled("button")<{ invert?: boolean }>(
+const Button = styled.button<{ invert?: boolean }>(
   ({ invert }) => css`
     background: ${invert ? "black" : "white"};
     &:hover {

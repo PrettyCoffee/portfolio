@@ -1,9 +1,9 @@
-import type { ComponentPropsWithRef, JSX } from "react"
+import type { JSX } from "react"
 
 import { css } from "./css.js"
 import { recipe, RecipeFactory } from "./recipe.js"
 import { getSetup } from "./setup.js"
-import { CssTemplate, isTemplate } from "./types.js"
+import { CssTemplate, isTemplate, Resolve } from "./types.js"
 
 type VNode = Iterable<VNode> | JSX.Element | string | boolean | null | undefined
 interface FC<TProps = {}> {
@@ -12,7 +12,16 @@ interface FC<TProps = {}> {
 }
 
 type ElementName = keyof JSX.IntrinsicElements
-type ElementType = ElementName | FC<any>
+type ElementType = ElementName | FC<any> | SFC<any, any>
+
+type PropsOf<T extends ElementType> =
+  T extends SFCMeta<infer TTypeProps, infer TProps>
+    ? TProps & TTypeProps
+    : T extends FC<infer TProps>
+      ? TProps
+      : T extends keyof JSX.IntrinsicElements
+        ? JSX.IntrinsicElements[T]
+        : never
 
 interface StyledContext<TProps extends object = object> {
   filterProps: (keyof TProps)[]
@@ -21,12 +30,19 @@ interface StyledContext<TProps extends object = object> {
 type StyledProps<
   TType extends ElementType = ElementType,
   TProps extends object = object,
-> = Omit<ComponentPropsWithRef<TType>, "as"> & TProps & { as?: TType }
+> = Resolve<{ as?: TType } & TProps & Omit<PropsOf<TType>, "as">>
+
+interface SFCMeta<TTypeProps extends object, TStyledProps extends object> {
+  /** @deprecated Internal prop for type preservation, don't use this in your app */
+  z__defaultTypeProps?: TTypeProps
+  /** @deprecated Internal prop for type preservation, don't use this in your app */
+  z__styledProps?: TStyledProps
+}
 
 interface SFC<
   TDefaultType extends ElementType = ElementType,
   TProps extends object = object,
-> {
+> extends SFCMeta<PropsOf<TDefaultType>, TProps> {
   <TType extends ElementType = TDefaultType>(
     this: StyledContext<TProps> | void,
     props: StyledProps<TType, TProps>
@@ -91,8 +107,7 @@ const createComponent = (
   return styledComponent
 }
 
-/** Create React components that have styles attached to them */
-export function styled<TDefaultType extends ElementType>(
+function createStyled<TDefaultType extends ElementType>(
   defaultType: TDefaultType
 ) {
   const createStaticStyled = (...args: CssTemplate["Args"]) => {
@@ -118,3 +133,14 @@ export function styled<TDefaultType extends ElementType>(
 
   return factory as StyledFactory<TDefaultType>
 }
+
+type ProxyTarget = {
+  [TKey in ElementName]: StyledFactory<TKey>
+} & (<TType extends FC<any>>(type: TType) => StyledFactory<TType>)
+
+/** Create React components that have styles attached to them */
+export const styled = new Proxy(createStyled as ProxyTarget, {
+  get(_, prop: ElementName) {
+    return createStyled(prop)
+  },
+})
