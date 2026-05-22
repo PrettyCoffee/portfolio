@@ -21,8 +21,11 @@
   "types": "./src/index.ts",
   "module": "./src/index.ts",
   "scripts": {
-    "build": "npm run build:core && npm run build:prefixer && npm run build:global && npm run build:should-forward-prop",
+    "build": "vite build && tsc --noEmit false",
     "lint": "cd ../../ && pnpm run lint",
     "lint:fix": "cd ../../ && pnpm run lint:fix"
+  },
+  "devDependencies": {
+    "vite": "8.0.13"
   }
 }
