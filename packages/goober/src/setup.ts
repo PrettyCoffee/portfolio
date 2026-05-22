@@ -1,8 +1,11 @@
 import type { JSX } from "react"
 
 interface SetupConfig {
+  /** JSX function to create a virtual dom node. (i.e. React.createElement or Preact.h) */
   jsx?: (...args: any[]) => JSX.Element
+  /** Transform css output, e.g. to add `-webkit-` and `-moz-` prefixes */
   prefixer?: (key: string, value: string) => string
+  /** Globally filter props in styled components, which should not be passed to dom elements */
   filterProps: <T>(props: T) => Partial<T>
 }
 const setupStore: SetupConfig = {

@@ -153,7 +153,7 @@ const Button = styled.button`
   }
 `
 
-// Convert to html anchor 
+// Convert to html anchor
 const Anchor = (
   <Button as="a" href="https://goober.js.org">
     Goober
@@ -191,14 +191,16 @@ const btn = <Button disabled>Disabled button</Button>
 Filter props that should not be forwarded to the dom element:
 
 ```tsx
-const Button = styled.button<{ invert?: boolean }>(
-  ({ invert }) => css`
-    background: ${invert ? "black" : "white"};
-    &:hover {
-      background: gray;
-    }
-  `
-).filterProps(["invert"])
+const Button = styled
+  .button<{ invert?: boolean }>(
+    ({ invert }) => css`
+      background: ${invert ? "black" : "white"};
+      &:hover {
+        background: gray;
+      }
+    `
+  )
+  .filterProps(["invert"])
 
 const btn = <Button invert>Button</Button>
 ```
@@ -213,11 +215,15 @@ You ensure this, by creating a new file, calling the setup function in there, an
 
 - config `object`: The configuration to apply
   - config.prefixer `(key: string, value: string) => string`: Transform css output, e.g. to add `-webkit-` and `-moz-` prefixes
+  - config.jsx `(...args: any[]) => JSX.Element`: JSX function to create a virtual dom node. (i.e. React.createElement or Preact.h)
+  - config.filterProps `<T>(props: T) => Partial<T>`: Globally filter props in styled components, which should not be passed to dom elements
 
 **Usage:**
 
 ```ts
 // src/lib/goober.ts
+import { createElement } from "react"
+
 import { setup } from "goober"
 
 const prefixable = new Set(["backdrop-filter"])
@@ -234,7 +240,7 @@ const prefixer = (key: string, value: string) => {
   return lines.join("\n") + "\n"
 }
 
-setup({ prefixer })
+setup({ jsx: createElement, prefixer })
 
 export * from "goober"
 ```

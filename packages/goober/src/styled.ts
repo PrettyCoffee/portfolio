@@ -65,7 +65,7 @@ const createComponent = (
   const { jsx } = getSetup()
   if (!jsx) {
     throw new Error(
-      "goober.styled expected setup to provide an h function, but none was there. Did you call `setup({ h: ... })`?"
+      "goober.styled expected setup to provide a jsx function, but none was there. Did you call `setup({ jsx: ... })`?"
     )
   }
 
