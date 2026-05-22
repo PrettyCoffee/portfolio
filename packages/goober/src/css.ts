@@ -1,13 +1,8 @@
 import { Styles, StylesConfig } from "./core/styles"
-import { StyleNode, parser } from "./parser"
-import { Conditional, Template } from "./types"
+import { parser } from "./parser"
+import { CssTemplate, isTemplate } from "./types"
 
-type TemplateValue =
-  | Conditional<Styles | StyleNode | string | number>
-  | Conditional<Styles | StyleNode | string | number>[]
-type CssTemplate = Template<TemplateValue>
-
-const toString = (value: TemplateValue): string => {
+const toString = (value: CssTemplate["Value"]): string => {
   if (value == null || value == false) return ""
   if (Array.isArray(value)) return value.map(toString).join(" ")
   if (value instanceof Styles) return toString(value.styles)
@@ -16,15 +11,12 @@ const toString = (value: TemplateValue): string => {
 const joinTemplate: CssTemplate["Fn"] = (strings, ...values) =>
   strings.flatMap((string, index) => [string, toString(values[index])]).join("")
 
-const isTemplate = (value: unknown): value is TemplateStringsArray =>
-  Array.isArray(value) && "raw" in value
-
 /** Create styles, inject them into the DOM, and generate a css class. */
-export function css(styles: TemplateValue): Styles
+export function css(styles: CssTemplate["Value"]): Styles
 export function css(...args: CssTemplate["Args"]): Styles
 export function css(
   this: StylesConfig | void,
-  ...args: [TemplateValue] | CssTemplate["Args"]
+  ...args: [CssTemplate["Value"]] | CssTemplate["Args"]
 ) {
   const [styles, ...values] = args
 

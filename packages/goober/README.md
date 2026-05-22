@@ -13,6 +13,8 @@ At the same time, it also seemed like an interesting task to refactor the projec
   - [css](#css)
   - [glob](#glob)
   - [keyframes](#keyframes)
+  - [recipe](#recipe)
+  - [styled](#styled)
   - [setup](#setup)
   - [extractCss](#extractcss)
 
@@ -110,6 +112,61 @@ const text = recipe<{ bold: boolean }>(({ bold }) => [
 ])
 const boldText = text({ bold: true })
 ```
+
+### styled
+
+Create React components that have styles attached to them.
+
+> Note: Make sure to call setup with an `jsx` function (i.e. `React.createElement`) first!
+
+**Usage:**
+
+With static styles:
+
+```tsx
+const Button = styled("button")`
+  background: white;
+  &:hover {
+    background: gray;
+  }
+`
+
+const btn = <Button>Button</Button>
+```
+
+With dynamic styles (like recipe):
+
+```tsx
+const Button = styled("button")<{ disabled: boolean }>(({ disabled }) => [
+  css`
+    background: white;
+    &:hover {
+      background: gray;
+    }
+  `,
+  disabled &&
+    css`
+      pointer-events: none;
+      opacity: 0.5;
+    `,
+])
+
+const btn = <Button disabled>Disabled button</Button>
+```
+
+Use the `as` prop to dynamically change the rendered element:
+
+```tsx
+const Button = styled("button")`
+  background: white;
+  &:hover {
+    background: gray;
+  }
+`
+
+const anchor = <Button as="a" href="https://goober.js.org">Goober</Button>
+```
+
 
 ### setup
 

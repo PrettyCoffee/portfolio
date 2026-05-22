@@ -1,7 +1,7 @@
 import { Styles, StylesConfig } from "./core/styles"
 import { Conditional } from "./types"
 
-type RecipeFactory<TProps extends object> = (
+export type RecipeFactory<TProps extends object> = (
   props: TProps
 ) => Conditional<Styles | 0> | Conditional<Styles | 0>[]
 
