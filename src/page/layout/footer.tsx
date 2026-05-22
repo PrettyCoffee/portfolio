@@ -1,7 +1,7 @@
-import { styled } from "utils/styled"
+import { styled } from "lib/goober"
 import { theme } from "utils/theme"
 
-const FooterLayout = styled("footer")`
+const FooterLayout = styled.footer`
   position: fixed;
   z-index: 100;
   bottom: 0;
@@ -11,7 +11,7 @@ const FooterLayout = styled("footer")`
   color: white;
 `
 
-const Link = styled("a")`
+const Link = styled.a`
   &:hover {
     text-decoration: underline;
   }

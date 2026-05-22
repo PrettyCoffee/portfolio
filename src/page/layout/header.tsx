@@ -1,11 +1,11 @@
-import { Hidden } from "components/hidden"
-import { styled } from "utils/styled"
+import { hidden } from "components/hidden"
+import { styled, css } from "lib/goober"
 import { theme } from "utils/theme"
 
 import { CurrentSection } from "./current-section"
 import { Icon, IconProps } from "../../components/icon"
 
-const Title = styled("div")`
+const Title = styled.div`
   font-size: ${theme("font.lg")};
   font-weight: ${theme("font.bold")};
   letter-spacing: -${theme("space.px")};
@@ -19,7 +19,7 @@ const PageTitle = () => (
   </Title>
 )
 
-const LinkList = styled("ul")`
+const LinkList = styled.ul`
   display: flex;
   flex-direction: column;
   border-radius: 50vh;
@@ -36,7 +36,7 @@ const LinkList = styled("ul")`
   }
 `
 
-const NavLink = styled("a")`
+const NavLink = styled.a`
   position: relative;
   height: ${theme("space.10")};
   width: ${theme("space.10")};
@@ -62,11 +62,11 @@ const NavLink = styled("a")`
   }
 
   &:not(:hover, :focus-visible) > span:last-of-type {
-    ${Hidden.styles}
+    ${hidden}
   }
 `
 
-const LinkLabel = styled("span")`
+const LinkLabel = styled.span`
   display: inline-block;
   position: absolute;
   left: calc(100% + ${theme("space.2")});
@@ -117,7 +117,7 @@ const Links = () => (
   </LinkList>
 )
 
-const HeaderLayout = styled("header")`
+const HeaderLayout = styled.header`
   position: fixed;
   z-index: 100;
   top: ${theme("space.4")};
@@ -131,7 +131,7 @@ const HeaderLayout = styled("header")`
   color: white;
 `
 
-const InnerLayout = styled("div")`
+const InnerLayout = styled.div`
   display: flex;
   flex-direction: column;
   @media ${theme("breakpoint.720")} {
@@ -139,7 +139,7 @@ const InnerLayout = styled("div")`
   }
 `
 
-const Divider1 = styled("div")`
+const Divider1 = styled.div`
   border-top: 1.5px solid currentColor;
   border-left: 1.5px solid currentColor;
   margin-left: ${theme("space.5")};
@@ -154,7 +154,7 @@ const Divider1 = styled("div")`
   }
 `
 
-const Divider2 = styled("div")`
+const Divider2 = styled.div`
   border-left: 1.5px solid currentColor;
   margin-left: ${theme("space.5")};
   height: ${theme("space.6")};
@@ -173,7 +173,7 @@ const Divider2 = styled("div")`
   }
 `
 
-const Squares = styled("div")`
+const Squares = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -194,21 +194,23 @@ const Squares = styled("div")`
   }
 `
 
-const Square = styled("div")<{ invert?: boolean }>(({ css, invert }) => [
-  css`
-    height: ${theme("space.6")};
-    width: ${theme("space.6")};
-    border: ${theme("space.2px")} solid currentColor;
-    rotate: 45deg;
-    transform-origin: center;
-    background: currentColor;
-  `,
-  invert &&
+const Square = styled
+  .div<{ inverted?: boolean }>(({ inverted }) => [
     css`
-      background: black;
-      z-index: 1;
+      height: ${theme("space.6")};
+      width: ${theme("space.6")};
+      border: ${theme("space.2px")} solid currentColor;
+      rotate: 45deg;
+      transform-origin: center;
+      background: currentColor;
     `,
-])
+    inverted &&
+      css`
+        background: black;
+        z-index: 1;
+      `,
+  ])
+  .filterProps(["inverted"])
 
 export const Header = () => (
   <HeaderLayout>
@@ -220,7 +222,7 @@ export const Header = () => (
       <Divider2 />
       <Squares>
         <Square />
-        <Square invert />
+        <Square inverted />
         <Square />
       </Squares>
     </InnerLayout>

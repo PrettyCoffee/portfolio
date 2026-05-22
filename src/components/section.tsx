@@ -1,9 +1,9 @@
 import { PropsWithChildren } from "react"
 
-import { styled } from "utils/styled"
+import { styled } from "lib/goober"
 import { theme } from "utils/theme"
 
-const Layout = styled("section")`
+const Layout = styled.section`
   position: relative;
   min-height: 100lvh;
   padding: ${theme("space.x2")} ${theme("space.x1")};
@@ -22,7 +22,7 @@ const Layout = styled("section")`
   }
 `
 
-const Title = styled("h2")`
+const Title = styled.h2`
   position: absolute;
   z-index: 0;
   top: 0;

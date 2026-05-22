@@ -15,8 +15,7 @@ export default defineConfig(
           paths: [
             {
               name: "goober",
-              importNames: ["styled"],
-              message: "Import from utils/styled instead.",
+              message: "Import from lib/goober instead.",
             },
           ],
         },

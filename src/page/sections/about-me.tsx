@@ -1,6 +1,6 @@
 import { Card } from "components/card"
 import { Em } from "components/em"
-import { styled } from "utils/styled"
+import { styled } from "lib/goober"
 import { theme } from "utils/theme"
 
 const AboutCard = styled(Card)`
@@ -27,7 +27,7 @@ const AboutCard = styled(Card)`
   }
 `
 
-const Image = styled("img")`
+const Image = styled.img`
   grid-area: img;
   height: ${theme("space.x3")};
   width: ${theme("space.x3")};
@@ -46,13 +46,13 @@ const Image = styled("img")`
   }
 `
 
-const Title = styled("h2")`
+const Title = styled.h2`
   grid-area: title;
   font-size: ${theme("font.3xl")};
   margin: 0;
   line-height: 1;
 `
-const Text = styled("div")`
+const Text = styled.div`
   grid-area: text;
   p {
     font-size: ${theme("font.xl")};
@@ -63,7 +63,7 @@ const Text = styled("div")`
   }
 `
 
-const Facts = styled("div")`
+const Facts = styled.div`
   grid-area: facts;
   align-self: end;
   font-size: ${theme("font.md")};

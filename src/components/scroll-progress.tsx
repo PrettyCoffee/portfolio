@@ -2,11 +2,11 @@
 
 import { useEffect, useRef } from "react"
 
+import { styled } from "lib/goober"
 import { createAnimationFrames } from "utils/create-animation-frames"
-import { styled } from "utils/styled"
 import { theme } from "utils/theme"
 
-const Progress = styled("div")`
+const Progress = styled.div`
   width: 100%;
   scale: var(--progress) 100%;
   transform-origin: left;
@@ -14,7 +14,7 @@ const Progress = styled("div")`
   background: ${theme("stroke.base")};
 `
 
-const Layout = styled("div")`
+const Layout = styled.div`
   position: fixed;
   inset: 0 0 unset 0;
   width: 100%;

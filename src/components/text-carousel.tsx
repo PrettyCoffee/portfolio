@@ -2,9 +2,8 @@
 
 import { useEffect, useRef, useState } from "react"
 
-import { keyframes } from "goober"
+import { keyframes, styled } from "lib/goober"
 import { prefersReducedMotion } from "utils/preferes-reduced-motion"
-import { styled } from "utils/styled"
 import { theme } from "utils/theme"
 
 import { Typewriter } from "./typewriter"
@@ -24,7 +23,7 @@ const blink = keyframes`
   }
 `
 
-const Carret = styled("span")`
+const Carret = styled.span`
   display: inline-block;
   width: 1ch;
   height: 1.125em;
@@ -35,17 +34,17 @@ const Carret = styled("span")`
   }
 `
 
-const Layout = styled("span")`
+const Layout = styled.span`
   position: relative;
 `
 
-const SpaceBlocker = styled("span")`
+const SpaceBlocker = styled.span`
   opacity: 0;
   pointer-events: none;
   user-select: none;
 `
 
-const VisibleText = styled("span")`
+const VisibleText = styled.span`
   position: absolute;
   left: 0;
 `

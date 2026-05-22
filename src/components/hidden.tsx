@@ -1,6 +1,8 @@
-import { styled } from "utils/styled"
+import { css, styled } from "lib/goober"
 
-export const Hidden = styled()`
+import { Slot } from "./slot"
+
+export const hidden = css`
   position: absolute;
   width: 1px;
   height: 1px;
@@ -10,4 +12,7 @@ export const Hidden = styled()`
   clip-path: inset(50%);
   white-space: nowrap;
   border-width: 0;
+`
+export const Hidden = styled(Slot)`
+  ${hidden}
 `

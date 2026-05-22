@@ -1,12 +1,5 @@
-import { extractCss } from "goober"
+import { extractCss, css } from "lib/goober"
 import { theme } from "utils/theme"
-
-// enables IDE css syntax highlighting
-const css = (strings: TemplateStringsArray, ...values: (string | number)[]) =>
-  strings
-    .flatMap((string, index) => [string, values[index] || ""])
-    .join("")
-    .replaceAll(/\s+/g, " ")
 
 const varsToString = (vars: Record<string, string>) =>
   Object.entries(vars)
@@ -120,9 +113,9 @@ const deferredExtraction = () =>
 
 export const GlobalStyles = async () => (
   <>
-    <style>{cssReset}</style>
-    <style>{globalStyles}</style>
-    <style>{themeVars}</style>
+    <style>{cssReset.toString()}</style>
+    <style>{globalStyles.toString()}</style>
+    <style>{themeVars.toString()}</style>
     <style id="_goober">{await deferredExtraction()}</style>
   </>
 )

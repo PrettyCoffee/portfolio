@@ -1,6 +1,6 @@
-import { Card } from "components/card"
+import { cardStyles } from "components/card"
 import { DeEm, Em } from "components/em"
-import { styled } from "utils/styled"
+import { styled } from "lib/goober"
 import { theme } from "utils/theme"
 
 interface Project {
@@ -99,7 +99,7 @@ const projectsByYear = projectList.reduce<Record<number, Project[]>>(
   {}
 )
 
-const ProjectList = styled("ul")`
+const ProjectList = styled.ul`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -118,8 +118,8 @@ const ProjectList = styled("ul")`
   }
 `
 
-const ProjectGrid = styled("li")`
-  ${Card.styles({})}
+const ProjectGrid = styled.li`
+  ${cardStyles({})}
   display: grid;
   grid-template:
     "img name name" min-content
@@ -143,7 +143,7 @@ const ProjectGrid = styled("li")`
   }
 `
 
-const ImageLayout = styled("div")`
+const ImageLayout = styled.div`
   grid-area: img;
   place-self: center;
   height: ${theme("space.x2")};
@@ -157,7 +157,7 @@ const ImageLayout = styled("div")`
     width: ${theme("space.x1")};
   }
 `
-const Image = styled("img")`
+const Image = styled.img`
   object-fit: contain;
   height: inherit;
   width: inherit;
@@ -168,7 +168,7 @@ const ProjectImage = ({ imgSrc, imgSize }: Project) => (
   </ImageLayout>
 )
 
-const Name = styled("h3")`
+const Name = styled.h3`
   grid-area: name;
   line-height: 1;
   margin-bottom: ${theme("space.4")};
@@ -182,7 +182,7 @@ const Name = styled("h3")`
     margin-bottom: 0;
   }
 `
-const Description = styled("p")`
+const Description = styled.p`
   grid-area: description;
   align-self: start;
 `
@@ -194,7 +194,7 @@ const ProjectDetails = ({ name, description }: Project) => (
   </>
 )
 
-const StackLayout = styled("div")`
+const StackLayout = styled.div`
   grid-area: stack;
 `
 const Stack = ({ stack }: Project) => (
@@ -204,14 +204,14 @@ const Stack = ({ stack }: Project) => (
   </StackLayout>
 )
 
-const Links = styled("div")`
+const Links = styled.div`
   grid-area: links;
   place-self: end;
   & > *:not(:first-of-type) {
     margin-left: ${theme("space.4")};
   }
 `
-const Link = styled("a")`
+const Link = styled.a`
   display: inline-flex;
   align-items: center;
   gap: ${theme("space.2")};
@@ -253,7 +253,7 @@ const Project = (project: Project) => (
   </ProjectGrid>
 )
 
-const Timeline = styled("div")`
+const Timeline = styled.div`
   position: absolute;
   --overflow-top: ${theme("space.4")};
   top: calc(-1 * var(--overflow-top));

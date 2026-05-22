@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 
 import { Icon } from "components/icon"
 import { Typewriter } from "components/typewriter"
-import { styled } from "utils/styled"
+import { styled } from "lib/goober"
 import { theme } from "utils/theme"
 import { useDebounce } from "utils/use-debounce"
 
@@ -24,7 +24,7 @@ const getCurrentSection = () => {
   return sections[index] ?? sections[0]
 }
 
-const Link = styled("a")`
+const Link = styled.a`
   display: flex;
   align-items: center;
   gap: ${theme("space.1")};

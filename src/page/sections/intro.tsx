@@ -1,8 +1,8 @@
 import { TextCarousel } from "components/text-carousel"
-import { styled } from "utils/styled"
+import { styled } from "lib/goober"
 import { theme } from "utils/theme"
 
-const H1 = styled("h1")`
+const H1 = styled.h1`
   font-size: min(10vw, ${theme("space.x1")});
   font-weight: ${theme("font.bold")};
   letter-spacing: -${theme("space.px")};

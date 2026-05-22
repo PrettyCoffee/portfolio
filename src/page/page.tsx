@@ -2,14 +2,14 @@ import { Counter } from "components/counter"
 import { HashLink } from "components/hash-link"
 import { Section } from "components/section"
 import { TextCarousel } from "components/text-carousel"
-import { styled } from "utils/styled"
+import { styled } from "lib/goober"
 import { theme } from "utils/theme"
 
 import { AboutMe } from "./sections/about-me"
 import { Intro } from "./sections/intro"
 import { Projects } from "./sections/projects"
 
-const Title = styled("span")`
+const Title = styled.span`
   font-size: ${theme("font.3xl")};
   font-weight: ${theme("font.bolder")};
   letter-spacing: -${theme("space.px")};
