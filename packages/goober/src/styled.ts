@@ -14,25 +14,36 @@ interface FC<TProps = {}> {
 type ElementName = keyof JSX.IntrinsicElements
 type ElementType = ElementName | FC<any>
 
-const getProps = (props: object, getClass: (props: object) => string) => {
-  // TODO: Check if appending is relevant here
-  // const prev = (props as { className?: string | undefined }).className
-  // const append = prev && / *go\d+/.test(prev)
-
-  const { filterProps } = getSetup()
-  return {
-    ...filterProps(props),
-    className: [
-      getClass(props),
-      (props as { className?: string | undefined }).className,
-    ]
-      .filter(Boolean)
-      .join(" "),
-  }
+interface StyledContext<TProps extends object = object> {
+  filterProps: (keyof TProps)[]
 }
 
-const createComponent = <TDefaultType extends ElementType>(
-  defaultType: TDefaultType,
+type StyledProps<
+  TType extends ElementType = ElementType,
+  TProps extends object = object,
+> = Omit<ComponentPropsWithRef<TType>, "as"> & TProps & { as?: TType }
+
+interface SFC<
+  TDefaultType extends ElementType = ElementType,
+  TProps extends object = object,
+> {
+  <TType extends ElementType = TDefaultType>(
+    this: StyledContext<TProps> | void,
+    props: StyledProps<TType, TProps>
+  ): VNode | Promise<VNode>
+
+  displayName: string | undefined
+  filterProps: (filter: (keyof TProps)[]) => SFC<TDefaultType, TProps>
+}
+
+type StyledFactory<TDefaultType extends ElementType> = <
+  TProps extends object = {},
+>(
+  ...args: CssTemplate["Args"] | [RecipeFactory<TProps>]
+) => SFC<TDefaultType, TProps>
+
+const createComponent = (
+  defaultType: ElementType,
   getClass: (props: object) => string
 ) => {
   const { jsx } = getSetup()
@@ -42,59 +53,68 @@ const createComponent = <TDefaultType extends ElementType>(
     )
   }
 
-  const component = <TType extends ElementType = TDefaultType>({
-    as,
-    ...props
-  }: StyledProps<TType>) => jsx(as ?? defaultType, getProps(props, getClass))
+  const getProps = (props: StyledProps, filterProps: string[] = []) => {
+    // TODO: Check if appending is relevant here
+    // const prev = (props as { className?: string | undefined }).className
+    // const append = prev && / *go\d+/.test(prev)
 
-  const parentName =
-    typeof defaultType === "string"
-      ? defaultType
-      : (defaultType.displayName ?? "")
+    const fwdProps = { ...props }
+    filterProps.forEach(key => delete fwdProps[key])
 
-  return Object.assign(component, { displayName: "styled(" + parentName + ")" })
-}
-
-const createStaticStyled = (
-  defaultType: ElementType,
-  ...args: CssTemplate["Args"]
-) => {
-  const styles = css(...args)
-  const className = styles.class
-  return createComponent(defaultType, () => className)
-}
-
-const createDynamicStyled = (
-  defaultType: ElementType,
-  recipeFn: RecipeFactory<object>
-) => {
-  const styles = recipe(recipeFn)
-  return createComponent(defaultType, (props: object) => styles(props).class)
-}
-
-type StyledProps<TType extends ElementType> = Omit<
-  ComponentPropsWithRef<TType>,
-  "as"
-> & {
-  as?: TType
-}
-type StyledFactory<TDefaultType extends ElementType> = <
-  TProps extends object = {},
->(
-  ...args: CssTemplate["Args"] | [RecipeFactory<TProps>]
-) => <TType extends ElementType = TDefaultType>(
-  props: StyledProps<TType> & TProps
-) => VNode
-
-/** Create React components that have styles attached to them */
-export function styled<TDefaultType extends ElementType>(type: TDefaultType) {
-  const factory: StyledFactory<TDefaultType> = (...[styles, ...values]) => {
-    if (isTemplate(styles)) {
-      return createStaticStyled(type, styles, ...values)
-    } else {
-      return createDynamicStyled(type, styles as RecipeFactory<object>)
+    return {
+      ...getSetup().filterProps(fwdProps),
+      className: [getClass(props), (props as { className?: string }).className]
+        .filter(Boolean)
+        .join(" "),
     }
   }
 
-  return factory
+  function Component(
+    this: StyledContext | void,
+    { as, ...props }: StyledProps
+  ) {
+    return jsx!(as ?? defaultType, getProps(props, this?.filterProps))
+  }
+
+  const typeName =
+    typeof defaultType === "string"
+      ? defaultType
+      : (defaultType.displayName ?? "")
+  const displayName = "styled(" + typeName + ")"
+
+  const styledComponent = Object.assign(Component, {
+    displayName,
+    filterProps: (filterProps: (keyof object)[]) =>
+      styledComponent.bind({ filterProps }),
+  })
+
+  return styledComponent
+}
+
+/** Create React components that have styles attached to them */
+export function styled<TDefaultType extends ElementType>(
+  defaultType: TDefaultType
+) {
+  const createStaticStyled = (...args: CssTemplate["Args"]) => {
+    const styles = css(...args)
+    const className = styles.class
+    return createComponent(defaultType, () => className)
+  }
+
+  const createDynamicStyled = (recipeFn: RecipeFactory) => {
+    const styles = recipe(recipeFn)
+    return createComponent(defaultType, (props: object) => styles(props).class)
+  }
+
+  const factory = (
+    ...[styles, ...values]: CssTemplate["Args"] | [RecipeFactory]
+  ) => {
+    if (isTemplate(styles)) {
+      return createStaticStyled(styles, ...values)
+    } else {
+      return createDynamicStyled(styles)
+    }
+  }
+
+  return factory as StyledFactory<TDefaultType>
 }

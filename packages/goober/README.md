@@ -134,6 +134,23 @@ const Button = styled("button")`
 const btn = <Button>Button</Button>
 ```
 
+Use the `as` prop to dynamically change the rendered element:
+
+```tsx
+const Button = styled("button")`
+  background: white;
+  &:hover {
+    background: gray;
+  }
+`
+
+const anchor = (
+  <Button as="a" href="https://goober.js.org">
+    Goober
+  </Button>
+)
+```
+
 With dynamic styles (like recipe):
 
 ```tsx
@@ -154,19 +171,20 @@ const Button = styled("button")<{ disabled: boolean }>(({ disabled }) => [
 const btn = <Button disabled>Disabled button</Button>
 ```
 
-Use the `as` prop to dynamically change the rendered element:
+Filter props that should not be forwarded to the dom element:
 
 ```tsx
-const Button = styled("button")`
-  background: white;
-  &:hover {
-    background: gray;
-  }
-`
+const Button = styled("button")<{ invert?: boolean }>(
+  ({ invert }) => css`
+    background: ${invert ? "black" : "white"};
+    &:hover {
+      background: gray;
+    }
+  `
+).filterProps(["invert"])
 
-const anchor = <Button as="a" href="https://goober.js.org">Goober</Button>
+const btn = <Button invert>Button</Button>
 ```
-
 
 ### setup
 
