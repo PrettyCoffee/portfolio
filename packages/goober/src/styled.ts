@@ -65,8 +65,7 @@ interface StyledFactory<TDefaultType extends ElementType> {
 
 const createComponent = (
   defaultType: ElementType,
-  styles: Styles | ((props: object) => Styles),
-  getClass: (props: object) => string
+  styles: Styles | ((props: object) => Styles)
 ) => {
   const { jsx } = getSetup()
   if (!jsx) {
@@ -76,18 +75,21 @@ const createComponent = (
   }
 
   const getProps = (props: StyledProps, filterProps: string[] = []) => {
-    // TODO: Check if appending is relevant here
-    // const prev = (props as { className?: string | undefined }).className
-    // const append = prev && / *go\d+/.test(prev)
+    // Set a flag if the current components had a previous className
+    // similar to goober. This is the append/prepend flag
+    const prev = (props as { className?: string | undefined }).className
+    const append = !!prev && / *go\d+/.test(prev)
+
+    const className = (
+      styles instanceof Styles ? styles : styles(props)
+    ).withConfig({ append }).class
 
     const fwdProps = { ...props }
     filterProps.forEach(key => delete fwdProps[key])
 
     return {
       ...getSetup().filterProps(fwdProps),
-      className: [getClass(props), (props as { className?: string }).className]
-        .filter(Boolean)
-        .join(" "),
+      className: className + prev ? ` ${prev}` : "",
     }
   }
 
@@ -115,26 +117,13 @@ const createComponent = (
 function createStyled<TDefaultType extends ElementType>(
   defaultType: TDefaultType
 ) {
-  const createStaticStyled = (...args: CssTemplate["Args"]) => {
-    const styles = css(...args)
-    const className = styles.class
-    return createComponent(defaultType, styles, () => className)
-  }
-
-  const createDynamicStyled = (recipeFn: RecipeFactory) => {
-    const styles = recipe(recipeFn)
-    return createComponent(defaultType, styles, props => styles(props).class)
-  }
-
   const factory = (
     ...[styles, ...values]: CssTemplate["Args"] | [RecipeFactory]
-  ) => {
-    if (isTemplate(styles)) {
-      return createStaticStyled(styles, ...values)
-    } else {
-      return createDynamicStyled(styles)
-    }
-  }
+  ) =>
+    createComponent(
+      defaultType,
+      isTemplate(styles) ? css(styles, ...values) : recipe(styles)
+    )
 
   return factory as StyledFactory<TDefaultType>
 }
