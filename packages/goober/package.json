@@ -26,6 +26,6 @@
     "lint:fix": "cd ../../ && pnpm run lint:fix"
   },
   "devDependencies": {
-    "vite": "8.0.13"
+    "vite": "8.0.12"
   }
 }

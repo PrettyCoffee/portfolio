@@ -1,5 +1,6 @@
 import type { JSX } from "react"
 
+import { Styles } from "./core/styles.js"
 import { css } from "./css.js"
 import { recipe, RecipeFactory } from "./recipe.js"
 import { getSetup } from "./setup.js"
@@ -12,7 +13,7 @@ interface FC<TProps = {}> {
 }
 
 type ElementName = keyof JSX.IntrinsicElements
-type ElementType = ElementName | FC<any> | SFC<any, any>
+type ElementType = ElementName | FC<any> | SFC<any, any, any>
 
 type PropsOf<T extends ElementType> =
   T extends SFCMeta<infer TTypeProps, infer TProps>
@@ -40,8 +41,9 @@ interface SFCMeta<TTypeProps extends object, TStyledProps extends object> {
 }
 
 interface SFC<
-  TDefaultType extends ElementType = ElementType,
-  TProps extends object = object,
+  TDefaultType extends ElementType,
+  TProps extends object,
+  TStyles extends Styles | ((props: TProps) => Styles),
 > extends SFCMeta<PropsOf<TDefaultType>, TProps> {
   <TType extends ElementType = TDefaultType>(
     this: StyledContext<TProps> | void,
@@ -49,17 +51,21 @@ interface SFC<
   ): VNode | Promise<VNode>
 
   displayName: string | undefined
-  filterProps: (filter: (keyof TProps)[]) => SFC<TDefaultType, TProps>
+  filterProps: (filter: (keyof TProps)[]) => SFC<TDefaultType, TProps, TStyles>
+  styles: TStyles
 }
 
-type StyledFactory<TDefaultType extends ElementType> = <
-  TProps extends object = {},
->(
-  ...args: CssTemplate["Args"] | [RecipeFactory<TProps>]
-) => SFC<TDefaultType, TProps>
+interface StyledFactory<TDefaultType extends ElementType> {
+  (...args: CssTemplate["Args"]): SFC<TDefaultType, {}, Styles>
+
+  <TProps extends object = {}>(
+    ...args: [RecipeFactory<TProps>]
+  ): SFC<TDefaultType, TProps, (props: TProps) => Styles>
+}
 
 const createComponent = (
   defaultType: ElementType,
+  styles: Styles | ((props: object) => Styles),
   getClass: (props: object) => string
 ) => {
   const { jsx } = getSetup()
@@ -85,10 +91,7 @@ const createComponent = (
     }
   }
 
-  function Component(
-    this: StyledContext | void,
-    { as, ...props }: StyledProps
-  ) {
+  function Styled(this: StyledContext | void, { as, ...props }: StyledProps) {
     return jsx!(as ?? defaultType, getProps(props, this?.filterProps))
   }
 
@@ -98,13 +101,15 @@ const createComponent = (
       : (defaultType.displayName ?? "")
   const displayName = "styled(" + typeName + ")"
 
-  const styledComponent = Object.assign(Component, {
-    displayName,
-    filterProps: (filterProps: (keyof object)[]) =>
-      styledComponent.bind({ filterProps }),
-  })
+  const create = (Component: typeof Styled) =>
+    Object.assign(Component, {
+      displayName,
+      styles,
+      filterProps: (filterProps: (keyof object)[]) =>
+        create(Component.bind({ filterProps })),
+    })
 
-  return styledComponent
+  return create(Styled)
 }
 
 function createStyled<TDefaultType extends ElementType>(
@@ -113,12 +118,12 @@ function createStyled<TDefaultType extends ElementType>(
   const createStaticStyled = (...args: CssTemplate["Args"]) => {
     const styles = css(...args)
     const className = styles.class
-    return createComponent(defaultType, () => className)
+    return createComponent(defaultType, styles, () => className)
   }
 
   const createDynamicStyled = (recipeFn: RecipeFactory) => {
     const styles = recipe(recipeFn)
-    return createComponent(defaultType, (props: object) => styles(props).class)
+    return createComponent(defaultType, styles, props => styles(props).class)
   }
 
   const factory = (

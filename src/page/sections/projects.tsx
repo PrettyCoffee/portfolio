@@ -1,4 +1,4 @@
-import { cardStyles } from "components/card"
+import { Card } from "components/card"
 import { DeEm, Em } from "components/em"
 import { styled } from "lib/goober"
 import { theme } from "utils/theme"
@@ -119,7 +119,7 @@ const ProjectList = styled.ul`
 `
 
 const ProjectGrid = styled.li`
-  ${cardStyles({})}
+  ${Card.styles({})}
   display: grid;
   grid-template:
     "img name name" min-content
