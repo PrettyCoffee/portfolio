@@ -1,4 +1,4 @@
-import { Styles, StylesConfig } from "./core/styles"
+import { Styles } from "./core/styles"
 import { parser } from "./parser"
 import { CssTemplate, isTemplate } from "./types"
 
@@ -14,22 +14,21 @@ const joinTemplate: CssTemplate["Fn"] = (strings, ...values) =>
 /** Create styles, inject them into the DOM, and generate a css class. */
 export function css(styles: CssTemplate["Value"]): Styles
 export function css(...args: CssTemplate["Args"]): Styles
-export function css(
-  this: StylesConfig | void,
-  ...args: [CssTemplate["Value"]] | CssTemplate["Args"]
-) {
+export function css(...args: [CssTemplate["Value"]] | CssTemplate["Args"]) {
   const [styles, ...values] = args
 
   if (isTemplate(styles)) {
     return css(joinTemplate(styles, ...values))
   }
-  return new Styles(parser.parse(toString(styles)), this)
+  return new Styles(parser.parse(toString(styles)))
 }
 
 /** Declare global styles */
-export const glob = (...args: CssTemplate["Args"]) =>
-  css.bind({ type: "global" })(...args).class
+export const glob = (...args: CssTemplate["Args"]) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions -- has side effects
+  css(...args).withConfig({ type: "global" }).class
+}
 
 /** keyframes function for defining animations */
 export const keyframes = (...args: CssTemplate["Args"]) =>
-  css.bind({ type: "keyframes" })(...args).class
+  css(...args).withConfig({ type: "keyframes" }).class

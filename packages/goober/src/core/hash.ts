@@ -8,13 +8,10 @@ const cache: Record<string, string> = {}
 
 /** Stringifies an object structure */
 const getIdentifier = (data: StyleNode | string | undefined): string => {
-  if (typeof data == "object") {
-    let out = ""
-    for (const key in data) out += key + getIdentifier(data[key])
-    return out
-  } else {
-    return data ?? ""
-  }
+  if (typeof data !== "object") return data ?? ""
+  let out = ""
+  for (const key in data) out += key + getIdentifier(data[key])
+  return out
 }
 
 const createClassName = (compiled: StyleNode | string) => {
@@ -55,9 +52,12 @@ export const hash = (
   // If the global flag is set, save the current stringified and compiled CSS to `cache.g`
   // to allow replacing styles in <style /> instead of appending them.
   // This is required for using `createGlobalStyles` with themes
-  const cssToReplace = type === "global" ? cache["g"] : undefined
-  if (type === "global") cache["g"] = styles
+  if (type === "global") {
+    update(styles, sheet, append, cache["g"])
+    cache["g"] = styles
+  } else {
+    update(styles, sheet, append)
+  }
 
-  update(styles, sheet, append, cssToReplace)
   return className
 }
