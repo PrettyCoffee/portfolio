@@ -28,7 +28,8 @@ const Title = styled.h2`
   top: 0;
   left: 0;
   right: 0;
-  text-align: center;
+  display: grid;
+  place-content: center;
   line-height: 0.76;
   font-size: min(20vw, ${theme("space.x3")});
   letter-spacing: -${theme("space.1")};
@@ -36,6 +37,7 @@ const Title = styled.h2`
   height: max-content;
   opacity: 0.1;
   overflow: hidden;
+  padding-bottom: 0.5em;
 `
 
 interface SectionProps {
