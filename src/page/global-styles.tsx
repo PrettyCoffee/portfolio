@@ -44,6 +44,13 @@ const globalStyles = css`
       outline-offset: ${theme("space.2px")};
       border-radius: ${theme("space.px")};
     }
+
+    p {
+      text-align: justify;
+      hyphens: auto;
+      hyphenate-limit-chars: 10;
+      text-wrap: pretty;
+    }
   }
 `
 

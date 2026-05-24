@@ -56,9 +56,14 @@ const Text = styled.div`
   grid-area: text;
   p {
     font-size: ${theme("font.xl")};
-    text-align: justify;
+
     &:not(:first-of-type) {
       margin-top: ${theme("space.6")};
+    }
+  }
+  @media ${theme("breakpoint.560")} {
+    p {
+      font-size: ${theme("font.lg")};
     }
   }
 `
