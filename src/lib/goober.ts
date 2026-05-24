@@ -6,3 +6,4 @@ import { setup } from "goober"
 setup({ jsx: createElement })
 
 export * from "goober"
+export * from "goober/theme"

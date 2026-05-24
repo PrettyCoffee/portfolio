@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
 import { type StyleNode } from "./types"
-import { getSetup } from "../setup"
+import { getSetup } from "../../core/setup"
 
 const isAst = (value: StyleNode | string | undefined): value is StyleNode =>
   !!value && typeof value === "object"

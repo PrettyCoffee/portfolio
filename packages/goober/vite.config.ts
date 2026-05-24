@@ -16,11 +16,14 @@ const libBundle = ({ disabled, entries }: LibBundleOptions): Plugin => {
   return {
     name: "lib-bundle",
     enforce: "pre",
+    outputOptions: options => {
+      options.minify = true
+    },
     config: config => {
       config.build ??= {}
-      config.build.sourcemap ??= false
-      config.build.minify ??= true
-      config.build.copyPublicDir ??= false
+      config.build.sourcemap = false
+      config.build.minify = true
+      config.build.copyPublicDir = false
 
       config.build.rolldownOptions = {
         ...config.build.rolldownOptions,
@@ -29,8 +32,7 @@ const libBundle = ({ disabled, entries }: LibBundleOptions): Plugin => {
 
       config.build.lib = {
         ...config.build.lib,
-        formats: ["es", "cjs"],
-        cssFileName: "index",
+        formats: ["es"],
         entry: Object.fromEntries(
           Object.entries(entries).map(([key, { path }]) => [key, path])
         ),
@@ -40,10 +42,6 @@ const libBundle = ({ disabled, entries }: LibBundleOptions): Plugin => {
 
           if (["es", "esm", "module"].includes(format)) {
             return `${filePath}.mjs`
-          }
-
-          if (["cjs", "commonjs"].includes(format)) {
-            return `${filePath}.cjs`
           }
 
           throw new Error(`Unsupported format "${format}"`)
@@ -58,9 +56,13 @@ export default defineConfig(({ command }) => ({
     libBundle({
       disabled: command !== "build",
       entries: {
-        "src/index": {
-          outFile: "index",
-          path: path.resolve(__dirname, "./src/index.ts"),
+        "src/core/index": {
+          outFile: "core",
+          path: path.resolve(__dirname, "./src/core/index.ts"),
+        },
+        "src/theme/index": {
+          outFile: "theme",
+          path: path.resolve(__dirname, "./src/theme/index.ts"),
         },
       },
     }),

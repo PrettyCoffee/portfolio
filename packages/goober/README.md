@@ -17,6 +17,8 @@ At the same time, it also seemed like an interesting task to refactor the projec
   - [styled](#styled)
   - [setup](#setup)
   - [extractCss](#extractcss)
+  - [ExtractCss](#extractcss)
+  - [createTheme](#createtheme)
 
 ## Quickstart
 
@@ -278,4 +280,73 @@ const HtmlRoot = ({ children }: PropsWithChildren) => (
     <body>{children}</body>
   </html>
 )
+```
+
+### createTheme
+
+Create a css theme with variants, utilizing css variables.
+
+**Parameters:**
+
+- shared `object`: General design tokens that are shared among all theme variants. These will not be defined as css variables, but instead values are directly used. (i.e. spacing, breakpoints)
+- variants `Record<string, object>`: Design tokens for theme variants (i.e. light and dark).
+
+**Usage:**
+
+Define a theme:
+
+```ts
+import { createTheme } from "goober/theme"
+
+const space = {
+  px: "0.0625rem",
+  1: "0.25rem",
+  2: "0.5rem",
+  4: "1rem",
+  // ...
+}
+const breakpoint = {
+  1040: "screen and (max-width: 65rem)",
+  880: "screen and (max-width: 55rem)",
+  720: "screen and (max-width: 45rem)",
+  560: "screen and (max-width: 35rem)",
+}
+const dark = {
+  text: { base: "white" },
+  background: "black",
+}
+const light = {
+  text: { base: "black" },
+  background: "white",
+}
+
+const theme = createTheme({ breakpoint, space }, { dark, light })
+```
+
+Use a theme:
+
+```ts
+import { glob, css } from "goober
+import { theme } from "./theme.ts
+
+glob`
+  :root,
+  .dark {
+    ${theme.getCssVarsString("dark")}
+  }
+  .light {
+    ${theme.getCssVarsString("light")}
+  }
+`
+
+const card = css`
+  color: ${theme("text.base")};
+  background: ${theme("background")};
+  padding: ${theme("space.4")};
+  border-radius: ${theme("space.2")};
+
+  @media ${theme("breakpoint.720")} {
+    padding: ${theme("space.2")};
+  }
+`
 ```

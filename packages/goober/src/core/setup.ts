@@ -17,6 +17,7 @@ const setupStore: SetupConfig = {
   },
 }
 
+/** Configure the behavior of goober */
 export const setup = ({ jsx, prefixer, filterProps }: Partial<SetupConfig>) => {
   if (jsx) setupStore.jsx = jsx
   if (prefixer) setupStore.prefixer = prefixer

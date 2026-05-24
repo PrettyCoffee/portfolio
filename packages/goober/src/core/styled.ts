@@ -1,10 +1,10 @@
 import type { JSX } from "react"
 
-import { Styles } from "./core/styles.js"
 import { css } from "./css.js"
 import { recipe, RecipeFactory } from "./recipe.js"
 import { getSetup } from "./setup.js"
-import { CssTemplate, isTemplate, Resolve } from "./types.js"
+import { Styles } from "../utils/styles.js"
+import { CssTemplate, isTemplate, Resolve } from "../utils/types.js"
 
 type VNode = Iterable<VNode> | JSX.Element | string | boolean | null | undefined
 interface FC<TProps = {}> {

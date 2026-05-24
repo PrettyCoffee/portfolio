@@ -1,18 +1,13 @@
 import { css, ExtractCss } from "lib/goober"
 import { theme } from "utils/theme"
 
-const varsToString = (vars: Record<string, string>) =>
-  Object.entries(vars)
-    .map(([key, value]) => `${key}: ${value};`)
-    .join("\n")
-
 const themeVars = css`
   :root,
   .dark {
-    ${varsToString(theme.getCssVars("dark"))}
+    ${theme.getCssVarsString("dark")}
   }
   .light {
-    ${varsToString(theme.getCssVars("light"))}
+    ${theme.getCssVarsString("light")}
   }
 `
 

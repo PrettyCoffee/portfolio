@@ -1,5 +1,5 @@
-import { Styles } from "./core/styles"
 import { StyleNode } from "./parser"
+import { Styles } from "./styles"
 
 export type Resolve<T> = { [K in keyof T]: T[K] } & {}
 

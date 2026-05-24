@@ -1,5 +1,5 @@
-import { getStyleCache, GOOBER_ID } from "./core/get-sheet"
 import { getSetup } from "./setup"
+import { getStyleCache, GOOBER_ID } from "../utils/get-sheet"
 
 /** Returns the cache */
 export const extractCss = () => getStyleCache().data

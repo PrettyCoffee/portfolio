@@ -1,6 +1,6 @@
 import { updateSheet } from "./get-sheet"
+import { parser, type StyleNode } from "./parser"
 import { toHash } from "./to-hash"
-import { parser, type StyleNode } from "../parser"
 
 /** In-memory cache. */
 const cache: Record<string, string> = {}

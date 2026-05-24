@@ -1,10 +1,11 @@
-import { Styles, StylesConfig } from "./core/styles"
-import { Conditional } from "./types"
+import { Styles, StylesConfig } from "../utils/styles"
+import { Conditional } from "../utils/types"
 
 export type RecipeFactory<TProps extends object = object> = (
   props: TProps
 ) => Conditional<Styles | 0> | Conditional<Styles | 0>[]
 
+/** Create dynamic style recipes that can be adjusted via props */
 export function recipe<TProps extends object>(
   this: StylesConfig | void,
   create: RecipeFactory<TProps>

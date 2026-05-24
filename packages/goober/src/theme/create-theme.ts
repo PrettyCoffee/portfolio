@@ -31,6 +31,7 @@ const getDeepKeys = (currentValue: unknown, currentKey = ""): string[] => {
   throw new Error(`Value of ${currentKey} could not be processed.`)
 }
 
+/** Create a css theme with variants, utilizing css variables */
 export const createTheme = <
   TSharedTokens extends TokenItem,
   TVariantTokens extends TokenVariants,
@@ -70,6 +71,7 @@ export const createTheme = <
     return `var(${cssVar}, ${value})`
   }
 
+  /** Get an object with all css vars */
   const getCssVars = (variant: Variant) =>
     Object.fromEntries(
       getDeepKeys(variants[variant]).map(key => [
@@ -78,5 +80,11 @@ export const createTheme = <
       ])
     )
 
-  return Object.assign(read, { getCssVars, tokens })
+  /** Get a string to define all css vars for the given variant */
+  const getCssVarsString = (variant: Variant) =>
+    Object.entries(getCssVars(variant))
+      .map(([key, value]) => `${key}: ${value};`)
+      .join("\n")
+
+  return Object.assign(read, { getCssVars, getCssVarsString, tokens })
 }
