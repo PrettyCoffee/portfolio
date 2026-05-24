@@ -9,7 +9,7 @@ import { theme } from "utils/theme"
 import { useDebounce } from "utils/use-debounce"
 
 const getName = (target: Element | null | undefined) => {
-  const first = document.querySelector("section")?.dataset["name"]
+  const first = document.querySelector("section")?.dataset["name"] || ""
   return target instanceof HTMLElement
     ? (target.dataset["name"] ?? first)
     : first
@@ -36,14 +36,12 @@ const Link = styled.a`
 
 export const CurrentSection = () => {
   const debounce = useDebounce(75)
-  const [name, setName] = useState<string>()
+  const [name, setName] = useState("")
   const [hash, setHash] = useState<string>()
 
   useEffect(() => {
     const hash = window.location.hash.replace("#", "")
-    const initialName = !hash
-      ? undefined
-      : getName(document.getElementById(hash))
+    const initialName = !hash ? "" : getName(document.getElementById(hash))
     // eslint-disable-next-line react-hooks/set-state-in-effect -- initial render can't access the dom yet
     setName(initialName)
   }, [])
@@ -61,8 +59,6 @@ export const CurrentSection = () => {
       window.removeEventListener("scroll", update)
     }
   }, [debounce])
-
-  if (!name) return null
 
   const href = `/#${hash || ""}`
   return (
