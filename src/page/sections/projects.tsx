@@ -297,6 +297,10 @@ const Timeline = styled.div`
     left: unset;
     z-index: -1;
     --overflow-top: ${theme("space.16")};
+
+    &::before {
+      top: ${theme("space.12")};
+    }
   }
 `
 

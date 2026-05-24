@@ -165,11 +165,8 @@ const Divider2 = styled.div`
 
   @media ${theme("breakpoint.720")} {
     border-left: none;
-    /* left + margin-left + width Divider1 */
-    --left-offset: calc(
-      ${theme("space.10")} + ${theme("space.4")} + ${theme("space.5")}
-    );
-    --right-offset: calc(${theme("space.14")} + ${theme("space.10")});
+    --left-offset: calc(${theme("space.10")}); /* width Divider1 */
+    --right-offset: calc(${theme("space.4")}); /* screen offset left */
     width: calc(100vw - var(--left-offset) - var(--right-offset));
     height: ${theme("space.2")};
     border-bottom: 1.5px solid currentColor;
@@ -188,13 +185,7 @@ const Squares = styled.div`
   }
 
   @media ${theme("breakpoint.720")} {
-    flex-direction: row;
-    width: unset;
-    margin-top: -0.275rem;
-    & > * {
-      margin-right: -${theme("space.2")};
-      margin-bottom: 0;
-    }
+    display: none;
   }
 `
 

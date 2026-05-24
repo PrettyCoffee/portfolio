@@ -14,7 +14,7 @@ const Progress = styled.div`
   background: ${theme("stroke.base")};
 
   @media ${theme("breakpoint.720")} {
-    height: ${theme("space.14")};
+    height: ${theme("space.10")};
   }
 `
 
