@@ -260,3 +260,22 @@ const GooberStyles = () => (
   <style id={GOOBER_ID}>{extractCss()}</style>
 )
 ```
+
+### ExtractCss
+
+Renders the styles of extractCss in a style component with the correct id.
+
+**Usage:**
+
+```tsx
+import { ExtractCss } from "goober
+
+const HtmlRoot = ({ children }: PropsWithChildren) => (
+  <html>
+    <head>
+      <ExtractCss />
+    </head>
+    <body>{children}</body>
+  </html>
+)
+```

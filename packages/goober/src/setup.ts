@@ -2,7 +2,7 @@ import type { JSX } from "react"
 
 interface SetupConfig {
   /** JSX function to create a virtual dom node. (i.e. React.createElement or Preact.h) */
-  jsx?: (...args: any[]) => JSX.Element
+  jsx: (type: unknown, props?: object | null, ...args: any[]) => JSX.Element
   /** Transform css output, e.g. to add `-webkit-` and `-moz-` prefixes */
   prefixer?: (key: string, value: string) => string
   /** Globally filter props in styled components, which should not be passed to dom elements */
@@ -10,6 +10,11 @@ interface SetupConfig {
 }
 const setupStore: SetupConfig = {
   filterProps: props => props,
+  jsx: () => {
+    throw new Error(
+      "Goober expected setup to provide a jsx function, but none was there. Did you call `setup({ jsx: ... })`?"
+    )
+  },
 }
 
 export const setup = ({ jsx, prefixer, filterProps }: Partial<SetupConfig>) => {

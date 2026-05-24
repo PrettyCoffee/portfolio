@@ -1,4 +1,4 @@
-import { extractCss, css } from "lib/goober"
+import { css, ExtractCss } from "lib/goober"
 import { theme } from "utils/theme"
 
 const varsToString = (vars: Record<string, string>) =>
@@ -95,27 +95,17 @@ const cssReset = css`
   }
 `
 
-// extractCss always empties the cache when the server reloads
-// storing it in an environment variable helps to persist the styles across reloads
-const getGooberStyles = () => {
-  process.env["goober"] ??= ""
-  process.env["goober"] += `\n${extractCss()}`
-  return process.env["goober"]
+const sleep = (ms: number) =>
+  new Promise<void>(resolve => setTimeout(resolve, ms))
+
+export const GlobalStyles = async () => {
+  await sleep(1000) // run goober css extraction at the end of ssg execution
+  return (
+    <>
+      <style>{cssReset.toString()}</style>
+      <style>{globalStyles.toString()}</style>
+      <style>{themeVars.toString()}</style>
+      <ExtractCss />
+    </>
+  )
 }
-
-// run goober css extraction at the end of ssg execution
-const deferredExtraction = () =>
-  new Promise<string>(resolve => {
-    setTimeout(() => {
-      resolve(getGooberStyles())
-    }, 1000)
-  })
-
-export const GlobalStyles = async () => (
-  <>
-    <style>{cssReset.toString()}</style>
-    <style>{globalStyles.toString()}</style>
-    <style>{themeVars.toString()}</style>
-    <style id="_goober">{await deferredExtraction()}</style>
-  </>
-)

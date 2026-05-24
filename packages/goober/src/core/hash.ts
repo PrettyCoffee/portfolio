@@ -1,6 +1,5 @@
 import { type Sheet } from "./get-sheet"
 import { toHash } from "./to-hash"
-import { update } from "./update"
 import { parser, type StyleNode } from "../parser"
 
 /** In-memory cache. */
@@ -32,6 +31,20 @@ const createStyles = (
     type === "keyframes" ? { [`@keyframes ${className}`]: ast } : ast,
     type === "global" ? null : `.${className}`
   )
+}
+
+/** Updates the sheet data */
+const update = (
+  css: string,
+  sheet: Sheet,
+  append?: boolean,
+  cssToReplace?: string
+) => {
+  if (cssToReplace) {
+    sheet.data = sheet.data?.replace(cssToReplace, css)
+  } else if (!sheet.data?.includes(css)) {
+    sheet.data = append ? css + sheet.data : sheet.data + css
+  }
 }
 
 /** Generates the needed className

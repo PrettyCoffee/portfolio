@@ -1,5 +1,5 @@
 export { GOOBER_ID } from "./core/get-sheet"
-export { extractCss } from "./core/update"
+export { extractCss, ExtractCss } from "./extract-css"
 export { setup } from "./setup"
 export { css, glob, keyframes } from "./css"
 export { recipe } from "./recipe"

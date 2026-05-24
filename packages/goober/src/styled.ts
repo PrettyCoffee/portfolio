@@ -68,11 +68,6 @@ const createComponent = (
   styles: Styles | ((props: object) => Styles)
 ) => {
   const { jsx } = getSetup()
-  if (!jsx) {
-    throw new Error(
-      "goober.styled expected setup to provide a jsx function, but none was there. Did you call `setup({ jsx: ... })`?"
-    )
-  }
 
   const getProps = (props: StyledProps, filterProps: string[] = []) => {
     // Set a flag if the current components had a previous className
@@ -89,12 +84,12 @@ const createComponent = (
 
     return {
       ...getSetup().filterProps(fwdProps),
-      className: className + prev ? ` ${prev}` : "",
+      className: className + (prev ? ` ${prev}` : ""),
     }
   }
 
   function Styled(this: StyledContext | void, { as, ...props }: StyledProps) {
-    return jsx!(as ?? defaultType, getProps(props, this?.filterProps))
+    return jsx(as ?? defaultType, getProps(props, this?.filterProps))
   }
 
   const typeName =

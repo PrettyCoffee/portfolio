@@ -41,7 +41,9 @@ export const CurrentSection = () => {
 
   useEffect(() => {
     const hash = window.location.hash.replace("#", "")
-    const initialName = getName(document.getElementById(hash))
+    const initialName = !hash
+      ? undefined
+      : getName(document.getElementById(hash))
     // eslint-disable-next-line react-hooks/set-state-in-effect -- initial render can't access the dom yet
     setName(initialName)
   }, [])

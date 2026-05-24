@@ -8,8 +8,7 @@ const title = "PrettyCoffee"
 const subtitle = "Portfolio"
 const description = "Portfolio of PrettyCoffee."
 
-// eslint-disable-next-line @typescript-eslint/require-await -- must be async to run extractCss in GlobalStyles at the end of ssg execution
-export const Root = async ({ children }: PropsWithChildren) => (
+export const Root = ({ children }: PropsWithChildren) => (
   <html lang="en">
     <head>
       <meta charSet="utf-8" />
