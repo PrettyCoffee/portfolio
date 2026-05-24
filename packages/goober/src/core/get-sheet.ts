@@ -1,28 +1,46 @@
+import { getWindow } from "./get-window"
+
 export const GOOBER_ID = "_goober"
 
-export type Sheet = (Element | {}) & { id?: string; data?: string }
-const ssr: Sheet = {
+type StyleUpdate = (data: string) => string
+const cache = {
+  queue: [] as StyleUpdate[],
   data: "",
 }
 
-const getStyleElement = () => {
-  const existing = (window as { _goober?: Sheet })[GOOBER_ID]
-  if (existing) return existing
+/** Returns the text node to inject styles, or an object for ssr environments, to collect styles */
+export const getStyleCache = () => cache
 
-  const style: Sheet = document.createElement("style")
-  style.id = GOOBER_ID
-  style.data = ""
-  return style
+const getDomSheet = () => {
+  const existing = document.querySelector(`#${GOOBER_ID}`)
+  if (existing) return existing.firstChild as Text
+
+  const style = document.createElement("style")
+  style.innerHTML = " "
+  document.head.appendChild(style)
+  return style.firstChild as Text
 }
 
-/** Returns the node to inject styles, or an ssr object, to collect styles */
-export const getSheet = (): Sheet => {
-  if (typeof window === "object") {
-    const style = getStyleElement()
-    if (style instanceof Element && style.parentNode)
-      document.head.appendChild(style)
-    return style
-  }
+let isQueued = false
+const flushStyleQueue = () => {
+  if (isQueued) return
+  isQueued = true
 
-  return ssr
+  // Defer on the client to be executed later in the event loop.
+  // This allows waiting for the initial dom to be rendered, to inject css in exisitng style nodes, if there is one.
+  window.setTimeout(() => {
+    const sheet = getDomSheet()
+    while (cache.queue.length > 0) {
+      const update = cache.queue.shift()
+      if (update) sheet.data = update(sheet.data)
+    }
+  }, 1)
+}
+
+export const updateSheet = (updater: StyleUpdate) => {
+  cache.data = updater(cache.data)
+  if (getWindow()) {
+    cache.queue.push(updater)
+    flushStyleQueue()
+  }
 }

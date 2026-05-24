@@ -1,4 +1,4 @@
-import { type Sheet } from "./get-sheet"
+import { updateSheet } from "./get-sheet"
 import { toHash } from "./to-hash"
 import { parser, type StyleNode } from "../parser"
 
@@ -33,18 +33,12 @@ const createStyles = (
   )
 }
 
-/** Updates the sheet data */
-const update = (
-  css: string,
-  sheet: Sheet,
-  append?: boolean,
-  cssToReplace?: string
-) => {
-  if (cssToReplace) {
-    sheet.data = sheet.data?.replace(cssToReplace, css)
-  } else if (!sheet.data?.includes(css)) {
-    sheet.data = append ? css + sheet.data : sheet.data + css
-  }
+const update = (css: string, append?: boolean, cssToReplace?: string) => {
+  updateSheet(data => {
+    if (data.includes(css)) return data
+    if (cssToReplace) return data.replace(cssToReplace, css)
+    return append ? css + data : data + css
+  })
 }
 
 /** Generates the needed className
@@ -55,7 +49,6 @@ const update = (
  */
 export const hash = (
   compiled: StyleNode | string,
-  sheet: Sheet,
   append?: boolean,
   type: InjectionType = "class"
 ) => {
@@ -66,10 +59,10 @@ export const hash = (
   // to allow replacing styles in <style /> instead of appending them.
   // This is required for using `createGlobalStyles` with themes
   if (type === "global") {
-    update(styles, sheet, append, cache["g"])
+    update(styles, append, cache["g"])
     cache["g"] = styles
   } else {
-    update(styles, sheet, append)
+    update(styles, append)
   }
 
   return className

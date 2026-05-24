@@ -129,7 +129,5 @@ type ProxyTarget = {
 
 /** Create React components that have styles attached to them */
 export const styled = new Proxy(createStyled as ProxyTarget, {
-  get(_, prop: ElementName) {
-    return createStyled(prop)
-  },
+  get: (_, prop: ElementName) => createStyled(prop),
 })

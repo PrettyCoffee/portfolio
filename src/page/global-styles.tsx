@@ -95,17 +95,11 @@ const cssReset = css`
   }
 `
 
-const sleep = (ms: number) =>
-  new Promise<void>(resolve => setTimeout(resolve, ms))
-
-export const GlobalStyles = async () => {
-  await sleep(1000) // run goober css extraction at the end of ssg execution
-  return (
-    <>
-      <style>{cssReset.toString()}</style>
-      <style>{globalStyles.toString()}</style>
-      <style>{themeVars.toString()}</style>
-      <ExtractCss />
-    </>
-  )
-}
+export const GlobalStyles = () => (
+  <>
+    <style>{cssReset.toString()}</style>
+    <style>{globalStyles.toString()}</style>
+    <style>{themeVars.toString()}</style>
+    <ExtractCss />
+  </>
+)
