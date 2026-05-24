@@ -12,13 +12,17 @@ const Progress = styled.div`
   transform-origin: left;
   height: ${theme("space.1")};
   background: ${theme("stroke.base")};
+
+  @media ${theme("breakpoint.720")} {
+    height: ${theme("space.14")};
+  }
 `
 
 const Layout = styled.div`
   position: fixed;
   inset: 0 0 unset 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 99;
   background: ${theme("stroke.invert")};
 `
 

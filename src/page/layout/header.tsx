@@ -11,6 +11,9 @@ const Title = styled.div`
   letter-spacing: -${theme("space.px")};
   margin-bottom: -${theme("space.1")};
   margin-left: ${theme("space.5")};
+  @media ${theme("breakpoint.720")} {
+    margin-left: 0;
+  }
 `
 
 const PageTitle = () => (
@@ -120,8 +123,8 @@ const Links = () => (
 const HeaderLayout = styled.header`
   position: fixed;
   z-index: 100;
-  top: ${theme("space.4")};
-  left: ${theme("space.4")};
+  top: ${theme("space.1")};
+  left: ${theme("space.2")};
 
   display: flex;
   flex-direction: column;
@@ -148,9 +151,10 @@ const Divider1 = styled.div`
   border-top-left-radius: ${theme("space.2")};
 
   @media ${theme("breakpoint.720")} {
-    height: ${theme("space.4")};
+    height: ${theme("space.2")};
     border-bottom: 1.5px solid currentColor;
     border-bottom-left-radius: ${theme("space.2")};
+    margin-left: 0;
   }
 `
 
@@ -167,7 +171,7 @@ const Divider2 = styled.div`
     );
     --right-offset: calc(${theme("space.14")} + ${theme("space.10")});
     width: calc(100vw - var(--left-offset) - var(--right-offset));
-    height: ${theme("space.4")};
+    height: ${theme("space.2")};
     border-bottom: 1.5px solid currentColor;
     margin-left: 0;
   }
@@ -186,7 +190,7 @@ const Squares = styled.div`
   @media ${theme("breakpoint.720")} {
     flex-direction: row;
     width: unset;
-    margin-top: 0.225rem;
+    margin-top: -0.275rem;
     & > * {
       margin-right: -${theme("space.2")};
       margin-bottom: 0;
