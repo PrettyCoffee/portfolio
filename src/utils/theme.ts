@@ -5,6 +5,7 @@ const breakpoint = {
   880: "screen and (max-width: 55rem)",
   720: "screen and (max-width: 45rem)",
   560: "screen and (max-width: 35rem)",
+  400: "screen and (max-width: 25rem)",
 }
 const font = {
   md: "1rem",

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "waku dev",
+    "preview": "pnpm build && waku start",
     "build": "tsc -b && waku build",
     "lint": "eslint .",
     "lint:fix": "pnpm run lint --fix && pnpm run format",

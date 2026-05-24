@@ -19,6 +19,10 @@ const Layout = styled.section`
 
   @media ${theme("breakpoint.720")} {
     padding: ${theme("space.x2")} ${theme("space.6")};
+
+    &:last-of-type {
+      min-height: calc(100lvh - ${theme("space.10")});
+    }
   }
 `
 

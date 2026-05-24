@@ -1,5 +1,6 @@
 import { hidden } from "components/hidden"
 import { styled, css } from "lib/goober"
+import { sections } from "page/sections/sections"
 import { theme } from "utils/theme"
 
 import { CurrentSection } from "./current-section"
@@ -79,9 +80,15 @@ const LinkLabel = styled.span`
   white-space: nowrap;
 `
 
-const ExternalIcon = styled(Icon)`
-  margin-bottom: ${theme("space.2")};
-`
+const topRight = css`
+  position: absolute;
+  top: ${theme("space.1")};
+  right: ${theme("space.1")};
+
+  *:has(> &) {
+    position: relative;
+  }
+`.class
 
 interface LinksItemProps {
   href: string
@@ -92,26 +99,28 @@ const LinksItem = ({ href, label, icon }: LinksItemProps) => {
   const isExternal = !href.startsWith("#")
   return (
     <li>
+      {isExternal && <Icon icon="external" size={8} className={topRight} />}
       <NavLink
         href={href}
         target={isExternal ? "_blank" : undefined}
         rel={isExternal ? "noreferrer" : undefined}
       >
         <Icon icon={icon} size={20} />
-        <LinkLabel>
-          {label}
-          {isExternal && <ExternalIcon icon="external" size={8} />}
-        </LinkLabel>
+        <LinkLabel>{label}</LinkLabel>
       </NavLink>
     </li>
   )
 }
 const Links = () => (
   <LinkList>
-    <LinksItem label="Scroll Up" href="#" icon="arrow-up" />
-    <LinksItem label="About Me" href="#about-me" icon="face" />
-    <LinksItem label="Projects" href="#projects" icon="toolbox" />
-    <LinksItem label="Playground" href="#playground" icon="squiggle" />
+    {sections.map(({ id, name, header }) => (
+      <LinksItem
+        key={id}
+        label={header.caption ?? name}
+        href={`#${id}`}
+        icon={header.icon}
+      />
+    ))}
     <LinksItem
       label="Github Profile"
       href="https://github.com/PrettyCoffee"

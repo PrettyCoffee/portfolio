@@ -1,3 +1,4 @@
+import { Anchor } from "components/anchor/anchor"
 import { Card } from "components/card"
 import { DeEm, Em } from "components/em"
 import { styled } from "lib/goober"
@@ -211,7 +212,7 @@ const Links = styled.div`
     margin-left: ${theme("space.4")};
   }
 `
-const Link = styled.a`
+const Link = styled(Anchor)`
   display: inline-flex;
   align-items: center;
   gap: ${theme("space.2")};
@@ -224,23 +225,14 @@ const Link = styled.a`
   &:focus-visible {
     background-color: ${theme("background.invert")};
     color: ${theme("text.invert")};
+    text-decoration: none;
   }
 `
 const LinkList = ({ projectUrl, docsUrl, repoUrl }: Project) => (
   <Links>
-    {projectUrl && (
-      <Link href={projectUrl} target="_blank" rel="noreferrer">
-        Project
-      </Link>
-    )}
-    {docsUrl && (
-      <Link href={docsUrl} target="_blank" rel="noreferrer">
-        Docs
-      </Link>
-    )}
-    <Link href={repoUrl} target="_blank" rel="noreferrer">
-      Repo
-    </Link>
+    {projectUrl && <Link href={projectUrl}>Project</Link>}
+    {docsUrl && <Link href={docsUrl}>Docs</Link>}
+    <Link href={repoUrl}>Repo</Link>
   </Links>
 )
 
