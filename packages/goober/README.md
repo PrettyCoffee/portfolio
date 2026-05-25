@@ -216,8 +216,8 @@ You ensure this, by creating a new file, calling the setup function in there, an
 **Parameters:**
 
 - config `object`: The configuration to apply
-  - config.prefixer `(key: string, value: string) => string`: Transform css output, e.g. to add `-webkit-` and `-moz-` prefixes
-  - config.jsx `(...args: any[]) => JSX.Element`: JSX function to create a virtual dom node. (i.e. React.createElement or Preact.h)
+  - config.plugins `Plugin[]`: Array of plugins to transform css output. Must always contain a builder plugin (i.e. `minify` or `pretty`). Defaults to `[minify()]`.
+  - config.jsx `(...args: any[]) => JSX.Element`: JSX function to create a virtual dom node. (i.e. `React.createElement` or `Preact.h`)
   - config.filterProps `<T>(props: T) => Partial<T>`: Globally filter props in styled components, which should not be passed to dom elements
 
 **Usage:**
@@ -227,22 +227,9 @@ You ensure this, by creating a new file, calling the setup function in there, an
 import { createElement } from "react"
 
 import { setup } from "goober"
+import { pretty } from "goober/plugins"
 
-const prefixable = new Set(["backdrop-filter"])
-
-const prefixer = (key: string, value: string) => {
-  const default = `${key}:${value};`
-  const lines = [default]
-
-  if (prefixable.has(key)) {
-    lines.unshift(`-moz-${default}`)
-    lines.unshift(`-webkit-${default}`)
-  }
-
-  return lines.join("\n") + "\n"
-}
-
-setup({ jsx: createElement, prefixer })
+setup({ jsx: createElement, plugins: [pretty()] })
 
 export * from "goober"
 ```
@@ -350,3 +337,34 @@ const card = css`
   }
 `
 ```
+
+## Plugin System
+
+You can create plugins to hook into the creation of styles. Return a new value in a hook to manipulate the result.
+
+The following hooks are supported:
+- `start`: Hook to be called before building styles
+- `buildBlock`: Hook to be called for each style block
+- `buildRule`: Hook to be called for each style rule
+- `end`: Hook to be called after building styles
+
+For example, you can add auto vendor prefixing via the `buildRule` hook:
+
+```ts
+import { type Plugin } from "./plugin"
+
+const prefixable = new Set(["backdrop-filter"])
+
+export const prefixer = (): Plugin => ({
+  buildRule: ({ key, value, result }) => {
+    if (!prefixable.has(key)) return result
+    const rule = result ?? `${key}:${value};`
+    return `-moz-${rule}-webkit-${rule}${rule}`
+  },
+})
+```
+
+### Exported Plugins
+
+- `minify()`: Plugin to build a minified version of the styles
+- `pretty()`: Plugin to build a pretty version (with indentation and line breaks) of the styles

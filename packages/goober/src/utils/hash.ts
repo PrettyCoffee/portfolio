@@ -1,6 +1,7 @@
 import { updateSheet } from "./get-sheet"
-import { parser, type StyleNode } from "./parser"
+import { parser } from "./parser"
 import { toHash } from "./to-hash"
+import { type StyleNode } from "./types"
 
 /** In-memory cache. */
 const cache: Record<string, string> = {}
@@ -29,7 +30,7 @@ const createStyles = (
   const ast = typeof compiled === "string" ? parser.parse(compiled) : compiled
   return parser.stringify(
     type === "keyframes" ? { [`@keyframes ${className}`]: ast } : ast,
-    type === "global" ? null : `.${className}`
+    type === "global" ? undefined : `.${className}`
   )
 }
 

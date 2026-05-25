@@ -1,12 +1,11 @@
-import { type StyleNode } from "./types"
+import { type StyleNode } from "../types"
 
 const newRule =
   /(?:([\u0080-\uFFFF\w-%@]+) *:? *([^{;]+?);|([^;}{]*?) *{)|(}\s*)/g
 const ruleClean = /\/\*[^]*?\*\/|  +/g
 const ruleNewline = /\n+/g
-const empty = " "
 
-const clean = (string: string) => string.replaceAll(ruleNewline, empty).trim()
+const clean = (string: string) => string.replaceAll(ruleNewline, " ").trim()
 
 const parseBlock = (val: string) => {
   const [, name, value, open, close] =

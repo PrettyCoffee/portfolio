@@ -1,5 +1,6 @@
 import { hash, InjectionType } from "./hash"
-import { StyleNode, parser } from "./parser"
+import { parser } from "./parser"
+import { type StyleNode } from "./types"
 
 export interface StylesConfig {
   type?: InjectionType

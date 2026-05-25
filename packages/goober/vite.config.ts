@@ -60,6 +60,10 @@ export default defineConfig(({ command }) => ({
           outFile: "core",
           path: path.resolve(__dirname, "./src/core/index.ts"),
         },
+        "src/plugins/index": {
+          outFile: "plugins",
+          path: path.resolve(__dirname, "./src/plugins/index.ts"),
+        },
         "src/theme/index": {
           outFile: "theme",
           path: path.resolve(__dirname, "./src/theme/index.ts"),

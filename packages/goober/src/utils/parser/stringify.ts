@@ -1,7 +1,23 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 
-import { type StyleNode } from "./types"
 import { getSetup } from "../../core/setup"
+import { type Plugin } from "../../plugins/plugin"
+import { type StyleNode } from "../types"
+
+const runHook = <THookName extends keyof Plugin>(
+  hook: THookName,
+  props: Parameters<NonNullable<Plugin[THookName]>>[0]
+): ReturnType<NonNullable<Plugin[THookName]>> => {
+  const hooks = getSetup().plugins.map(plugin => plugin[hook])
+  const out = hooks.reduce((props, hook) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    props.result = hook?.(props as any) ?? props.result
+    return props
+  }, props)
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return out.result as any
+}
 
 const isAst = (value: StyleNode | string | undefined): value is StyleNode =>
   !!value && typeof value === "object"
@@ -14,11 +30,7 @@ interface Insert {
   block: (string: string) => void
 }
 
-type Parser<TValue> = (props: {
-  insert: Insert
-  key: string
-  value: TValue
-}) => void
+type Parser<TValue> = (key: string, value: TValue, insert: Insert) => void
 
 type Matcher = { matcher: RegExp } & (
   | { type: "string"; handler: Parser<string> }
@@ -29,34 +41,35 @@ const matchers: Matcher[] = [
   {
     matcher: /^@import/,
     type: "string",
-    handler({ key, value, insert }) {
-      insert.prepend(`${key} ${value};`)
+    handler(key, value, insert) {
+      insert.prepend(`${key} ${value};\n`)
     },
   },
   {
     matcher: /^(?!@import)/,
     type: "ast",
-    handler({ key, value, insert }) {
-      insert.block(stringify(value, key))
+    handler(key, value, insert) {
+      const content = build(value)
+      insert.block(
+        runHook("buildBlock", { selector: key, node: value, content }) ?? ""
+      )
     },
   },
   {
     matcher: /^[^@]/,
     type: "string",
-    handler({ key, value, insert }) {
+    handler(jsKey, value, insert) {
       // Preserve CSS variable names
-      const cssKey = key.startsWith("--")
-        ? key
-        : key.replaceAll(/[A-Z]/g, "-$&").toLowerCase()
+      const key = jsKey.startsWith("--")
+        ? jsKey
+        : jsKey.replaceAll(/[A-Z]/g, "-$&").toLowerCase()
 
-      const prefixer = getSetup().prefixer ?? (() => `${cssKey}:${value};`)
-      insert.line(prefixer(cssKey, value))
+      insert.line(runHook("buildRule", { key, value }) ?? "")
     },
   },
 ]
 
-/** Stringify a style object into a scoped css string */
-export const stringify = (obj: StyleNode, selector?: string | null) => {
+const build = (obj: StyleNode) => {
   let outer = ""
   let current = ""
   const blocks: string[] = []
@@ -64,7 +77,7 @@ export const stringify = (obj: StyleNode, selector?: string | null) => {
   const insert = {
     prepend: (value: string) => (outer += value),
     block: (block: string) => blocks.push(block),
-    line: (line: string) => (current += line),
+    line: (line?: string) => (current += line),
   }
 
   Object.entries(obj).forEach(([key, value]) => {
@@ -80,15 +93,18 @@ export const stringify = (obj: StyleNode, selector?: string | null) => {
       throw new Error("Parser error in goober occured")
     }
 
-    rule.handler({
-      insert,
+    rule.handler(
       key,
-      value: value as string & StyleNode, // type validation is handled above
-    })
+      value as string & StyleNode, // type validation is handled above
+      insert
+    )
   })
 
-  const cssBody = [current, ...blocks].join("")
-  const currentBlock = !selector ? cssBody : `${selector}{${cssBody}}`
+  return outer + [current, ...blocks].join("")
+}
 
-  return outer + currentBlock
+export const stringify = (node: StyleNode, selector?: string) => {
+  const tree = runHook("start", { selector, node }) ?? node
+  const result = build(!selector ? tree : { [selector]: tree })
+  return runHook("end", { result }) ?? result
 }

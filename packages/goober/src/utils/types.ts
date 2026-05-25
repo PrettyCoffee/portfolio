@@ -1,4 +1,3 @@
-import { StyleNode } from "./parser"
 import { Styles } from "./styles"
 
 export type Resolve<T> = { [K in keyof T]: T[K] } & {}
@@ -11,6 +10,10 @@ export interface Template<TValue> {
   Value: TValue
   Args: TemplateArgs<TValue>
   Fn: (...args: TemplateArgs<TValue>) => string
+}
+
+export interface StyleNode {
+  [key: string]: StyleNode | string
 }
 
 export type CssTemplate = Template<
