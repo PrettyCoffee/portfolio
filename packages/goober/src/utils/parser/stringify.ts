@@ -13,11 +13,11 @@ interface Insert {
   line: (string: string) => void
   block: (string: string) => void
 }
+
 type Parser<TValue> = (props: {
   insert: Insert
   key: string
   value: TValue
-  selector?: string | null
 }) => void
 
 type Matcher = { matcher: RegExp } & (
@@ -34,42 +34,10 @@ const matchers: Matcher[] = [
     },
   },
   {
-    matcher: /^@font-face/,
+    matcher: /^(?!@import)/,
     type: "ast",
     handler({ key, value, insert }) {
-      // Handling the `@font-face` where the block doesn't need the brackets wrapped
       insert.block(stringify(value, key))
-    },
-  },
-  {
-    matcher: /^@[^if]/,
-    type: "ast",
-    handler({ key, value, selector, insert }) {
-      const rules = stringify(value, key[1] == "k" ? "" : selector)
-      insert.block(`${key}{${rules}}`)
-    },
-  },
-  {
-    matcher: /^[^@]/,
-    type: "ast",
-    handler({ key, value, selector, insert }) {
-      if (!selector) {
-        insert.block(stringify(value, key))
-        return
-      }
-
-      // Go over the selector and replace the matching multiple selectors if any
-      const newSelector = selector.replaceAll(/([^,])+/g, sel =>
-        // Return the current selector with the key matching multiple selectors if any
-        key.replaceAll(/([^,]*:\S+\([^)]*\))|([^,])+/g, k => {
-          // If the current `k`(key) has a nested selector replace it
-          if (k.includes("&")) return k.replaceAll("&", sel)
-
-          // If there's a current selector concat it
-          return sel ? `${sel} ${k}` : k
-        })
-      )
-      insert.block(stringify(value, newSelector))
     },
   },
   {
@@ -90,12 +58,12 @@ const matchers: Matcher[] = [
 /** Stringify a style object into a scoped css string */
 export const stringify = (obj: StyleNode, selector?: string | null) => {
   let outer = ""
-  let blocks = ""
   let current = ""
+  const blocks: string[] = []
 
   const insert = {
-    prepend: (value: string) => (outer = value),
-    block: (block: string) => (blocks += block),
+    prepend: (value: string) => (outer += value),
+    block: (block: string) => blocks.push(block),
     line: (line: string) => (current += line),
   }
 
@@ -116,15 +84,11 @@ export const stringify = (obj: StyleNode, selector?: string | null) => {
       insert,
       key,
       value: value as string & StyleNode, // type validation is handled above
-      selector,
     })
   })
 
-  const currentBlock = !current
-    ? ""
-    : !selector
-      ? current
-      : `${selector}{${current}}`
+  const cssBody = [current, ...blocks].join("")
+  const currentBlock = !selector ? cssBody : `${selector}{${cssBody}}`
 
-  return outer + currentBlock + blocks
+  return outer + currentBlock
 }
