@@ -5,14 +5,15 @@ import { useEffect, useState } from "react"
 import { Icon } from "components/icon"
 import { Typewriter } from "components/typewriter"
 import { styled } from "lib/goober"
+import { sections } from "page/sections/sections"
 import { theme } from "utils/theme"
 import { useDebounce } from "utils/use-debounce"
 
-const getName = (target: Element | null | undefined) => {
-  const first = document.querySelector("section")?.dataset["name"] || ""
-  return target instanceof HTMLElement
-    ? (target.dataset["name"] ?? first)
-    : first
+import { getWindow } from "../../../packages/goober/src/utils/get-window"
+
+const getName = (id: string) => {
+  const section = sections.find(section => section.id === id) ?? sections[0]!
+  return section.name
 }
 
 const getScreenHeight = () => window.innerHeight
@@ -34,24 +35,19 @@ const Link = styled.a`
   }
 `
 
+const getHash = () => getWindow()?.location.hash.replace("#", "") ?? ""
+
 export const CurrentSection = () => {
   const debounce = useDebounce(75)
-  const [name, setName] = useState("")
-  const [hash, setHash] = useState<string>()
-
-  useEffect(() => {
-    const hash = window.location.hash.replace("#", "")
-    const initialName = !hash ? "" : getName(document.getElementById(hash))
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- initial render can't access the dom yet
-    setName(initialName)
-  }, [])
+  const [hash, setHash] = useState(getHash())
+  const [name, setName] = useState(getName(hash))
 
   useEffect(() => {
     const update = () =>
       debounce(() => {
-        const section = getCurrentSection()
-        setName(getName(section))
-        setHash(section?.id)
+        const id = getCurrentSection()?.id ?? ""
+        setHash(id)
+        setName(getName(id))
       })
 
     window.addEventListener("scroll", update)
