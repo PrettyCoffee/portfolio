@@ -3,7 +3,7 @@ import { PropsWithChildren } from "react"
 import { styled } from "lib/goober"
 import { theme } from "utils/theme"
 
-const Layout = styled.section`
+const Layout = styled.div`
   position: relative;
   min-height: 100lvh;
   padding: ${theme("space.x2")} ${theme("space.x1")};
@@ -18,10 +18,20 @@ const Layout = styled.section`
   }
 
   @media ${theme("breakpoint.720")} {
-    padding: ${theme("space.x2")} ${theme("space.6")};
-
-    &:last-of-type {
+    section:not(:first-of-type) > & {
+      padding: ${theme("space.x2")} ${theme("space.6")};
       min-height: calc(100lvh - ${theme("space.10")});
+      padding-bottom: calc(${theme("space.x2")} - ${theme("space.10")});
+    }
+  }
+`
+
+const ScrollOffset = styled.div`
+  height: 0;
+  @media ${theme("breakpoint.720")} {
+    section:not(:first-of-type) > & {
+      height: ${theme("space.10")};
+      background: ${theme("background.invert")};
     }
   }
 `
@@ -57,8 +67,11 @@ export const Section = ({
   variant,
   children,
 }: PropsWithChildren<SectionProps>) => (
-  <Layout id={id} data-name={name} className={variant}>
-    {!hideName && <Title>{name}</Title>}
-    {children}
-  </Layout>
+  <section id={id || undefined} className={variant}>
+    <ScrollOffset />
+    <Layout>
+      {!hideName && <Title>{name}</Title>}
+      {children}
+    </Layout>
+  </section>
 )
