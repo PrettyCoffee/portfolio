@@ -2,8 +2,10 @@
 import { createElement } from "react"
 
 import { setup } from "goober"
+import { minify, pretty, strict } from "goober/plugins"
 
-setup({ jsx: createElement })
+const plugins = import.meta.env.DEV ? [pretty(), strict()] : [minify()]
+setup({ jsx: createElement, plugins })
 
 export * from "goober"
 export * from "goober/theme"

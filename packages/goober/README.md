@@ -368,3 +368,4 @@ export const prefixer = (): Plugin => ({
 
 - `minify()`: Plugin to build a minified version of the styles
 - `pretty()`: Plugin to build a pretty version (with indentation and line breaks) of the styles
+- `strict()`: Throw errors when detecting issues in rules or blocks (i.e. when rule values are empty)
