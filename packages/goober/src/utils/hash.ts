@@ -28,10 +28,13 @@ const createStyles = (
 ) => {
   if (cache[className]) return cache[className]
   const ast = typeof compiled === "string" ? parser.parse(compiled) : compiled
-  return parser.stringify(
-    type === "keyframes" ? { [`@keyframes ${className}`]: ast } : ast,
-    type === "global" ? undefined : `.${className}`
-  )
+  const selector = {
+    class: `.${className}`,
+    keyframes: `@keyframes ${className}`,
+    global: undefined,
+  }[type]
+
+  return parser.stringify(ast, selector)
 }
 
 const update = (css: string, append?: boolean, cssToReplace?: string) => {
@@ -55,6 +58,7 @@ export const hash = (
 ) => {
   const className = createClassName(compiled)
   const styles = createStyles(className, compiled, type)
+  if (type === "keyframes") console.log(className, styles)
 
   // If the global flag is set, save the current stringified and compiled CSS to `cache.g`
   // to allow replacing styles in <style /> instead of appending them.
