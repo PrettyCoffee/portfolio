@@ -1,46 +1,40 @@
 import { getWindow } from "./get-window"
 
-export const GOOBER_ID = "_goober"
-
-type StyleUpdate = (data: string) => string
-const cache = {
-  queue: [] as StyleUpdate[],
-  data: "",
+export const GOOBER_ID = {
+  SSR: "_goober__ssr",
+  CSR: "_goober__csr",
 }
 
-/** Returns the text node to inject styles, or an object for ssr environments, to collect styles */
-export const getStyleCache = () => cache
+const ssrCache = { data: "" }
 
-const getDomSheet = () => {
-  const existing = document.querySelector(`#${GOOBER_ID}`)
-  if (existing) return existing.firstChild as Text
+const getDomSheet = (id: string) =>
+  getWindow()?.document.querySelector(`#${id}`)?.firstChild as Text | null
+
+/** Returns the text node or an object for ssr environments, to collect styles */
+export const getSsrSheet = () => {
+  // SSR DOM sheet can only be read in CSR and is static in CSR, so this only needs to be checked if empty
+  if (!ssrCache.data) ssrCache.data = getDomSheet(GOOBER_ID.SSR)?.data || ""
+  return ssrCache
+}
+
+const getCsrSheet = () => {
+  const existing = getDomSheet(GOOBER_ID.CSR)
+  if (existing) return existing
 
   const style = document.createElement("style")
+  style.id = GOOBER_ID.CSR
   style.innerHTML = " "
   document.head.appendChild(style)
   return style.firstChild as Text
 }
 
-let isQueued = false
-const flushStyleQueue = () => {
-  if (isQueued) return
-  isQueued = true
-
-  // Defer on the client to be executed later in the event loop.
-  // This allows waiting for the initial dom to be rendered, to inject css in exisitng style nodes, if there is one.
-  window.setTimeout(() => {
-    const sheet = getDomSheet()
-    while (cache.queue.length > 0) {
-      const update = cache.queue.shift()
-      if (update) sheet.data = update(sheet.data)
-    }
-  }, 1)
-}
-
+type StyleUpdate = (data: string, secondary?: string) => string
 export const updateSheet = (updater: StyleUpdate) => {
-  cache.data = updater(cache.data)
-  if (getWindow()) {
-    cache.queue.push(updater)
-    flushStyleQueue()
+  if (!getWindow()) {
+    ssrCache.data = updater(ssrCache.data)
+  } else {
+    const ssr = getSsrSheet()
+    const csr = getCsrSheet()
+    csr.data = updater(csr.data, ssr.data)
   }
 }

@@ -38,8 +38,8 @@ const createStyles = (
 }
 
 const update = (css: string, append?: boolean, cssToReplace?: string) => {
-  updateSheet(data => {
-    if (data.includes(css)) return data
+  updateSheet((data, ssr = "") => {
+    if ((ssr + data).includes(css)) return data
     if (cssToReplace) return data.replace(cssToReplace, css)
     return append ? css + data : data + css
   })
@@ -58,7 +58,6 @@ export const hash = (
 ) => {
   const className = createClassName(compiled)
   const styles = createStyles(className, compiled, type)
-  if (type === "keyframes") console.log(className, styles)
 
   // If the global flag is set, save the current stringified and compiled CSS to `cache.g`
   // to allow replacing styles in <style /> instead of appending them.
