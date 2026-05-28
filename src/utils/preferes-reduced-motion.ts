@@ -1,7 +1,4 @@
-const getWindow = () => {
-  if ("window" in globalThis) return globalThis.window
-  return undefined
-}
+import { getWindow } from "./get-window"
 
 export const prefersReducedMotion = () => {
   const window = getWindow()

@@ -4,12 +4,11 @@ import { useEffect, useState } from "react"
 
 import { Icon } from "components/icon"
 import { Typewriter } from "components/typewriter"
+import { useDebounce } from "hooks/use-debounce"
 import { styled } from "lib/goober"
 import { sections } from "page/sections/sections"
+import { getWindow } from "utils/get-window"
 import { theme } from "utils/theme"
-import { useDebounce } from "utils/use-debounce"
-
-import { getWindow } from "../../../packages/goober/src/utils/get-window"
 
 const getName = (id: string) => {
   const section = sections.find(section => section.id === id) ?? sections[0]!

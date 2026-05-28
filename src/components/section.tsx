@@ -3,15 +3,19 @@ import { PropsWithChildren } from "react"
 import { styled } from "lib/goober"
 import { theme } from "utils/theme"
 
+import { SectionCsr } from "./section-csr"
+
+const Background = styled.section`
+  background: ${theme("background.base")};
+  color: ${theme("text.base")};
+`
+
 const Layout = styled.div`
   position: relative;
   min-height: 100lvh;
   padding: ${theme("space.x2")} ${theme("space.x1")};
   display: grid;
   place-content: center;
-
-  background: ${theme("background.base")};
-  color: ${theme("text.base")};
 
   & > :not(h2) {
     z-index: 1;
@@ -67,11 +71,12 @@ export const Section = ({
   variant,
   children,
 }: PropsWithChildren<SectionProps>) => (
-  <section id={id || undefined} className={variant}>
+  <Background id={id || undefined} className={variant}>
     <ScrollOffset />
     <Layout>
+      <SectionCsr />
       {!hideName && <Title>{name}</Title>}
       {children}
     </Layout>
-  </section>
+  </Background>
 )
