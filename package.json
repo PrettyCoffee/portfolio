@@ -7,9 +7,13 @@
     "dev": "waku dev",
     "preview": "pnpm build && waku start",
     "build": "tsc -b && waku build",
-    "lint": "eslint .",
-    "lint:fix": "pnpm run lint --fix && pnpm run format",
-    "format": "prettier -w './**/*.@(md|json|yaml|yml)' '!pnpm-lock.yaml'"
+    "lint": "pnpm eslint && pnpm format && pnpm knip",
+    "lint:fix": "pnpm eslint:fix && pnpm format:fix && pnpm knip",
+    "eslint": "eslint .",
+    "eslint:fix": "pnpm run lint --fix",
+    "format": "prettier -c './**/*.@(md|json|yaml|yml)' '!pnpm-lock.yaml'",
+    "format:fix": "pnpm format -w",
+    "knip": "knip"
   },
   "dependencies": {
     "goober": "workspace:*",
@@ -24,6 +28,8 @@
     "@vitejs/plugin-react": "6.0.1",
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "9.39.4",
+    "knip": "6.14.2",
+    "prettier": "3.8.3",
     "react-server-dom-webpack": "19.2.6",
     "typescript": "6.0.3",
     "vite": "8.0.12",

@@ -343,6 +343,7 @@ const card = css`
 You can create plugins to hook into the creation of styles. Return a new value in a hook to manipulate the result.
 
 The following hooks are supported:
+
 - `start`: Hook to be called before building styles
 - `buildBlock`: Hook to be called for each style block
 - `buildRule`: Hook to be called for each style rule

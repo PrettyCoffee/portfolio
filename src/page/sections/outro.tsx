@@ -1,4 +1,4 @@
-import { Anchor } from "components/anchor/anchor"
+import { Anchor } from "components/anchor"
 import { css, styled } from "lib/goober"
 import { theme } from "utils/theme"
 

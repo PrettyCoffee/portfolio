@@ -1,4 +1,4 @@
-import { Anchor } from "components/anchor/anchor"
+import { Anchor } from "components/anchor"
 import { Card } from "components/card"
 import { DeEm, Em } from "components/em"
 import { styled } from "lib/goober"
