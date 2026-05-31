@@ -1,9 +1,11 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 
+import { useDocumentHeight } from "hooks/use-document-height"
+import { useScroll } from "hooks/use-scroll"
+import { useWindowHeight } from "hooks/use-window-height"
 import { styled } from "lib/goober"
-import { createAnimationFrames } from "utils/create-animation-frames"
 import { theme } from "utils/theme"
 
 const Progress = styled.div`
@@ -26,33 +28,18 @@ const Layout = styled.div`
   background: ${theme("stroke.invert")};
 `
 
-const getProgress = () => {
-  const scroll = window.scrollY
-  const maxScroll = document.documentElement.scrollHeight - window.innerHeight
-  return (scroll / maxScroll) * 100
-}
-
 export const ScrollProgress = () => {
   const progressRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    const frames = createAnimationFrames()
-
-    const update = () =>
-      frames.request(() => {
-        const progress = progressRef.current
-        if (!progress) return
-        progress.style.setProperty("--progress", `${getProgress()}%`)
-      })
-
-    update()
-    window.addEventListener("scroll", update)
-
-    return () => {
-      window.removeEventListener("scroll", update)
-      frames.cancel()
-    }
-  }, [])
+  useScroll({
+    start: 0,
+    end: useDocumentHeight() - useWindowHeight(),
+    onScroll: ({ percent }) => {
+      const progress = progressRef.current
+      if (!progress) return
+      progress.style.setProperty("--progress", `${percent * 100}%`)
+    },
+  })
 
   return (
     <Layout>
