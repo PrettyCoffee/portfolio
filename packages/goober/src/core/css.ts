@@ -3,7 +3,7 @@ import { Styles } from "../utils/styles"
 import { CssTemplate, isTemplate } from "../utils/types"
 
 const toString = (value: CssTemplate["Value"]): string => {
-  if (value == null || value == false) return ""
+  if (value == null || value === false) return ""
   if (Array.isArray(value)) return value.map(toString).join(" ")
   if (value instanceof Styles) return toString(value.styles)
   return typeof value === "object" ? parser.stringify(value) : String(value)
