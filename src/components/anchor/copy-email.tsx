@@ -60,7 +60,7 @@ export const CopyEmail = ({ href }: { href: string }) => {
         size="0.75em"
         color={theme(hasFocus ? "accent.green" : "text.gentle")}
       />
-      <Hidden as="span">Copy "{email}"</Hidden>
+      <Hidden>Copy "{email}"</Hidden>
     </Copy>
   )
 }

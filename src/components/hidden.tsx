@@ -1,7 +1,5 @@
 import { css, styled } from "lib/goober"
 
-import { Slot } from "./slot"
-
 export const hidden = css`
   position: absolute;
   width: 1px;
@@ -13,6 +11,6 @@ export const hidden = css`
   white-space: nowrap;
   border-width: 0;
 `
-export const Hidden = styled(Slot)`
+export const Hidden = styled.span`
   ${hidden}
 `
