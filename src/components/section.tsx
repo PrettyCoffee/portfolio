@@ -4,18 +4,22 @@ import { styled } from "lib/goober"
 import { theme } from "utils/theme"
 
 import { SectionCsr } from "./section-csr"
+import { SectionTitleScroll } from "./section-title-scroll"
 
 const Background = styled.section`
   background: ${theme("background.base")};
   color: ${theme("text.base")};
+  position: relative;
 `
 
 const Layout = styled.div`
   position: relative;
   min-height: 100lvh;
   padding: ${theme("space.x2")} ${theme("space.x1")};
-  display: grid;
-  place-content: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 
   & > :not(h2) {
     z-index: 1;
@@ -49,7 +53,7 @@ const Title = styled.h2`
   display: grid;
   place-content: center;
   line-height: 0.76;
-  font-size: min(20vw, ${theme("space.x3")});
+  font-size: min(18vw, ${theme("space.x3")});
   letter-spacing: -${theme("space.1")};
   white-space: nowrap;
   height: max-content;
@@ -73,9 +77,16 @@ export const Section = ({
 }: PropsWithChildren<SectionProps>) => (
   <Background id={id || undefined} className={variant}>
     <ScrollOffset />
+    {!hideName && (
+      <Title>
+        <span>
+          <SectionTitleScroll />
+          {name}
+        </span>
+      </Title>
+    )}
     <Layout>
       <SectionCsr />
-      {!hideName && <Title>{name}</Title>}
       {children}
     </Layout>
   </Background>

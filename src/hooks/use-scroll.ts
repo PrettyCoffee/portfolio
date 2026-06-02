@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useSyncExternalStore } from "react"
 
 import { clamp } from "utils/clamp"
 import { getWindow } from "utils/get-window"
+import { prefersReducedMotion } from "utils/preferes-reduced-motion"
 
 const subscribe = (listener: () => void) => {
   window.addEventListener("scroll", listener)
@@ -43,6 +44,7 @@ export const useScroll = ({ start, end, onScroll }: ScrollOptions) => {
   }, [onScroll])
 
   useEffect(() => {
+    if (prefersReducedMotion()) return
     const frame = window.requestAnimationFrame(() =>
       scrollEvent.current({ percent, relative })
     )
