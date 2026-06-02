@@ -19,10 +19,13 @@ import { DirectionButton } from "./fragments/direction-button"
 import { PageButtons } from "./fragments/page-buttons"
 
 const Layout = styled.div`
-  width: 100%;
   position: relative;
-  max-width: ${theme("space.x11")};
+  margin: auto;
+  width: 100%;
   min-height: ${theme("space.x1")};
+  max-width: calc(
+    100vw - ${theme("space.x1")}
+  ); /* needs space for overflowing direction buttons */
 
   @media ${theme("breakpoint.720")} {
     max-width: unset;
@@ -55,6 +58,9 @@ const InnerLayout = styled.div`
   overflow: hidden;
   width: calc(100% - 2 * ${theme("space.6")});
   margin: ${theme("space.6")};
+  *:has(> &) {
+    padding: 0.01px; /* prevent collapsing top / bottom margin */
+  }
 `
 
 const Decoration = styled.div<{ side: "top" | "bottom" }>(({ side }) => [

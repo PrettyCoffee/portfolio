@@ -3,6 +3,7 @@ import { FC } from "react"
 import { IconProps } from "components/icon"
 
 import { AboutMe } from "./about-me"
+import { Experience } from "./experience"
 import { Intro } from "./intro"
 import { Outro } from "./outro"
 import { Projects } from "./projects"
@@ -29,7 +30,7 @@ export const sections: Section[] = [
   {
     id: "about-me",
     name: "About Me",
-    hideName: true,
+    //hideName: true,
     Content: AboutMe,
     header: { icon: "face" },
   },
@@ -40,9 +41,9 @@ export const sections: Section[] = [
     header: { icon: "toolbox" },
   },
   {
-    id: "playground",
-    name: "Playground",
-    Content: () => null,
+    id: "experience",
+    name: "Experience",
+    Content: Experience,
     header: { icon: "squiggle" },
   },
   {
