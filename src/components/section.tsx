@@ -3,8 +3,8 @@ import { PropsWithChildren } from "react"
 import { styled } from "lib/goober"
 import { theme } from "utils/theme"
 
+import { ScrollingTitle } from "./scrolling-title"
 import { SectionCsr } from "./section-csr"
-import { SectionTitleScroll } from "./section-title-scroll"
 
 const Background = styled.section`
   background: ${theme("background.base")};
@@ -60,6 +60,10 @@ const Title = styled.h2`
   opacity: 0.1;
   overflow: hidden;
   padding-bottom: 0.5em;
+
+  @media ${theme("breakpoint.720")} {
+    top: ${theme("space.10")};
+  }
 `
 
 interface SectionProps {
@@ -79,10 +83,7 @@ export const Section = ({
     <ScrollOffset />
     {!hideName && (
       <Title>
-        <span>
-          <SectionTitleScroll />
-          {name}
-        </span>
+        <ScrollingTitle>{name}</ScrollingTitle>
       </Title>
     )}
     <Layout>
