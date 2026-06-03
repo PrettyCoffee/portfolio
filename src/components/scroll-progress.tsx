@@ -6,6 +6,7 @@ import { useDocumentHeight } from "hooks/use-document-height"
 import { useScroll } from "hooks/use-scroll"
 import { useWindowHeight } from "hooks/use-window-height"
 import { styled } from "lib/goober"
+import { prefersReducedMotion } from "utils/preferes-reduced-motion"
 import { theme } from "utils/theme"
 
 const Progress = styled.div`
@@ -41,7 +42,7 @@ export const ScrollProgress = () => {
     },
   })
 
-  return (
+  return prefersReducedMotion() ? null : (
     <Layout>
       <Progress ref={progressRef} />
     </Layout>
