@@ -9,12 +9,10 @@ const TIMING = prefersReducedMotion()
   ? {
       type: 500,
       delete: 1,
-      wait: 4000,
     }
   : {
       type: 100,
       delete: 50,
-      wait: 2000,
     }
 
 const useTypewriter = (
@@ -33,6 +31,12 @@ const useTypewriter = (
       last.current = text
       if (!ref.current) return
       ref.current.innerHTML = last.current
+    }
+
+    if (prefersReducedMotion()) {
+      update(text)
+      onTransitionEnd?.()
+      return
     }
 
     const writeNext = async () => {

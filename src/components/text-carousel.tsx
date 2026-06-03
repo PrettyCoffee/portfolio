@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 
 import { keyframes, styled } from "lib/goober"
 import { prefersReducedMotion } from "utils/preferes-reduced-motion"
@@ -56,11 +56,8 @@ interface TextCarouselProps {
 }
 
 export const TextCarousel = ({ values }: TextCarouselProps) => {
-  const timeout = useRef(0)
   const [index, setIndex] = useState(0)
   const word = values[index] ?? ""
-
-  useEffect(() => () => window.clearTimeout(timeout.current), [])
 
   const maxText = values.reduce(
     (max, current) => (current.length > max.length ? current : max),
@@ -79,7 +76,7 @@ export const TextCarousel = ({ values }: TextCarouselProps) => {
           initial=""
           text={word}
           onTransitionEnd={() => {
-            timeout.current = window.setTimeout(
+            window.setTimeout(
               () => setIndex((index + 1) % values.length),
               WAIT_DURATION
             )
