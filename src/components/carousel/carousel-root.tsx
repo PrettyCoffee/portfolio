@@ -10,6 +10,7 @@ import {
 
 import { ErrorBoundary } from "waku/router/client"
 
+import { useSwipe } from "hooks/use-swipe"
 import { css, styled } from "lib/goober"
 import { theme } from "utils/theme"
 
@@ -133,6 +134,12 @@ export const CarouselRoot = ({ children }: PropsWithChildren) => {
     setPrevIndex(activeIndex)
     setActiveIndex(clamped)
   }
+
+  useSwipe({
+    ref,
+    onSwipeLeft: () => changePage(activeIndex + 1, "left"),
+    onSwipeRight: () => changePage(activeIndex - 1, "right"),
+  })
 
   return (
     <ErrorBoundary>
