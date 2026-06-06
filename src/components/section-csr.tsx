@@ -5,7 +5,10 @@ import { useState } from "react"
 import { useScroll } from "hooks/use-scroll"
 import { useWindowHeight } from "hooks/use-window-height"
 
-const easeOut = (delta: number) => (delta === 1 ? 0 : Math.pow(4, -3 * delta))
+const easeOut = (x: number) => {
+  if (x === 1) return 0
+  return -0.11 * x + 3 ** (-2 * x)
+}
 
 const getParent = (
   element: HTMLElement | null,
