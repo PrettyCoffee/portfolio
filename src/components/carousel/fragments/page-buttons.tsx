@@ -7,11 +7,7 @@ import { css, styled } from "lib/goober"
 import { theme } from "utils/theme"
 
 const Position = styled.div`
-  position: absolute;
-  bottom: -2.5rem;
-  left: 0;
-  right: 0;
-  padding: 0.5rem 1.5rem;
+  padding: ${theme("space.2")} ${theme("space.6")};
   display: flex;
   justify-content: center;
 `
@@ -66,20 +62,21 @@ interface PageButtonsProps {
   count: number
   active: number
   changePage: Dispatch<number>
+  className?: string
 }
 
 export const PageButtons = ({
   count,
   active,
   changePage,
+  ...props
 }: PageButtonsProps) => (
-  <Position>
+  <Position {...props}>
     {Array.from({ length: count }, (_, index) => (
       <PageButton
         key={index}
         active={active === index}
         onClick={() => changePage(index)}
-        disabled={active === index}
       >
         <Hidden>{`Go to page ${index + 1}`}</Hidden>
       </PageButton>

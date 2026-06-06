@@ -31,6 +31,7 @@ const space = {
   12: "3rem",
   14: "3.5rem",
   16: "4rem",
+  18: "4.5rem",
   x1: "5rem",
   x2: "10rem",
   x3: "15rem",

@@ -24,6 +24,10 @@ const Layout = styled.div`
   max-width: ${theme("space.x11")};
   min-height: ${theme("space.x1")};
 
+  @media ${theme("breakpoint.720")} {
+    max-width: unset;
+  }
+
   &::before,
   &::after {
     content: "";
@@ -90,12 +94,45 @@ const PrevButton = styled(DirectionButton)`
   left: -2.625rem;
   top: 50%;
   translate: 0 -50%;
+
+  @media ${theme("breakpoint.720")} {
+    translate: unset;
+    top: unset;
+    bottom: calc(-1 * ${theme("space.x1")});
+    left: calc(-1 * ${theme("space.4")});
+  }
+  @media ${theme("breakpoint.400")} {
+    display: none;
+  }
 `
 const NextButton = styled(DirectionButton)`
   position: absolute;
   right: -2.625rem;
   top: 50%;
   translate: 0 -50%;
+
+  @media ${theme("breakpoint.720")} {
+    translate: unset;
+    top: unset;
+    bottom: calc(-1 * ${theme("space.x1")});
+    right: calc(-1 * ${theme("space.4")});
+  }
+  @media ${theme("breakpoint.400")} {
+    display: none;
+  }
+`
+const PageSelection = styled(PageButtons)`
+  position: absolute;
+  bottom: -${theme("space.10")};
+  left: 0;
+  right: 0;
+
+  @media ${theme("breakpoint.720")} {
+    bottom: -${theme("space.18")};
+  }
+  @media ${theme("breakpoint.400")} {
+    bottom: -${theme("space.10")};
+  }
 `
 
 const useChildren = (ref: RefObject<HTMLElement | null>) => {
@@ -145,28 +182,26 @@ export const CarouselRoot = ({ children }: PropsWithChildren) => {
     <ErrorBoundary>
       <CarouselContext value={{ activeIndex, prevIndex, direction }}>
         <Layout>
+          <Decoration side="top" />
+          <InnerLayout ref={ref} style={{ height }}>
+            {children}
+          </InnerLayout>
+          <Decoration side="bottom" />
+
           <PrevButton
             caption="Previous"
             direction="left"
             onClick={() => changePage(activeIndex - 1, "right")}
           />
-          <Decoration side="top" />
-
-          <InnerLayout ref={ref} style={{ height }}>
-            {children}
-          </InnerLayout>
-
-          <Decoration side="bottom" />
+          <PageSelection
+            active={activeIndex}
+            count={count}
+            changePage={changePage}
+          />
           <NextButton
             caption="Next"
             direction="right"
             onClick={() => changePage(activeIndex + 1, "left")}
-          />
-
-          <PageButtons
-            active={activeIndex}
-            count={count}
-            changePage={changePage}
           />
         </Layout>
       </CarouselContext>
