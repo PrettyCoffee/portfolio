@@ -7,7 +7,7 @@ import { Typewriter } from "components/typewriter"
 import { useDebounce } from "hooks/use-debounce"
 import { styled } from "lib/goober"
 import { sections } from "page/sections/sections"
-import { getWindow } from "utils/get-window"
+import { getUrlHash } from "utils/get-url-hash"
 import { theme } from "utils/theme"
 
 const getName = (id: string) => {
@@ -34,11 +34,9 @@ const Link = styled.a`
   }
 `
 
-const getHash = () => getWindow()?.location.hash.replace("#", "") ?? ""
-
 export const CurrentSection = () => {
   const debounce = useDebounce(75)
-  const [hash, setHash] = useState(getHash())
+  const [hash, setHash] = useState(getUrlHash())
   const [name, setName] = useState(getName(hash))
 
   useEffect(() => {

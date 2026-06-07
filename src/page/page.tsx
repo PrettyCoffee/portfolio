@@ -1,9 +1,11 @@
 import { Section } from "components/section"
 
+import { InitialScroll } from "./initial-scroll"
 import { sections } from "./sections/sections"
 
 export const Page = () => (
   <div>
+    <InitialScroll />
     {sections.map(({ Content, ...props }, index) => (
       <Section
         key={props.id}
