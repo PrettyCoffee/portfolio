@@ -14,11 +14,17 @@ const Copy = styled.button`
   overflow: hidden;
   display: inline-grid;
   place-content: center;
+  border-radius: ${theme("space.1")};
 
   &:has(+ :hover),
   &:hover,
   &:focus {
     width: 1.5em;
+  }
+
+  &:focus-visible {
+    outline: ${theme("space.2px")} solid ${theme("stroke.base")};
+    outline-offset: -${theme("space.2px")};
   }
 
   svg {

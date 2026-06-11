@@ -18,6 +18,12 @@ const PageButton = styled
       position: relative;
       height: ${theme("space.8")};
       width: ${active ? theme("space.16") : theme("space.8")};
+      border-radius: ${theme("space.1")};
+
+      &:focus-visible {
+        outline: ${theme("space.2px")} solid ${theme("stroke.base")};
+        outline-offset: -${theme("space.2px")};
+      }
 
       @media (prefers-reduced-motion: no-preference) {
         transition: width 300ms ease-out;

@@ -1,11 +1,14 @@
 import { PropsWithChildren } from "react"
 
+import { Slot } from "components/slot"
 import { styled } from "lib/goober"
 
 import { CopyEmail } from "./copy-email"
 
 const A = styled.a`
+  display: inline-block;
   text-decoration: none;
+  overflow-wrap: anywhere;
 
   &:hover {
     text-decoration: underline;
@@ -14,9 +17,6 @@ const A = styled.a`
 
 const NoWrap = styled.span`
   display: inline-block;
-  a {
-    overflow-wrap: anywhere;
-  }
 `
 
 const isExternal = (href: string) => href.startsWith("http")
@@ -41,7 +41,7 @@ export const Anchor = ({
   children,
   className,
 }: PropsWithChildren<AnchorProps>) => {
-  const Wrapper = isEmail(href) ? EmailWrapper : NoWrap
+  const Wrapper = isEmail(href) ? EmailWrapper : Slot
   return (
     <Wrapper href={href} className={className}>
       <A

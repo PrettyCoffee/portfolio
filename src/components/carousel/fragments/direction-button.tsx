@@ -7,7 +7,7 @@ const hoverRight = keyframes`
     translate: 0rem;
   }
   50% {
-    translate: 0.25rem;
+    translate: ${theme("space.1")};
   }
 `
 
@@ -16,7 +16,7 @@ const hoverLeft = keyframes`
     translate: 0rem;
   }
   50% {
-    translate: -0.25rem;
+    translate: -${theme("space.1")};
   }
 `
 
@@ -28,9 +28,15 @@ const Button = styled
       display: flex;
       justify-content: ${direction === "left" ? "end" : "start"};
       align-items: center;
-      height: 4rem;
-      width: 4rem;
-      padding: 0 0.75rem;
+      height: ${theme("space.16")};
+      width: ${theme("space.16")};
+      padding: 0 ${theme("space.3")};
+      border-radius: ${theme("space.2px")};
+
+      &:focus-visible {
+        outline: ${theme("space.2px")} solid ${theme("stroke.base")};
+        outline-offset: ${theme("space.2px")};
+      }
 
       &::before,
       &::after {
@@ -55,7 +61,9 @@ const Button = styled
         position: absolute;
         top: 0;
         bottom: 0;
-        ${direction === "left" ? "left: 0.5rem;" : "right: 0.5rem;"}
+        ${direction === "left"
+          ? `left: ${theme("space.2")};`
+          : `right: ${theme("space.2")};`}
         aspect-ratio: 1 / 2;
         height: 100%;
         background: ${theme("stroke.base")};
