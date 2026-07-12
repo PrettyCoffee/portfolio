@@ -92,7 +92,7 @@ export const AboutMe = () => (
       <br />
       <Em>Skills:</Em>
       <br />
-      TypeScript, React, Redux, CSS, Tailwind, Web Design
+      Typescript, React, Redux, CSS, Tailwind, Web Design
     </Facts>
 
     <Text>

@@ -30,21 +30,20 @@ export const sections: Section[] = [
   {
     id: "about-me",
     name: "About Me",
-    //hideName: true,
     Content: AboutMe,
     header: { icon: "face" },
-  },
-  {
-    id: "projects",
-    name: "Projects",
-    Content: Projects,
-    header: { icon: "toolbox" },
   },
   {
     id: "experience",
     name: "Experience",
     Content: Experience,
     header: { icon: "squiggle" },
+  },
+  {
+    id: "projects",
+    name: "Projects",
+    Content: Projects,
+    header: { icon: "toolbox" },
   },
   {
     id: "outro",

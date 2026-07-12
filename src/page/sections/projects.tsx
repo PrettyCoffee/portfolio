@@ -1,28 +1,28 @@
 import { Anchor } from "components/anchor"
-import { Card } from "components/card"
+import { Carousel } from "components/carousel"
 import { DeEm, Em } from "components/em"
-import { styled } from "lib/goober"
+import { css, styled } from "lib/goober"
 import { theme } from "utils/theme"
 
-interface Project {
+interface ProjectData {
   name: string
   description: string
   imgSrc: string
-  imgSize: string
+  imgBg: string
   year: number
   repoUrl: string
   projectUrl?: string
   docsUrl?: string
   stack: string[]
 }
-const projectList: Project[] = [
+const projectList: ProjectData[] = [
   {
     year: 2026,
     name: "Boring Blocks",
     description:
       "A boring react component library for classic shadcn style productivity UIs. I am a component developer afterall and find joy in creating these things.",
     imgSrc: "/images/boring-blocks.webp",
-    imgSize: "8rem",
+    imgBg: "#0C0A0A",
     repoUrl: "https://github.com/PrettyCoffee/boring-blocks",
     docsUrl: "https://prettycoffee.github.io/boring-blocks",
     stack: [
@@ -36,21 +36,11 @@ const projectList: Project[] = [
   },
   {
     year: 2026,
-    name: "Portfolio v4",
-    description:
-      "The latest version of my portfolio, created to show off my fun projects. You are currently looking at it.",
-    imgSrc: "/images/avatar.webp",
-    imgSize: "8rem",
-    repoUrl: "https://github.com/PrettyCoffee/portfolio",
-    stack: ["React", "TypeScript", "Waku", "Goober"],
-  },
-  {
-    year: 2026,
     name: "Clocktopus",
     description:
       "A time tracking tool to track your working and break times. Mostly here to help me remember what I did the day before, to repeat it in a Daily.",
     imgSrc: "/images/clocktopus.webp",
-    imgSize: "6rem",
+    imgBg: "#0C0A0A",
     repoUrl: "https://github.com/PrettyCoffee/clocktopus",
     projectUrl: "https://prettycoffee.github.io/clocktopus",
     stack: ["React", "TypeScript", "Tailwind", "Lingui", "Radix UI"],
@@ -60,8 +50,8 @@ const projectList: Project[] = [
     name: "yaasl",
     description:
       "Yet Another Atomic Store Library (yaasl) is a state management system like many others. The goal was to reduce the boilerplate of atomic state and related middleware to a minimum, while not sacrificing on developer experience.",
-    imgSrc: "/images/yaasl.svg",
-    imgSize: "7rem",
+    imgSrc: "/images/yaasl.webp",
+    imgBg: "#09090B",
     repoUrl: "https://github.com/PrettyCoffee/yaasl",
     docsUrl: "https://prettycoffee.github.io/yaasl",
     stack: ["Standalone"],
@@ -71,8 +61,8 @@ const projectList: Project[] = [
     name: "Gaming Roulette",
     description:
       "Tool to help you (and your friends) decide what game to play next. Initially intended to be desktop only (via Tauri), it is now usable as a web app as well.",
-    imgSrc: "/images/gaming-roulette.svg",
-    imgSize: "5rem",
+    imgSrc: "/images/gaming-roulette.webp",
+    imgBg: "#000000",
     repoUrl: "https://github.com/PrettyCoffee/gaming-roulette",
     projectUrl: "https://prettycoffee.github.io/gaming-roulette",
     stack: ["React", "TypeScript", "Tauri", "Tailwind", "Radix UI"],
@@ -83,114 +73,116 @@ const projectList: Project[] = [
     description:
       "A browser startpage with a generic layout and many settings to modify its appearance and behavior.",
     imgSrc: "/images/yags.webp",
-    imgSize: "8rem",
+    imgBg: "#131C2D",
     repoUrl: "https://github.com/PrettyCoffee/yet-another-generic-startpage",
     projectUrl: "https://prettycoffee.github.io/yet-another-generic-startpage",
     stack: ["React", "TypeScript", "EmotionJS", "HeadlessUI"],
   },
 ]
 
-const projectsByYear = projectList.reduce<Record<number, Project[]>>(
-  (byYear, project) => {
-    const { year } = project
-    byYear[year] ??= []
-    byYear[year].push(project)
-    return byYear
-  },
-  {}
-)
-
-const ProjectList = styled.ul`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: ${theme("space.10")};
-  width: 100%;
+const Layout = styled.div`
   max-width: ${theme("space.x11")};
+  width: 100%;
+`
 
-  &:not(:first-of-type) {
-    margin-top: ${theme("space.16")};
+const ProjectGrid = styled.div`
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  padding: ${theme("space.4")};
+  overflow: hidden;
+  border-radius: 0.5rem;
+  color: ${theme("text.base")};
+
+  display: grid;
+  gap: ${theme("space.4")};
+  grid-template:
+    ". ." 1fr
+    "name name" auto
+    "description ." auto
+    "stack links" auto / 1fr auto;
+
+  @media ${theme("breakpoint.1040")} {
+    grid-template:
+      ". ." 1fr
+      "name name" auto
+      "description description" auto
+      "stack links" auto / 1fr auto;
+  }
+
+  @media ${theme("breakpoint.880")} {
+    aspect-ratio: 3 / 2;
   }
 
   @media ${theme("breakpoint.720")} {
-    &:not(:first-of-type) {
-      margin-top: ${theme("space.x2")};
-    }
-  }
-`
-
-const ProjectGrid = styled.li`
-  ${Card.styles({})}
-  display: grid;
-  grid-template:
-    "img name name" min-content
-    "img description description" auto
-    "img stack links" auto / auto 1fr auto;
-  gap: ${theme("space.6")};
-
-  @media ${theme("breakpoint.880")} {
+    aspect-ratio: unset;
+    height: max-content;
     grid-template:
-      "img name name" min-content
-      "img description description" auto
-      "stack stack links" auto / min-content 1fr auto;
+      ". ." 10rem
+      "name name" auto
+      "description description" auto
+      "stack links" auto / 1fr auto;
   }
 
   @media ${theme("breakpoint.560")} {
     grid-template:
-      "img name" min-content
-      "description description" auto
-      "stack stack" auto
-      "links links" auto / min-content 1fr;
+      "." 10rem
+      "name" auto
+      "description" auto
+      "stack" auto
+      "links" auto / 1fr;
   }
 `
 
-const ImageLayout = styled.div`
-  grid-area: img;
-  place-self: center;
-  height: ${theme("space.x2")};
-  width: ${theme("space.x2")};
-  display: grid;
-  place-content: center;
-  flex-shrink: 0;
+const Image = styled
+  .img<{ imgBg: string }>(
+    ({ imgBg }) => css`
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      object-position: center;
+      background-color: ${imgBg};
 
-  @media ${theme("breakpoint.720")} {
-    height: ${theme("space.x1")};
-    width: ${theme("space.x1")};
-  }
+      transition: scale 300ms ease-out;
+      *:hover > & {
+        scale: 1.05;
+      }
+
+      @media ${theme("breakpoint.720")} {
+        object-fit: contain;
+        object-position: top center;
+      }
+    `
+  )
+  .filterProps(["imgBg"])
+
+const ImageMask = styled.div`
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(45deg, ${theme("background.base")}, transparent),
+    linear-gradient(0deg, ${theme("background.base")}, transparent);
 `
-const Image = styled.img`
-  object-fit: contain;
-  height: inherit;
-  width: inherit;
-`
-const ProjectImage = ({ imgSrc, imgSize }: Project) => (
-  <ImageLayout>
-    <Image src={imgSrc} style={{ maxHeight: imgSize, maxWidth: imgSize }} />
-  </ImageLayout>
-)
 
 const Name = styled.h3`
   grid-area: name;
   line-height: 1;
-  margin-bottom: ${theme("space.4")};
-  align-self: end;
   font-size: ${theme("font.lg")};
-  margin-bottom: -${theme("font.lg")};
-
-  @media ${theme("breakpoint.560")} {
-    align-self: center;
-    font-size: ${theme("font.xl")};
-    margin-bottom: 0;
-  }
+  margin-bottom: -${theme("space.2")};
 `
 const Description = styled.p`
   grid-area: description;
-  align-self: start;
 `
 
-const ProjectDetails = ({ name, description }: Project) => (
+const ProjectDetails = ({ name, year, description }: ProjectData) => (
   <>
-    <Name>{name}</Name>
+    <Name>
+      {name} ({year})
+    </Name>
     <Description>{description}</Description>
   </>
 )
@@ -198,7 +190,7 @@ const ProjectDetails = ({ name, description }: Project) => (
 const StackLayout = styled.div`
   grid-area: stack;
 `
-const Stack = ({ stack }: Project) => (
+const Stack = ({ stack }: ProjectData) => (
   <StackLayout>
     <Em>Stack: </Em>
     <DeEm block>{stack.join(", ")}</DeEm>
@@ -228,7 +220,7 @@ const Link = styled(Anchor)`
     text-decoration: none;
   }
 `
-const LinkList = ({ projectUrl, docsUrl, repoUrl }: Project) => (
+const LinkList = ({ projectUrl, docsUrl, repoUrl }: ProjectData) => (
   <Links>
     {projectUrl && <Link href={projectUrl}>Project</Link>}
     {docsUrl && <Link href={docsUrl}>Docs</Link>}
@@ -236,82 +228,25 @@ const LinkList = ({ projectUrl, docsUrl, repoUrl }: Project) => (
   </Links>
 )
 
-const Project = (project: Project) => (
-  <ProjectGrid>
-    <ProjectImage {...project} />
+const Project = (project: ProjectData) => (
+  <ProjectGrid className="dark">
+    {/* eslint-disable-next-line react/destructuring-assignment */}
+    <Image src={project.imgSrc} imgBg={project.imgBg} />
+    <ImageMask />
     <ProjectDetails {...project} />
     <Stack {...project} />
     <LinkList {...project} />
   </ProjectGrid>
 )
 
-const Timeline = styled.div`
-  position: absolute;
-  --overflow-top: ${theme("space.4")};
-  top: calc(-1 * var(--overflow-top));
-  bottom: 0;
-  left: calc(100% + ${theme("space.3")});
-  height: calc(100% + var(--overflow-top));
-  width: ${theme("space.16")};
-
-  &::before {
-    content: attr(data-year);
-    display: block;
-    width: ${theme("space.16")};
-    padding: ${theme("space.1")} 0;
-    text-align: center;
-
-    position: sticky;
-    z-index: 1;
-    top: ${theme("space.2")};
-
-    color: ${theme("text.gentle")};
-    background: ${theme("background.base")};
-    border: ${theme("space.2px")} solid ${theme("stroke.gentle")};
-    border-radius: ${theme("space.2")};
-  }
-
-  &::after {
-    content: "";
-    display: block;
-    border-right: ${theme("space.2px")} solid ${theme("stroke.gentle")};
-    border-radius: ${theme("space.2px")};
-
-    position: absolute;
-    top: ${theme("space.8")};
-    bottom: 0;
-    left: 50%;
-    translate: -50%;
-  }
-
-  @media ${theme("breakpoint.720")} {
-    right: 0;
-    left: unset;
-    z-index: -1;
-    --overflow-top: ${theme("space.16")};
-
-    &::before {
-      top: ${theme("space.12")};
-    }
-  }
-`
-
 export const Projects = () => (
-  <div>
-    {Object.entries(projectsByYear)
-      .sort(([a], [b]) => Number(b) - Number(a))
-      .map(([year, projects]) => (
-        <ProjectList key={year}>
-          <Timeline data-year={year} />
-          {projects.map(project => (
-            <ProjectGrid key={project.name}>
-              <ProjectImage {...project} />
-              <ProjectDetails {...project} />
-              <Stack {...project} />
-              <LinkList {...project} />
-            </ProjectGrid>
-          ))}
-        </ProjectList>
+  <Layout>
+    <Carousel.Root>
+      {projectList.map(project => (
+        <Carousel.Item key={project.name} title={project.name}>
+          <Project key={project.name} {...project} />
+        </Carousel.Item>
       ))}
-  </div>
+    </Carousel.Root>
+  </Layout>
 )
