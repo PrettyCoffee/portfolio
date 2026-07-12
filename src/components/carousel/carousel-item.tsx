@@ -64,7 +64,6 @@ const Layout = styled
           z-index: ${active ? 1 : 0};
           height: max-content;
           width: 100%;
-          min-height: 100%;
 
           display: flex;
           flex-direction: column;

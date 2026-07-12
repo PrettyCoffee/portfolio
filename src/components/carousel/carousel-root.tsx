@@ -11,6 +11,7 @@ import {
 import { ErrorBoundary } from "waku/router/client"
 
 import { useSwipe } from "hooks/use-swipe"
+import { useWindowWidth } from "hooks/use-window-width"
 import { css, styled } from "lib/goober"
 import { theme } from "utils/theme"
 
@@ -142,6 +143,7 @@ const PageSelection = styled(PageButtons)`
 `
 
 const useChildren = (ref: RefObject<HTMLElement | null>) => {
+  const width = useWindowWidth()
   const [height, setHeight] = useState<number>()
   const [count, setCount] = useState(0)
 
@@ -155,7 +157,7 @@ const useChildren = (ref: RefObject<HTMLElement | null>) => {
         return Math.max(maxHeight, itemHeight)
       }, 0)
     )
-  }, [ref])
+  }, [ref, width])
 
   return { height, count }
 }
