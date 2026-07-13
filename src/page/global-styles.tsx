@@ -34,6 +34,10 @@ const globalStyles = css`
       min-height: 100%;
     }
 
+    #root {
+      position: relative;
+    }
+
     ::selection {
       background: ${theme("text.base")};
       color: ${theme("background.base")};

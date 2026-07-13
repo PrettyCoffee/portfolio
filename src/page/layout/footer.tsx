@@ -9,6 +9,11 @@ const FooterLayout = styled.footer`
   padding: ${theme("space.6")};
   mix-blend-mode: difference;
   color: white;
+
+  @media ${theme("breakpoint.720")} {
+    position: absolute;
+    bottom: 0;
+  }
 `
 
 const Link = styled.a`
