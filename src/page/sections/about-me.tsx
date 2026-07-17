@@ -92,7 +92,7 @@ export const AboutMe = () => (
       <br />
       <Em>Skills:</Em>
       <br />
-      Typescript, React, Redux, CSS, Tailwind, Web Design
+      TypeScript, React, Redux, CSS, Tailwind, Web Design
     </Facts>
 
     <Text>
@@ -105,7 +105,7 @@ export const AboutMe = () => (
       <p>
         Most of the time, I create <Em>frontend</Em> apps with <Em>React</Em>{" "}
         and&nbsp;
-        <Em>Typescript</Em>, <Em>design</Em> my own stuff and build cool
+        <Em>TypeScript</Em>, <Em>design</Em> my own stuff and build cool
         projects out of joy and to learn new things.
       </p>
     </Text>

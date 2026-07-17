@@ -7,6 +7,7 @@ export const Card = styled
       padding: ${theme("space.6")};
       max-width: ${theme("space.x11")};
       box-shadow: ${theme("shadow.box.high")};
+      border-radius: ${theme("space.2")};
 
       --text-color: ${theme("text.base")};
       --background-color: ${theme("background.base")};
