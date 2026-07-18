@@ -17,6 +17,7 @@ const Copy = styled.button`
   border-radius: ${theme("space.1")};
 
   &:has(+ :hover),
+  *:hover + &,
   &:hover,
   &:focus {
     width: 1.5em;

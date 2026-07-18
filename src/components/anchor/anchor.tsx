@@ -16,7 +16,8 @@ const A = styled.a`
 `
 
 const NoWrap = styled.span`
-  display: inline-block;
+  display: inline-flex;
+  flex-direction: row-reverse;
 `
 
 const isExternal = (href: string) => href.startsWith("http")
@@ -27,8 +28,8 @@ const EmailWrapper = ({
   children,
 }: PropsWithChildren<{ href: string }>) => (
   <NoWrap>
-    <CopyEmail href={href} />
     {children}
+    <CopyEmail href={href} />
   </NoWrap>
 )
 
