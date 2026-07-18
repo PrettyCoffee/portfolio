@@ -7,13 +7,16 @@ import { theme } from "utils/theme"
 interface ProjectData {
   name: string
   description: string
-  imgSrc: string
-  imgBg: string
   year: number
   repoUrl: string
   projectUrl?: string
   docsUrl?: string
   stack: string[]
+  img: {
+    src: string
+    bg: string
+    alt: string
+  }
 }
 const projectList: ProjectData[] = [
   {
@@ -21,8 +24,6 @@ const projectList: ProjectData[] = [
     name: "Boring Blocks",
     description:
       "A boring react component library for classic shadcn style productivity UIs. I am a component developer afterall and find joy in creating these things.",
-    imgSrc: "/images/boring-blocks.webp",
-    imgBg: "#0C0A0A",
     repoUrl: "https://github.com/PrettyCoffee/boring-blocks",
     docsUrl: "https://prettycoffee.github.io/boring-blocks",
     stack: [
@@ -33,50 +34,67 @@ const projectList: ProjectData[] = [
       "DnD Kit",
       "Lingui",
     ],
+    img: {
+      src: "/images/boring-blocks.webp",
+      bg: "#0C0A0A",
+      alt: "Preview collection of boring-blocks components",
+    },
   },
   {
     year: 2026,
     name: "Clocktopus",
     description:
       "A time tracking tool to track your working and break times. Mostly here to help me remember what I did the day before, to repeat it in a Daily.",
-    imgSrc: "/images/clocktopus.webp",
-    imgBg: "#0C0A0A",
     repoUrl: "https://github.com/PrettyCoffee/clocktopus",
     projectUrl: "https://prettycoffee.github.io/clocktopus",
     stack: ["React", "TypeScript", "Tailwind", "Lingui", "Radix UI"],
+    img: {
+      src: "/images/clocktopus.webp",
+      bg: "#0C0A0A",
+      alt: "Calendar view of tracked time in clocktopus",
+    },
   },
   {
     year: 2024,
     name: "yaasl",
     description:
       "Yet Another Atomic Store Library (yaasl) is a state management system like many others. The goal was to reduce the boilerplate of atomic state and related middleware to a minimum, while not sacrificing on developer experience.",
-    imgSrc: "/images/yaasl.webp",
-    imgBg: "#09090B",
     repoUrl: "https://github.com/PrettyCoffee/yaasl",
     docsUrl: "https://prettycoffee.github.io/yaasl",
     stack: ["Standalone"],
+    img: {
+      src: "/images/yaasl.webp",
+      bg: "#09090B",
+      alt: "Documentation intro page of yaasl",
+    },
   },
   {
     year: 2024,
     name: "Gaming Roulette",
     description:
       "Tool to help you (and your friends) decide what game to play next. Initially intended to be desktop only (via Tauri), it is now usable as a web app as well.",
-    imgSrc: "/images/gaming-roulette.webp",
-    imgBg: "#000000",
     repoUrl: "https://github.com/PrettyCoffee/gaming-roulette",
     projectUrl: "https://prettycoffee.github.io/gaming-roulette",
     stack: ["React", "TypeScript", "Tauri", "Tailwind", "Radix UI"],
+    img: {
+      src: "/images/gaming-roulette.webp",
+      bg: "#000000",
+      alt: "Winner screen of gaming roulette",
+    },
   },
   {
     year: 2022,
     name: "Yet another generic startpage",
     description:
       "A browser startpage with a generic layout and many settings to modify its appearance and behavior.",
-    imgSrc: "/images/yags.webp",
-    imgBg: "#131C2D",
     repoUrl: "https://github.com/PrettyCoffee/yet-another-generic-startpage",
     projectUrl: "https://prettycoffee.github.io/yet-another-generic-startpage",
     stack: ["React", "TypeScript", "EmotionJS", "HeadlessUI"],
+    img: {
+      src: "/images/yags.webp",
+      bg: "#131C2D",
+      alt: 'Screenshot of "Yet another generic startpage"',
+    },
   },
 ]
 
@@ -232,11 +250,11 @@ const LinkList = ({ projectUrl, docsUrl, repoUrl }: ProjectData) => (
 
 const Project = (project: ProjectData) => (
   <ProjectGrid className="dark">
-    {/* eslint-disable-next-line react/destructuring-assignment */}
-    <Image src={project.imgSrc} imgBg={project.imgBg} />
-    <ImageMask />
     <ProjectDetails {...project} />
     <Stack {...project} />
+    {/* eslint-disable-next-line react/destructuring-assignment */}
+    <Image src={project.img.src} imgBg={project.img.bg} alt={project.img.alt} />
+    <ImageMask />
     <LinkList {...project} />
   </ProjectGrid>
 )
