@@ -146,9 +146,11 @@ const Image = styled
       object-position: center;
       background-color: ${imgBg};
 
-      transition: scale 300ms ease-out;
-      *:hover > & {
-        scale: 1.05;
+      @media (prefers-reduced-motion: no-preference) {
+        transition: scale 300ms ease-out;
+        *:hover > & {
+          scale: 1.05;
+        }
       }
 
       @media ${theme("breakpoint.720")} {

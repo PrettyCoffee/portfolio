@@ -116,7 +116,6 @@ const ExpCard = styled(Card)<{ icon: string }>(
       background-size: 4rem;
       background-position-x: 0, 2rem, 0;
       background-position-y: -2rem, 2rem, 6rem;
-      transition: scale 300ms ease-out;
     }
     &::after {
       background: linear-gradient(
@@ -127,9 +126,14 @@ const ExpCard = styled(Card)<{ icon: string }>(
       );
     }
 
-    &:hover::before {
-      scale: 1.1;
-      animation: 10s ${backgroundLoop} linear infinite;
+    @media (prefers-reduced-motion: no-preference) {
+      &::before {
+        transition: scale 300ms ease-out;
+      }
+      &:hover::before {
+        scale: 1.1;
+        animation: 10s ${backgroundLoop} linear infinite;
+      }
     }
   `
 ).filterProps(["icon"])

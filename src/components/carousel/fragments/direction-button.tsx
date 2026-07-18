@@ -71,9 +71,17 @@ const Button = styled
           ? "polygon(100% 0, 0 50%, 100% 100%, 100% 75%, 50% 50%, 100% 25%);"
           : "polygon(0 0, 100% 50%, 0 100%, 0 75%, 50% 50%, 0 25%);"};
       }
-      &:hover::after,
-      &:focus-visible::after {
-        @media (prefers-reduced-motion: no-preference) {
+
+      @media (prefers-reduced-motion: reduce) {
+        &:hover::after,
+        &:focus-visible::after {
+          --direction: ${direction === "left" ? -1 : 1};
+          translate: calc(var(--direction) * ${theme("space.2px")});
+        }
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        &:hover::after,
+        &:focus-visible::after {
           animation: ${direction === "left" ? hoverLeft : hoverRight} 1s
             infinite ease-in-out;
         }
