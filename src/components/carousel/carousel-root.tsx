@@ -142,29 +142,38 @@ const PageSelection = styled(PageButtons)`
   }
 `
 
-const useChildren = (ref: RefObject<HTMLElement | null>) => {
+const useChildrenSize = (ref: RefObject<HTMLElement | null>) => {
   const width = useWindowWidth()
-  const [height, setHeight] = useState<number>()
+
+  useLayoutEffect(() => {
+    const children = [...(ref.current?.children ?? [])] as HTMLElement[]
+
+    ref.current?.style.removeProperty("height")
+    children.forEach(item => item.style.removeProperty("height"))
+
+    const newHeight = Math.max(0, ...children.map(child => child.offsetHeight))
+    ref.current?.style.setProperty("height", `${newHeight}px`)
+    children.forEach(item => {
+      item.style.setProperty("height", `100%`)
+    })
+  }, [ref, width])
+}
+
+const useChildrenCount = (ref: RefObject<HTMLElement | null>) => {
   const [count, setCount] = useState(0)
 
   useLayoutEffect(() => {
-    const children = [...(ref.current?.children ?? [])]
+    const children = [...(ref.current?.children ?? [])] as HTMLElement[]
     setCount(children.length)
-    setHeight(
-      children.reduce((maxHeight, child) => {
-        const itemHeight =
-          child instanceof HTMLElement ? child.offsetHeight : child.clientHeight
-        return Math.max(maxHeight, itemHeight)
-      }, 0)
-    )
-  }, [ref, width])
+  }, [ref])
 
-  return { height, count }
+  return count
 }
 
 export const CarouselRoot = ({ children }: PropsWithChildren) => {
   const ref = useRef<HTMLDivElement>(null)
-  const { height, count } = useChildren(ref)
+  useChildrenSize(ref)
+  const count = useChildrenCount(ref)
 
   const [activeIndex, setActiveIndex] = useState(0)
   const [prevIndex, setPrevIndex] = useState(0)
@@ -174,6 +183,7 @@ export const CarouselRoot = ({ children }: PropsWithChildren) => {
     index: number,
     direction: SlideDirection = index < activeIndex ? "right" : "left"
   ) => {
+    const count = ref.current?.children.length ?? 0
     const clamped = ((index % count) + count) % count
     setDirection(direction)
     setPrevIndex(activeIndex)
@@ -191,9 +201,7 @@ export const CarouselRoot = ({ children }: PropsWithChildren) => {
       <CarouselContext value={{ activeIndex, prevIndex, direction }}>
         <Layout>
           <Decoration side="top" />
-          <InnerLayout ref={ref} style={{ height }}>
-            {children}
-          </InnerLayout>
+          <InnerLayout ref={ref}>{children}</InnerLayout>
           <Decoration side="bottom" />
 
           <PrevButton
