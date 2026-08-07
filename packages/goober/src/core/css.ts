@@ -23,12 +23,12 @@ export function css(...args: [CssTemplate["Value"]] | CssTemplate["Args"]) {
   return new Styles(parser.parse(toString(styles)))
 }
 
-/** Declare global styles */
+/** Declare global styles. */
 export const glob = (...args: CssTemplate["Args"]) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-expressions -- has side effects
   css(...args).withConfig({ type: "global" }).class
 }
 
-/** keyframes function for defining animations */
+/** Keyframes function for defining animations. */
 export const keyframes = (...args: CssTemplate["Args"]) =>
   css(...args).withConfig({ type: "keyframes" }).class

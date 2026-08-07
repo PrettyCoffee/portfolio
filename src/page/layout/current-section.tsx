@@ -19,7 +19,7 @@ const getScreenHeight = () => window.innerHeight
 const getCurrentSection = () => {
   const sections = [...document.querySelectorAll("section")]
   const index = sections.findLastIndex(
-    section => section.getBoundingClientRect().top < getScreenHeight() / 4
+    section => section.getBoundingClientRect().top < getScreenHeight() / 4,
   )
   return sections[index] ?? sections[0]
 }

@@ -6,7 +6,7 @@ import { type StyleNode } from "../types"
 
 const runHook = <THookName extends keyof Plugin>(
   hook: THookName,
-  props: Parameters<NonNullable<Plugin[THookName]>>[0]
+  props: Parameters<NonNullable<Plugin[THookName]>>[0],
 ): ReturnType<NonNullable<Plugin[THookName]>> => {
   const hooks = getSetup().plugins.map(plugin => plugin[hook])
   const out = hooks.reduce((props, hook) => {
@@ -51,7 +51,7 @@ const matchers: Matcher[] = [
     handler(key, value, insert) {
       const content = build(value)
       insert.block(
-        runHook("buildBlock", { selector: key, node: value, content }) ?? ""
+        runHook("buildBlock", { selector: key, node: value, content }) ?? "",
       )
     },
   },
@@ -96,7 +96,7 @@ const build = (obj: StyleNode) => {
     rule.handler(
       key,
       value as string & StyleNode, // type validation is handled above
-      insert
+      insert,
     )
   })
 

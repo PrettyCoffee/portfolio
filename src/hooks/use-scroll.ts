@@ -34,7 +34,7 @@ export const useScroll = ({ start, end, onScroll }: ScrollOptions) => {
   const scrollY = useSyncExternalStore(
     subscribe,
     getClampedScrollY,
-    getClampedScrollY
+    getClampedScrollY,
   )
   const { percent, relative } = getState(scrollY, start, end)
 
@@ -46,7 +46,7 @@ export const useScroll = ({ start, end, onScroll }: ScrollOptions) => {
   useEffect(() => {
     if (prefersReducedMotion()) return
     const frame = window.requestAnimationFrame(() =>
-      scrollEvent.current({ percent, relative })
+      scrollEvent.current({ percent, relative }),
     )
     return () => window.cancelAnimationFrame(frame)
   }, [percent, relative])

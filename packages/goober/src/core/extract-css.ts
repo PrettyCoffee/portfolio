@@ -1,7 +1,7 @@
-import { getSetup } from "./setup"
 import { getSsrSheet, GOOBER_ID } from "../utils/get-sheet"
+import { getSetup } from "./setup"
 
-/** Returns css after changes settled */
+/** Returns css after changes settled. */
 export const extractCss = () =>
   new Promise<string>(resolve => {
     let css = getSsrSheet().data
@@ -21,6 +21,6 @@ export const extractCss = () =>
     resolveIfSettled()
   })
 
-/** Renders a goober style element with the cached styles */
+/** Renders a goober style element with the cached styles. */
 export const ExtractCss = async () =>
   getSetup().jsx("style", { id: GOOBER_ID.SSR }, await extractCss())

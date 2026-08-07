@@ -19,7 +19,7 @@ const parseBlock = (val: string) => {
 
 type Tree = (StyleNode | undefined)[]
 
-/** Convert a css style string into an object */
+/** Convert a css style string into an object. */
 export const parse = (styles: string) => {
   const tree: Tree = [{}]
 

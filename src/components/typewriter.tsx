@@ -17,7 +17,7 @@ const TIMING = prefersReducedMotion()
 
 const useTypewriter = (
   ref: RefObject<HTMLSpanElement | null>,
-  { text, initial = text, onTransitionEnd }: TypewriterProps
+  { text, initial = text, onTransitionEnd }: TypewriterProps,
 ) => {
   const last = useRef(initial)
 

@@ -10,6 +10,6 @@ export const DeEm = styled
     ({ block }) => css`
       color: ${theme("text.gentle")};
       ${block && "display: block;"}
-    `
+    `,
   )
   .filterProps(["block"])

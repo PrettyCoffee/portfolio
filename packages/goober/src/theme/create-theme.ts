@@ -31,13 +31,13 @@ const getDeepKeys = (currentValue: unknown, currentKey = ""): string[] => {
   throw new Error(`Value of ${currentKey} could not be processed.`)
 }
 
-/** Create a css theme with variants, utilizing css variables */
+/** Create a css theme with variants, utilizing css variables. */
 export const createTheme = <
   TSharedTokens extends TokenItem,
   TVariantTokens extends TokenVariants,
 >(
   shared: TSharedTokens,
-  variants: TVariantTokens
+  variants: TVariantTokens,
 ) => {
   type Variant = keyof TVariantTokens
   type Tokens = TSharedTokens & TVariantTokens[Variant]
@@ -47,7 +47,7 @@ export const createTheme = <
     Object.entries(variants).map(([key, value]) => [
       key,
       { ...shared, ...value },
-    ])
+    ]),
   ) as Record<Variant, Tokens>
 
   const getValue = (key: ObjDeepPath<Tokens>, variant: Variant) => {
@@ -71,16 +71,16 @@ export const createTheme = <
     return `var(${cssVar}, ${value})`
   }
 
-  /** Get an object with all css vars */
+  /** Get an object with all css vars. */
   const getCssVars = (variant: Variant) =>
     Object.fromEntries(
       getDeepKeys(variants[variant]).map(key => [
         getCssVar(key),
         getValue(key as ObjDeepPath<Tokens>, variant),
-      ])
+      ]),
     )
 
-  /** Get a string to define all css vars for the given variant */
+  /** Get a string to define all css vars for the given variant. */
   const getCssVarsString = (variant: Variant) =>
     Object.entries(getCssVars(variant))
       .map(([key, value]) => `${key}: ${value};`)

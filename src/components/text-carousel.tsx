@@ -61,7 +61,7 @@ export const TextCarousel = ({ values }: TextCarouselProps) => {
 
   const maxText = values.reduce(
     (max, current) => (current.length > max.length ? current : max),
-    ""
+    "",
   )
 
   return (
@@ -78,7 +78,7 @@ export const TextCarousel = ({ values }: TextCarouselProps) => {
           onTransitionEnd={() => {
             window.setTimeout(
               () => setIndex((index + 1) % values.length),
-              WAIT_DURATION
+              WAIT_DURATION,
             )
           }}
         />

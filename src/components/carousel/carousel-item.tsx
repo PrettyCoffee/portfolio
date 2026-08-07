@@ -46,7 +46,7 @@ const middleToLeft = keyframes`
 const getAnimation = (
   active: boolean,
   previous: boolean,
-  direction: SlideDirection
+  direction: SlideDirection,
 ) => {
   if (active) return direction === "left" ? rightToMiddle : leftToMiddle
   if (previous) return direction === "left" ? middleToLeft : middleToRight
@@ -88,7 +88,7 @@ const Layout = styled
             translate: -100%;
           `,
       ]
-    }
+    },
   )
   .filterProps(["active", "previous", "direction"])
 

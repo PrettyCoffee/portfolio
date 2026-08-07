@@ -7,12 +7,10 @@
     "dev": "waku dev",
     "preview": "pnpm build && waku start",
     "build": "tsc -b && waku build",
-    "lint": "pnpm eslint && pnpm format && pnpm knip",
-    "lint:fix": "pnpm eslint:fix && pnpm format:fix && pnpm knip",
+    "lint": "pnpm eslint && oxfmt --check && pnpm knip",
+    "lint:fix": "pnpm eslint:fix && oxfmt --write && pnpm knip",
     "eslint": "eslint .",
     "eslint:fix": "pnpm run lint --fix",
-    "format": "prettier -c './**/*.@(md|json|yaml|yml)' '!pnpm-lock.yaml'",
-    "format:fix": "pnpm format -w",
     "knip": "knip"
   },
   "dependencies": {
@@ -22,6 +20,7 @@
   },
   "devDependencies": {
     "@pretty-cozy/eslint-config": "0.9.0",
+    "@pretty-cozy/oxlint-config": "0.1.0-alpha.0",
     "@rolldown/plugin-babel": "0.2.3",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
@@ -29,7 +28,7 @@
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "9.39.4",
     "knip": "6.14.2",
-    "prettier": "3.8.3",
+    "oxfmt": "0.62.0",
     "react-server-dom-webpack": "19.2.6",
     "typescript": "6.0.3",
     "vite": "8.0.12",

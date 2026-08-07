@@ -11,7 +11,7 @@ const Title = styled.div<{ size: "3xl" | "2xl" | "xl" | "lg" }>(
     a {
       color: ${theme("text.base")};
     }
-  `
+  `,
 )
 
 const Stack = styled.div`

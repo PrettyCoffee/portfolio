@@ -10,7 +10,7 @@ const ssrCache = { data: "" }
 const getDomSheet = (id: string) =>
   getWindow()?.document.querySelector(`#${id}`)?.firstChild as Text | null
 
-/** Returns the text node or an object for ssr environments, to collect styles */
+/** Returns the text node or an object for ssr environments, to collect styles. */
 export const getSsrSheet = () => {
   // SSR DOM sheet can only be read in CSR and is static in CSR, so this only needs to be checked if empty
   if (!ssrCache.data) ssrCache.data = getDomSheet(GOOBER_ID.SSR)?.data || ""

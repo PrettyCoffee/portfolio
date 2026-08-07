@@ -8,6 +8,12 @@ export default defineConfig(
   globalIgnores([".dump"]),
 
   {
+    rules: {
+      "import/order": "off",
+    },
+  },
+
+  {
     name: "local-rules/restricted-imports",
     files: ["src/**"],
     rules: {
@@ -24,6 +30,4 @@ export default defineConfig(
       ],
     },
   },
-
-  prettyCozy.prettier
 )

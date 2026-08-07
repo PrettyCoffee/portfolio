@@ -200,7 +200,7 @@ const Button = styled
       &:hover {
         background: gray;
       }
-    `
+    `,
   )
   .filterProps(["invert"])
 

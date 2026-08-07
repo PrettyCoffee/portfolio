@@ -13,7 +13,7 @@ const TitleCopy = ({ children }: { children: string }) => (
 
 const getParent = (
   element: HTMLElement | null,
-  filter: (element: HTMLElement) => boolean
+  filter: (element: HTMLElement) => boolean,
 ) => {
   if (!element) return null
 
@@ -29,7 +29,7 @@ export const ScrollingTitle = ({ children }: { children: string }) => {
   const [ref, setRef] = useState<HTMLElement | null>(null)
   const section = getParent(
     ref,
-    element => element.nodeName.toLowerCase() === "section"
+    element => element.nodeName.toLowerCase() === "section",
   )
   const sectionStart = section?.offsetTop ?? 0
 

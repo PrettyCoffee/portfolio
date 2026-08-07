@@ -175,7 +175,7 @@ const Image = styled
         object-fit: contain;
         object-position: top center;
       }
-    `
+    `,
   )
   .filterProps(["imgBg"])
 

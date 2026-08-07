@@ -6,7 +6,7 @@ import { type StyleNode } from "./types"
 /** In-memory cache. */
 const cache: Record<string, string> = {}
 
-/** Stringifies an object structure */
+/** Stringifies an object structure. */
 const getIdentifier = (data: StyleNode | string | undefined): string => {
   if (typeof data !== "object") return data ?? ""
   let out = ""
@@ -24,7 +24,7 @@ export type InjectionType = "class" | "global" | "keyframes"
 const createStyles = (
   className: string,
   compiled: StyleNode | string,
-  type: InjectionType
+  type: InjectionType,
 ) => {
   if (cache[className]) return cache[className]
   const ast = typeof compiled === "string" ? parser.parse(compiled) : compiled
@@ -45,16 +45,18 @@ const update = (css: string, append?: boolean, cssToReplace?: string) => {
   })
 }
 
-/** Generates the needed className
- *  @param compiled Css to process
- *  @param sheet StyleSheet target
- *  @param append Append or prepend
- *  @param type What kind of css needs to be injected
+/**
+ * Generates the needed className.
+ *
+ * @param compiled Css to process.
+ * @param sheet StyleSheet target.
+ * @param append Append or prepend.
+ * @param type What kind of css needs to be injected.
  */
 export const hash = (
   compiled: StyleNode | string,
   append?: boolean,
-  type: InjectionType = "class"
+  type: InjectionType = "class",
 ) => {
   const className = createClassName(compiled)
   const styles = createStyles(className, compiled, type)

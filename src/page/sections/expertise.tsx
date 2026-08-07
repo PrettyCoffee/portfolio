@@ -135,7 +135,7 @@ const ExpCard = styled(Card)<{ icon: string }>(
         animation: 10s ${backgroundLoop} linear infinite;
       }
     }
-  `
+  `,
 ).filterProps(["icon"])
 
 const Keywords = ({ keywords }: { keywords: string[] }) => (

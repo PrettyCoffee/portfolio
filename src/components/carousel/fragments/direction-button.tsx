@@ -61,15 +61,19 @@ const Button = styled
         position: absolute;
         top: 0;
         bottom: 0;
-        ${direction === "left"
-          ? `left: ${theme("space.2")};`
-          : `right: ${theme("space.2")};`}
+        ${
+          direction === "left"
+            ? `left: ${theme("space.2")};`
+            : `right: ${theme("space.2")};`
+        }
         aspect-ratio: 1 / 2;
         height: 100%;
         background: ${theme("stroke.base")};
-        clip-path: ${direction === "left"
-          ? "polygon(100% 0, 0 50%, 100% 100%, 100% 75%, 50% 50%, 100% 25%);"
-          : "polygon(0 0, 100% 50%, 0 100%, 0 75%, 50% 50%, 0 25%);"};
+        clip-path: ${
+          direction === "left"
+            ? "polygon(100% 0, 0 50%, 100% 100%, 100% 75%, 50% 50%, 100% 25%);"
+            : "polygon(0 0, 100% 50%, 0 100%, 0 75%, 50% 50%, 0 25%);"
+        };
       }
 
       @media (prefers-reduced-motion: reduce) {
@@ -86,7 +90,7 @@ const Button = styled
             infinite ease-in-out;
         }
       }
-    `
+    `,
   )
   .filterProps(["direction"])
 

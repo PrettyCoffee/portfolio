@@ -2,7 +2,10 @@ import { Plugin } from "./plugin"
 
 const isEmpty = (string = "") => !string.replaceAll(/\s+/gm, "")
 
-/** Throw errors when detecting issues in rules or blocks (i.e. when rule values are empty) */
+/**
+ * Throw errors when detecting issues in rules or blocks (i.e. when rule values
+ * are empty)
+ */
 export const strict = (): Plugin => ({
   buildRule: ctx => {
     if (isEmpty(ctx.key)) {

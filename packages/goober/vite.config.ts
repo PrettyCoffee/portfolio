@@ -34,7 +34,7 @@ const libBundle = ({ disabled, entries }: LibBundleOptions): Plugin => {
         ...config.build.lib,
         formats: ["es"],
         entry: Object.fromEntries(
-          Object.entries(entries).map(([key, { path }]) => [key, path])
+          Object.entries(entries).map(([key, { path }]) => [key, path]),
         ),
         fileName: (format, entry) => {
           const filePath = entries[entry]?.outFile

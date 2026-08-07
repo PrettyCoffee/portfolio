@@ -18,13 +18,16 @@ const prettier = (css: string, indentSpaces = 2) => {
       result.lines.push(`${indent}${line}`)
       return result
     },
-    { lines: [] as string[], depth: 0 }
+    { lines: [] as string[], depth: 0 },
   )
 
   return withIndent.lines.join("\n").replaceAll(/\s*^(.*)\{/gm, "\n$1{")
 }
 
-/** Plugin to build a pretty version (with indentation and line breaks) of the styles */
+/**
+ * Plugin to build a pretty version (with indentation and line breaks) of the
+ * styles.
+ */
 export const pretty = (): Plugin => ({
   buildRule: ({ key, value }) => `${key}: ${value};`,
   buildBlock: ({ selector, content }) => `${selector} {${content}}`,

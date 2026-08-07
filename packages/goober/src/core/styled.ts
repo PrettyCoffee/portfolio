@@ -1,10 +1,10 @@
 import type { JSX } from "react"
 
+import { Styles } from "../utils/styles.js"
+import { CssTemplate, isTemplate, Resolve } from "../utils/types.js"
 import { css } from "./css.js"
 import { recipe, RecipeFactory } from "./recipe.js"
 import { getSetup } from "./setup.js"
-import { Styles } from "../utils/styles.js"
-import { CssTemplate, isTemplate, Resolve } from "../utils/types.js"
 
 type VNode = Iterable<VNode> | JSX.Element | string | boolean | null | undefined
 interface FC<TProps = {}> {
@@ -47,7 +47,7 @@ interface SFC<
 > extends SFCMeta<PropsOf<TDefaultType>, TProps> {
   <TType extends ElementType = TDefaultType>(
     this: StyledContext<TProps> | void,
-    props: StyledProps<TType, TProps>
+    props: StyledProps<TType, TProps>,
   ): VNode | Promise<VNode>
 
   displayName: string | undefined
@@ -65,7 +65,7 @@ interface StyledFactory<TDefaultType extends ElementType> {
 
 const createComponent = (
   defaultType: ElementType,
-  styles: Styles | ((props: object) => Styles)
+  styles: Styles | ((props: object) => Styles),
 ) => {
   const { jsx } = getSetup()
 
@@ -110,14 +110,14 @@ const createComponent = (
 }
 
 function createStyled<TDefaultType extends ElementType>(
-  defaultType: TDefaultType
+  defaultType: TDefaultType,
 ) {
   const factory = (
     ...[styles, ...values]: CssTemplate["Args"] | [RecipeFactory]
   ) =>
     createComponent(
       defaultType,
-      isTemplate(styles) ? css(styles, ...values) : recipe(styles)
+      isTemplate(styles) ? css(styles, ...values) : recipe(styles),
     )
 
   return factory as StyledFactory<TDefaultType>
@@ -127,7 +127,7 @@ type ProxyTarget = {
   [TKey in ElementName]: StyledFactory<TKey>
 } & (<TType extends FC<any>>(type: TType) => StyledFactory<TType>)
 
-/** Create React components that have styles attached to them */
+/** Create React components that have styles attached to them. */
 export const styled = new Proxy(createStyled as ProxyTarget, {
   get: (_, prop: ElementName) => createStyled(prop),
 })

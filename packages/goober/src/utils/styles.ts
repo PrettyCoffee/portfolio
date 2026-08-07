@@ -25,10 +25,10 @@ export class Styles {
 
   constructor(
     public readonly styles: StyleNode,
-    private readonly config: StylesConfig | void
+    private readonly config: StylesConfig | void,
   ) {}
 
-  /** Inject the styles into the dom and retrieve a css class */
+  /** Inject the styles into the dom and retrieve a css class. */
   public get class() {
     if (!this._class) {
       const { append, type } = this.config ?? {}
@@ -37,17 +37,17 @@ export class Styles {
     return this._class
   }
 
-  /** Append with new styles, merging them deeply */
+  /** Append with new styles, merging them deeply. */
   public append(styles: StyleNode) {
     return new Styles(merge(this.styles, styles), this.config)
   }
 
-  /** Create a new instance with a different config */
+  /** Create a new instance with a different config. */
   public withConfig(config?: StylesConfig | void) {
     return new Styles(this.styles, config)
   }
 
-  /** Convert to css style string */
+  /** Convert to css style string. */
   public toString() {
     return parser.stringify(this.styles)
   }

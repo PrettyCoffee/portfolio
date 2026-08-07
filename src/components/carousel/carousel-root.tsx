@@ -8,12 +8,11 @@ import {
   useState,
 } from "react"
 
-import { ErrorBoundary } from "waku/router/client"
-
 import { useSwipe } from "hooks/use-swipe"
 import { useWindowWidth } from "hooks/use-window-width"
 import { css, styled } from "lib/goober"
 import { theme } from "utils/theme"
+import { ErrorBoundary } from "waku/router/client"
 
 import { CarouselContext, SlideDirection } from "./carousel-context"
 import { DirectionButton } from "./fragments/direction-button"
@@ -181,7 +180,7 @@ export const CarouselRoot = ({ children }: PropsWithChildren) => {
 
   const changePage = (
     index: number,
-    direction: SlideDirection = index < activeIndex ? "right" : "left"
+    direction: SlideDirection = index < activeIndex ? "right" : "left",
   ) => {
     const count = ref.current?.children.length ?? 0
     const clamped = ((index % count) + count) % count
