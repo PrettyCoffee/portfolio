@@ -24,7 +24,7 @@ const getCsrSheet = () => {
   const style = document.createElement("style")
   style.id = GOOBER_ID.CSR
   style.innerHTML = " "
-  document.head.appendChild(style)
+  document.head.append(style)
   return style.firstChild as Text
 }
 

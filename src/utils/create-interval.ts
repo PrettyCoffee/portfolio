@@ -1,4 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-empty-function
+// eslint-disable-next-line eslint/no-empty-function
 const noop = () => {}
 
 interface IntervalProps {

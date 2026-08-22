@@ -42,7 +42,10 @@ export const createTheme = <
   type Variant = keyof TVariantTokens
   type Tokens = TSharedTokens & TVariantTokens[Variant]
 
-  const defaultVariant = Object.keys(variants)[0]!
+  const defaultVariant = Object.keys(variants)[0]
+  if (!defaultVariant) {
+    throw new Error("There must be at least one tokens variant")
+  }
   const tokens = Object.fromEntries(
     Object.entries(variants).map(([key, value]) => [
       key,
@@ -57,14 +60,14 @@ export const createTheme = <
       value = value[segment]
     }
     if (typeof value !== "string") {
-      throw new Error(`Theme key could not be read: ${key}`)
+      throw new TypeError(`Theme key could not be read: ${key}`)
     }
     return value.trim()
   }
 
   const read = (key: ObjDeepPath<Tokens>) => {
     const value = getValue(key, defaultVariant)
-    if (Object.keys(shared).includes(key.split(".")[0]!)) {
+    if (Object.keys(shared).includes(key.split(".")[0] ?? "")) {
       return value
     }
     const cssVar = getCssVar(key)

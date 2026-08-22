@@ -1,5 +1,5 @@
-import { Styles, StylesConfig } from "../utils/styles"
-import { Conditional } from "../utils/types"
+import { type Styles, type StylesConfig } from "../utils/styles"
+import { type Conditional } from "../utils/types"
 
 export type RecipeFactory<TProps extends object = object> = (
   props: TProps,

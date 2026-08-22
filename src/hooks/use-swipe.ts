@@ -1,4 +1,4 @@
-import { Dispatch, RefObject, useEffect, useRef } from "react"
+import { type Dispatch, type RefObject, useEffect, useRef } from "react"
 
 const MIN_SWIPE_DELTA = 48
 

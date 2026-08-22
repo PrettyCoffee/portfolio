@@ -1,4 +1,4 @@
-import { Styles } from "./styles"
+import { type Styles } from "./styles"
 
 export type Resolve<T> = { [K in keyof T]: T[K] } & {}
 

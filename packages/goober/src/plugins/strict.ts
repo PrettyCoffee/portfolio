@@ -1,4 +1,4 @@
-import { Plugin } from "./plugin"
+import { type Plugin } from "./plugin"
 
 const isEmpty = (string = "") => !string.replaceAll(/\s+/gm, "")
 

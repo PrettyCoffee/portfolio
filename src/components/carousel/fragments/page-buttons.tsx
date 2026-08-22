@@ -1,6 +1,6 @@
 "use client"
 
-import { Dispatch } from "react"
+import { type Dispatch } from "react"
 
 import { Hidden } from "components/hidden"
 import { css, styled } from "lib/goober"

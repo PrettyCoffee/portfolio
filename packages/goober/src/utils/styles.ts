@@ -1,4 +1,4 @@
-import { hash, InjectionType } from "./hash"
+import { hash, type InjectionType } from "./hash"
 import { parser } from "./parser"
 import { type StyleNode } from "./types"
 

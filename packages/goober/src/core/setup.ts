@@ -1,7 +1,7 @@
 import type { JSX } from "react"
 
 import { minify } from "../plugins/minify"
-import { Plugin } from "../plugins/plugin"
+import { type Plugin } from "../plugins/plugin"
 
 interface SetupConfig {
   /**

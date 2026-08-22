@@ -1,4 +1,4 @@
-import { Plugin } from "./plugin"
+import { type Plugin } from "./plugin"
 
 const prettier = (css: string, indentSpaces = 2) => {
   const lines = css

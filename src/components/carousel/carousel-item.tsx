@@ -1,10 +1,15 @@
 "use client"
 
-import { PropsWithChildren, useLayoutEffect, useRef, useState } from "react"
+import {
+  type PropsWithChildren,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react"
 
 import { css, keyframes, styled } from "lib/goober"
 
-import { SlideDirection, useCarouselContext } from "./carousel-context"
+import { type SlideDirection, useCarouselContext } from "./carousel-context"
 
 const rightToMiddle = keyframes`
   from {
@@ -117,6 +122,7 @@ export const CarouselItem = ({
     const index = getIndex(ref.current)
     const count = getSiblingCount(ref.current)
     setIndex(((index % count) + count) % count)
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies -- must trigger in effect since refs are accessed
   }, [activeIndex])
 
   return (

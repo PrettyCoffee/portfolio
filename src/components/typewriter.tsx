@@ -1,6 +1,6 @@
 "use client"
 
-import { RefObject, useEffect, useRef } from "react"
+import { type RefObject, useEffect, useRef } from "react"
 
 import { createInterval } from "utils/create-interval"
 import { prefersReducedMotion } from "utils/preferes-reduced-motion"
@@ -39,7 +39,7 @@ const useTypewriter = (
       return
     }
 
-    const writeNext = async () => {
+    const writeNext = () => {
       if (canceled) return
 
       let cursor = 0
@@ -55,7 +55,7 @@ const useTypewriter = (
       return typing
     }
 
-    const deleteLast = async () => {
+    const deleteLast = () => {
       if (canceled || !last.current) return
 
       let cursor = last.current.length
@@ -72,7 +72,7 @@ const useTypewriter = (
     }
 
     const deletePromise = !last.current ? Promise.resolve() : deleteLast()
-    void deletePromise.then(writeNext).then(onTransitionEnd)
+    void deletePromise?.then(writeNext).then(onTransitionEnd)
 
     return () => {
       canceled = true

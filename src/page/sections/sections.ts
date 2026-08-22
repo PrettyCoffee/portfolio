@@ -1,6 +1,6 @@
-import { FC } from "react"
+import { type FC } from "react"
 
-import { IconProps } from "components/icon"
+import { type IconProps } from "components/icon"
 
 import { AboutMe } from "./about-me"
 import { Expertise } from "./expertise"

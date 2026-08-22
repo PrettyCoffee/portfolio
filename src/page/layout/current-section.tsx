@@ -11,8 +11,8 @@ import { getUrlHash } from "utils/get-url-hash"
 import { theme } from "utils/theme"
 
 const getName = (id: string) => {
-  const section = sections.find(section => section.id === id) ?? sections[0]!
-  return section.name
+  const section = sections.find(section => section.id === id) ?? sections[0]
+  return section?.name
 }
 
 const getScreenHeight = () => window.innerHeight
@@ -58,7 +58,7 @@ export const CurrentSection = () => {
     <Link href={href} onClick={() => history.replaceState(null, "", href)}>
       <span>PrettyCoffee</span>
       <span>/</span>
-      <Typewriter text={name} />
+      <Typewriter text={name ?? ""} />
       <Icon icon="hash" size={14} />
     </Link>
   )

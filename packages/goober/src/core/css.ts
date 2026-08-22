@@ -1,6 +1,6 @@
 import { parser } from "../utils/parser"
 import { Styles } from "../utils/styles"
-import { CssTemplate, isTemplate } from "../utils/types"
+import { type CssTemplate, isTemplate } from "../utils/types"
 
 const toString = (value: CssTemplate["Value"]): string => {
   if (value == null || value === false) return ""

@@ -42,7 +42,7 @@ export const SectionCsr = () => {
       parent.style.setProperty("translate", `0 ${delta * 75}vh`)
       parent.style.setProperty("opacity", `${1 - delta}`)
       parent.style.setProperty("scale", `${1 - delta / 4}`)
-      // eslint-disable-next-line react-hooks/immutability -- false positive
+      // oxlint-disable-next-line react/immutability
       parent.style.transformOrigin = "top"
     },
   })

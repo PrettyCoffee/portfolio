@@ -3,7 +3,7 @@ import { styled, css } from "lib/goober"
 import { sections } from "page/sections/sections"
 import { theme } from "utils/theme"
 
-import { Icon, IconProps } from "../../components/icon"
+import { Icon, type IconProps } from "../../components/icon"
 import { CurrentSection } from "./current-section"
 
 const Title = styled.div`

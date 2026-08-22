@@ -1,8 +1,8 @@
 "use client"
 
 import {
-  PropsWithChildren,
-  RefObject,
+  type PropsWithChildren,
+  type RefObject,
   useLayoutEffect,
   useRef,
   useState,
@@ -14,7 +14,7 @@ import { css, styled } from "lib/goober"
 import { theme } from "utils/theme"
 import { ErrorBoundary } from "waku/router/client"
 
-import { CarouselContext, SlideDirection } from "./carousel-context"
+import { CarouselContext, type SlideDirection } from "./carousel-context"
 import { DirectionButton } from "./fragments/direction-button"
 import { PageButtons } from "./fragments/page-buttons"
 
@@ -155,6 +155,7 @@ const useChildrenSize = (ref: RefObject<HTMLElement | null>) => {
     children.forEach(item => {
       item.style.setProperty("height", `100%`)
     })
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies -- must be triggered when width changes
   }, [ref, width])
 }
 

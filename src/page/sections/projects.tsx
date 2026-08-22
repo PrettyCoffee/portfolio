@@ -252,7 +252,6 @@ const Project = (project: ProjectData) => (
   <ProjectGrid className="dark">
     <ProjectDetails {...project} />
     <Stack {...project} />
-    {/* eslint-disable-next-line react/destructuring-assignment */}
     <Image src={project.img.src} imgBg={project.img.bg} alt={project.img.alt} />
     <ImageMask />
     <LinkList {...project} />

@@ -1,9 +1,9 @@
 import type { JSX } from "react"
 
 import { Styles } from "../utils/styles.js"
-import { CssTemplate, isTemplate, Resolve } from "../utils/types.js"
+import { type CssTemplate, isTemplate, type Resolve } from "../utils/types.js"
 import { css } from "./css.js"
-import { recipe, RecipeFactory } from "./recipe.js"
+import { recipe, type RecipeFactory } from "./recipe.js"
 import { getSetup } from "./setup.js"
 
 type VNode = Iterable<VNode> | JSX.Element | string | boolean | null | undefined
