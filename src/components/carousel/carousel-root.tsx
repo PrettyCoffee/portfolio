@@ -45,11 +45,19 @@ const Layout = styled.div`
   &::before {
     border-bottom: none;
     top: 0;
+    @media ${theme("breakpoint.720")} {
+      border-left: none;
+      border-right: none;
+    }
   }
 
   &::after {
     border-top: none;
     bottom: 0;
+    @media ${theme("breakpoint.720")} {
+      border-left: none;
+      border-right: none;
+    }
   }
 `
 
@@ -60,6 +68,11 @@ const InnerLayout = styled.div`
   margin: ${theme("space.6")};
   *:has(> &) {
     padding: 0.1px; /* prevent collapsing top / bottom margin */
+  }
+
+  @media ${theme("breakpoint.720")} {
+    margin: ${theme("space.4")} 0;
+    width: 100%;
   }
 `
 
@@ -107,9 +120,6 @@ const PrevButton = styled(DirectionButton)`
     bottom: calc(-1 * ${theme("space.x1")});
     left: calc(-1 * ${theme("space.4")});
   }
-  @media ${theme("breakpoint.400")} {
-    display: none;
-  }
 `
 const NextButton = styled(DirectionButton)`
   position: absolute;
@@ -123,9 +133,6 @@ const NextButton = styled(DirectionButton)`
     bottom: calc(-1 * ${theme("space.x1")});
     right: calc(-1 * ${theme("space.4")});
   }
-  @media ${theme("breakpoint.400")} {
-    display: none;
-  }
 `
 const PageSelection = styled(PageButtons)`
   position: absolute;
@@ -135,9 +142,6 @@ const PageSelection = styled(PageButtons)`
 
   @media ${theme("breakpoint.720")} {
     bottom: -${theme("space.18")};
-  }
-  @media ${theme("breakpoint.400")} {
-    bottom: -${theme("space.10")};
   }
 `
 

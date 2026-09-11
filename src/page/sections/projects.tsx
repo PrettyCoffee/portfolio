@@ -172,8 +172,11 @@ const Image = styled
       }
 
       @media ${theme("breakpoint.720")} {
-        object-fit: contain;
         object-position: top center;
+      }
+
+      @media ${theme("breakpoint.560")} {
+        object-fit: contain;
       }
     `,
   )
