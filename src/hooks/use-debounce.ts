@@ -18,7 +18,7 @@ const createDebounce = (delay: number) => {
 }
 
 export const useDebounce = (delay: number) => {
-  // eslint-disable-next-line react/hook-use-state -- explicitly only want to use initial value
+  // oxlint-disable-next-line react/hook-use-state -- explicitly only want to use initial value
   const debounce = useState(() => createDebounce(delay))[0]
   useEffect(() => () => debounce.clear(), [debounce])
   return debounce

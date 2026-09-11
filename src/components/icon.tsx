@@ -32,7 +32,7 @@ export const Icon = ({
     {...rest}
   >
     {
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define -- moving icons below the component improves the file structure
+      // oxlint-disable-next-line typescript/no-use-before-define -- moving icons below the component improves the file structure
       icons[icon]
     }
   </svg>

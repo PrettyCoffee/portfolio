@@ -80,7 +80,7 @@ const useTypewriter = (
     }
   }, [onTransitionEnd, ref, text])
 
-  // eslint-disable-next-line react-hooks/refs -- hook takes care of updating, this is just to display an initial value
+  // oxlint-disable-next-line react-hooks/refs -- hook takes care of updating, this is just to display an initial value
   return last.current
 }
 

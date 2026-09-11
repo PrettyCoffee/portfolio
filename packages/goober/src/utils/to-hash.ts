@@ -5,5 +5,5 @@
  */
 export const toHash = (string: string) =>
   "go" +
-  // eslint-disable-next-line @typescript-eslint/no-misused-spread eslint/no-bitwise
+  // oxlint-disable-next-line typescript/no-misused-spread eslint/no-bitwise
   [...string].reduce((out, char) => (101 * out + char.charCodeAt(0)) >>> 0, 11)

@@ -1,4 +1,4 @@
-/* eslint-disable no-restricted-imports -- importing from goober is allowed in this file */
+/* oxlint-disable no-restricted-imports -- importing from goober is allowed in this file */
 import { createElement } from "react"
 
 import { setup } from "goober"

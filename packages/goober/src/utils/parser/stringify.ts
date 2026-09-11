@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-use-before-define */
+/* oxlint-disable typescript/no-use-before-define */
 
 import { getSetup } from "../../core/setup"
 import { type Plugin } from "../../plugins/plugin"
@@ -10,12 +10,12 @@ const runHook = <THookName extends keyof Plugin>(
 ): ReturnType<NonNullable<Plugin[THookName]>> => {
   const hooks = getSetup().plugins.map(plugin => plugin[hook])
   const out = hooks.reduce((props, hook) => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    // oxlint-disable-next-line typescript/no-unsafe-argument
     props.result = hook?.(props as any) ?? props.result
     return props
   }, props)
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  // oxlint-disable-next-line typescript/no-unsafe-return
   return out.result as any
 }
 

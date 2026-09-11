@@ -1,5 +1,5 @@
-// eslint-disable-next-line eslint/no-empty-function
-const noop = () => {}
+// oxlint-disable-next-line eslint/no-empty-function
+const noop = () => { }
 
 interface IntervalProps {
   tick: (props: { stop: () => void }) => void

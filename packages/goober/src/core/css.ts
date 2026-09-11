@@ -25,7 +25,7 @@ export function css(...args: [CssTemplate["Value"]] | CssTemplate["Args"]) {
 
 /** Declare global styles. */
 export const glob = (...args: CssTemplate["Args"]) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-expressions -- has side effects
+  // oxlint-disable-next-line typescript/no-unused-expressions -- has side effects
   css(...args).withConfig({ type: "global" }).class
 }
 

@@ -17,14 +17,12 @@
     "react-dom": "19.2.6"
   },
   "devDependencies": {
-    "@pretty-cozy/eslint-config": "0.9.0",
     "@pretty-cozy/oxlint-config": "0.1.0",
     "@rolldown/plugin-babel": "0.2.3",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.0.1",
     "babel-plugin-react-compiler": "1.0.0",
-    "eslint": "9.39.4",
     "knip": "6.14.2",
     "oxfmt": "0.62.0",
     "oxlint": "1.79.0",

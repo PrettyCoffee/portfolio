@@ -5,7 +5,7 @@ import { Layout } from "./page/layout/layout"
 import { Page } from "./page/page"
 import { Root } from "./page/root"
 
-// eslint-disable-next-line @typescript-eslint/require-await -- must be async
+// oxlint-disable-next-line typescript/require-await -- must be async
 const pages = createPages(async ({ createRoot, createLayout, createPage }) => [
   createRoot({
     render: "static",
