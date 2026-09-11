@@ -59,7 +59,7 @@ const InnerLayout = styled.div`
   width: calc(100% - 2 * ${theme("space.6")});
   margin: ${theme("space.6")};
   *:has(> &) {
-    padding: 0.01px; /* prevent collapsing top / bottom margin */
+    padding: 0.1px; /* prevent collapsing top / bottom margin */
   }
 `
 
