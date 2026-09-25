@@ -1,5 +1,6 @@
 import { type PropsWithChildren } from "react"
 
+import { Cursor } from "components/cursor"
 import { theme } from "utils/theme"
 
 import { GlobalStyles } from "./global-styles"
@@ -50,6 +51,7 @@ export const Root = ({ children }: PropsWithChildren) => (
     </head>
 
     <body>
+      <Cursor />
       <div id="root">{children}</div>
     </body>
   </html>
