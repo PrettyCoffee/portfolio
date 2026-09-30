@@ -7,6 +7,7 @@ export default defineConfig({
     resolve: {
       tsconfigPaths: true,
     },
-    plugins: [react(), babel({ presets: [reactCompilerPreset()] })],
+    // oxlint-disable-next-line typescript/no-explicit-any -- react plugin causes excessive stack depth since typescript v7
+    plugins: [react() as any, babel({ presets: [reactCompilerPreset()] })],
   },
 })

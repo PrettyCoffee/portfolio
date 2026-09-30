@@ -1,6 +1,5 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
-  "ignoreFiles": ["**/*.d.ts"],
   "workspaces": {
     ".": {
       "entry": ["src/waku.server.tsx", "./*.{mjs,ts}"],
