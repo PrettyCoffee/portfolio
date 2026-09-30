@@ -1,16 +1,16 @@
-ignoreDepScripts: true
 blockExoticSubdeps: true
-minimumReleaseAge: 4320 # >=3 days
 preferFrozenLockfile: true
 savePrefix: ""
+
+minimumReleaseAge: 4320 # >=3 days
+minimumReleaseAgeExclude:
+  - "waku@1.0.0-beta.0"
+  - "@pretty-cozy/oxlint-config@0.1.0-alpha.0"
 
 trustPolicy: no-downgrade
 trustPolicyExclude:
   - "semver@6.3.1" # https://github.com/npm/node-semver/issues/838
 
-minimumReleaseAgeExclude:
-  - "waku@1.0.0-beta.0"
-  - "@pretty-cozy/oxlint-config@0.1.0-alpha.0"
-
+ignoreWorkspaceRootCheck: true
 packages:
   - "packages/*"
