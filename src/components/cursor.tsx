@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useRef, useState } from "react"
 
+import { getWindow } from "utils/get-window"
 import { theme } from "utils/theme"
 
 import { css, styled } from "../lib/goober"
@@ -9,6 +10,7 @@ const getParent = (
   element: Node | EventTarget | null,
   selector: (element: Element) => boolean,
 ) => {
+  if (!getWindow()) return null
   if (!(element instanceof Element)) return null
   if (selector(element)) return element
   const parent = element.parentElement
@@ -128,7 +130,7 @@ const BaseCursor = styled.div`
 
     transition: scale 100ms ease-out;
 
-    &[data-isMouseDown="true"] {
+    &[data-ismousedown="true"] {
       transition-duration: 0ms;
       scale: 0.1;
     }
@@ -170,10 +172,10 @@ const FocusCursor = styled.div`
       translate: calc(var(--size) / 2) 0;
     }
 
-    &[data-hasFocus="true"]::before {
+    &[data-hasfocus="true"]::before {
       translate: 0 0;
     }
-    &[data-hasFocus="true"]::after {
+    &[data-hasfocus="true"]::after {
       translate: 0 0;
     }
   }
@@ -194,9 +196,9 @@ export const Cursor = () => {
     <>
       <FocusCursor
         style={position}
-        data-hasFocus={!!useStaggered(focused, 300)}
+        data-hasfocus={!!useStaggered(focused, 300)}
       />
-      <BaseCursor style={position} data-isMouseDown={isMouseDown} />
+      <BaseCursor style={position} data-ismousedown={isMouseDown} />
     </>
   )
 }
