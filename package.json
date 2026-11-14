@@ -13,23 +13,23 @@
   },
   "dependencies": {
     "goober": "workspace:*",
-    "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
   },
   "devDependencies": {
-    "@pretty-cozy/oxlint-config": "0.1.0",
-    "@rolldown/plugin-babel": "0.2.4",
+    "@pretty-cozy/oxlint-config": "0.2.2",
+    "@rolldown/plugin-babel": "0.3.1",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
-    "@vitejs/plugin-react": "6.1.1",
+    "@vitejs/plugin-react": "6.3.0",
     "babel-plugin-react-compiler": "1.0.0",
-    "knip": "6.38.0",
-    "oxfmt": "0.70.0",
-    "oxlint": "1.85.0",
-    "oxlint-tsgolint": "7.0.2003",
-    "react-server-dom-webpack": "19.3.0",
+    "knip": "6.45.1",
+    "oxfmt": "0.78.0",
+    "oxlint": "1.93.0",
+    "oxlint-tsgolint": "7.0.2006",
+    "react-server-dom-webpack": "19.3.1",
     "typescript": "7.0.2",
-    "vite": "8.3.1",
-    "waku": "1.0.0-rc.1"
+    "vite": "8.3.8",
+    "waku": "1.0.0-rc.5"
   }
 }
